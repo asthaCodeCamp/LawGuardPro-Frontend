@@ -5,3 +5,11 @@
 :root {
   
 }
+
+/* src/styles/globals.css */
+@import "@fontsource/poppins";
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #191919;
+}
