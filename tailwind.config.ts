@@ -16,7 +16,9 @@ const config: Config = {
         poppins: ['Poppins', 'sans-serif'],
       },
       colors: {
-        LawGuardPurple: '#6B0F99',
+        LawGuardPrimary: '#6B0F99',
+        LawGuardSecondary:'#E7E7E7',
+
       },
     },
   },

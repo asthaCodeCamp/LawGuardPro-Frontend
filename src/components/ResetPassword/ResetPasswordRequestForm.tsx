@@ -23,12 +23,12 @@ const ResetPasswordRequestForm = () => {
           </div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-LawGuardPurple hover:bg-LawGuardPurple focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-LawGuardPurple"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-LawGuardPrimary hover:bg-LawGuardPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-LawGuardPrimary"
           >
             Send Reset Link
           </button>
-          <div className="text-center">
-            <button className="font-semibold text-xl" type="button">Cancel</button>
+          <div className="text-center mt-2">
+            <button className="font-semibold text-xl " type="button">Cancel</button>
           </div>
         </form>
       </div>
