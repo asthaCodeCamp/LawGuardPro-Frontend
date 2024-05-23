@@ -98,7 +98,7 @@ const LoginForm = () => {
         </div>
         <div className="h-32 mb-8">
           <button
-            className="mb-4 w-full h-[56px] bg-[#6B0F99] hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
+            className="mb-4 w-full h-[56px] bg-[#6B0F99] rounded-lg hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
             onClick={handleLogin}
             // variant="contained"
           >
