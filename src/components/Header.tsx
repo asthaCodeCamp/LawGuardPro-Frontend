@@ -1,6 +1,6 @@
 const Header = () => {
   return (
-    <div className="w-full h-[85px] border border-bottom">
+    <div className="w-full h-[85px] ">
       <svg
         width="172"
         height="85"
