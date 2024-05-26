@@ -106,11 +106,12 @@ export default function ProtectedLayout({
   const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
-    // console.log("open");
     setOpen(true);
+    // console.log("open");
   };
 
   const handleDrawerClose = () => {
+    // setLinkClicked(true);
     setOpen(false);
   };
 
@@ -140,8 +141,8 @@ export default function ProtectedLayout({
           >
             {/* menu icon  */}
             <svg
-              width="50"
-              height="50"
+              width="37"
+              height="37"
               viewBox="0 0 56 56"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +178,6 @@ export default function ProtectedLayout({
                   className="rounded-full"
                 />
                 <Typography className="ml-2 text-black">Tomal Ahmed</Typography>
-                <KeyboardArrowDownOutlinedIcon className="text-black" />
               </div>
             </div>
           </Typography>
@@ -200,7 +200,7 @@ export default function ProtectedLayout({
           </svg>
         </DrawerHeader>
 
-        <List className="flex flex-col justify-between h-full">
+        <List className="flex flex-col justify-between h-full ">
           <Box>
             <Link href="/">
               <ListItem
@@ -261,7 +261,7 @@ export default function ProtectedLayout({
               </ListItem>
             </Link>
 
-            <Link href="/mycase-maybe">
+            <Link href="/my-cases">
               <ListItem
                 onClick={handleDrawerOpen}
                 className="my-5"
