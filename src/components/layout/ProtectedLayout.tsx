@@ -106,6 +106,7 @@ export default function ProtectedLayout({
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
+    console.log("Open clicked");
     setOpen(true);
   };
 
@@ -256,7 +257,7 @@ export default function ProtectedLayout({
               </ListItem>
             </Link>
 
-            <Link href="/mycase-maybe">
+            <Link href="/my-cases">
               <ListItem
                 onClick={handleDrawerOpen}
                 className="my-5"
