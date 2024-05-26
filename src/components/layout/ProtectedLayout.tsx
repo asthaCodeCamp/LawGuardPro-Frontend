@@ -106,6 +106,7 @@ export default function ProtectedLayout({
   const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
+    console.log("Open clicked");
     setOpen(true);
     // console.log("open");
   };
