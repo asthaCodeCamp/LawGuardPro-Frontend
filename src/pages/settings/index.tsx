@@ -18,19 +18,14 @@ import ListItemText from "@mui/material/ListItemText";
 import { Breadcrumbs } from "@mui/material";
 import Link from "next/link";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
-import SettingsLayout from "@/components/Settings/SettingsLayout";
+import SettingsLayout from "@/components/layout/SettingsLayout";
+
 
 
 export default function Settings() {
   return (
     <ProtectedLayout>
-      <div>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          
-           <SettingsLayout/>
-          
-        </Box>
-      </div>
+          <SettingsLayout/>
     </ProtectedLayout>
   );
 }
