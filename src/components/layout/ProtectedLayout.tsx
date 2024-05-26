@@ -103,15 +103,20 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   // const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
+    // console.log("open");
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  // React.useEffect(() => {
+  //   console.log(open, "at open useeffect");
+  // }, [open]);
 
   return (
     <Box sx={{ display: "flex" }}>
