@@ -8,5 +8,4 @@ const Notification = () => {
     </ProtectedLayout>
   );
 };
-
 export default Notification;
