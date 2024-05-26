@@ -1,12 +1,12 @@
+import { Button, TextField } from "@mui/material";
+import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
 import man from "../../../public/assets/man.png"
-import Button from '@mui/material/Button';
-import { TextField } from "@mui/material";
-import PhoneCodePicker from "../CountryPhoneCodePicker";
 
-const SettingsLayout = () => {
-    return (
+const PersonalDetails = () => {
+    return (  
         <div>
+            
             <div className="m-[32px]">
                 <div>
                     <h1 className="text-[24px]">Personal Details</h1>
@@ -53,7 +53,8 @@ const SettingsLayout = () => {
                  <Button className="mt-[16px] h-[56px] w-[147px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600] capitalize" variant="contained">Save Changes</Button>
 
             </div>
+            
         </div>
     );
 }
-export default SettingsLayout;
+export default PersonalDetails;
