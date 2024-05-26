@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
 import EmptyCase from "../Case/EmptyCase";
+import CaseUpadet from "../Case/CaseUpadate";
 
 const DashboardMain = () => {
     return (
@@ -26,6 +27,7 @@ const DashboardMain = () => {
                 {/*Case Update sections */}
                 <div>
                     <EmptyCase/>
+                    <CaseUpadet/>
                 </div>
             </div>
             <div className="ml-[32px]">
