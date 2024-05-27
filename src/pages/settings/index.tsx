@@ -9,7 +9,9 @@ import SettingsLayout from "@/components/layout/SettingsLayout";
 export default function Settings() {
   return (
     <ProtectedLayout>
-          <SettingsLayout/>
+          <SettingsLayout>
+            <></>
+          </SettingsLayout>
     </ProtectedLayout>
   );
 }
