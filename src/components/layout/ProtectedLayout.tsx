@@ -102,7 +102,12 @@ export default function ProtectedLayout({
   const router = useRouter();
   // const theme = useTheme();
   const [open, setOpen] = React.useState(
-    router.pathname == "/settings" ? false : true
+    router.pathname == "/settings" ||
+      router.pathname == "/settings/security" ||
+      router.pathname == "/settings/address" ||
+      router.pathname == "/settings/support"
+      ? false
+      : true
   );
 
   // console.log(router.pathname.split("/")?.slice(1));
