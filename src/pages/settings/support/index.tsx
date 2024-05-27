@@ -1,18 +1,17 @@
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
-import React from "react";
-import Settings from "../settings";
 import SettingsLayout from "@/components/layout/SettingsLayout";
+import React from "react";
 
-const Security = () => {
+const Support = () => {
   return (
     <ProtectedLayout>
       <div className="flex">
         <SettingsLayout>
-          <div className="flex ">hdfsdfsd</div>
+          <div className="flex border border-red-800">hdfsdfsd</div>
         </SettingsLayout>
       </div>
     </ProtectedLayout>
   );
 };
 
-export default Security;
+export default Support;
