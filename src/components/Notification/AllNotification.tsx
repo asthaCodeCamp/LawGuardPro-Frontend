@@ -26,7 +26,7 @@ const AllNotification = () => {
               style={{ borderRadius: "8px" }}
             />
           </Box>
-          <Box className="w-[1090px] h-14 flex flex-col">
+          <Box className="w-[920px] h-14 flex flex-col">
             <Typography className="font-[400] text-[16px] leading-6 mb-2">
               You've been mentioned by{" "}
               <span className="font-[600]">Saifuddin Ahmed</span> in a message
@@ -89,7 +89,7 @@ const AllNotification = () => {
               style={{ borderRadius: "8px" }}
             />
           </Box>
-          <Box className="w-[1090px] h-14 flex flex-col">
+          <Box className="w-[920px] h-14 flex flex-col">
             <Typography className="font-[400] text-[16px] leading-6 mb-2">
               You've been mentioned by{" "}
               <span className="font-[600]">Saifuddin Ahmed</span> in a message
@@ -153,7 +153,7 @@ const AllNotification = () => {
               style={{ borderRadius: "8px" }}
             />
           </Box>
-          <Box className="w-[1090px] h-14 flex flex-col">
+          <Box className="w-[920px] h-14 flex flex-col">
             <Typography className="font-[400] text-[16px] leading-6 mb-2">
               <span className="font-[600]">Important Update: </span>
               New Features Now Available!
@@ -216,7 +216,7 @@ const AllNotification = () => {
               style={{ borderRadius: "8px" }}
             />
           </Box>
-          <Box className="w-[1090px] h-14 flex flex-col">
+          <Box className="w-[920px] h-14 flex flex-col">
             <Typography className="font-[400] text-[16px] leading-6 mb-2">
               Check your lawyer quote
             </Typography>
