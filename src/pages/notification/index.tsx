@@ -1,12 +1,18 @@
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
-import EmptyNotification from "@/components/EmptyNotification/EmptyNotification";
+import EmptyNotification from "@/components/Notification/EmptyNotification";
 import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
 import React from "react";
+import AllNotification from "@/components/Notification/AllNotification";
+import UnreadNotification from "@/components/Notification/UnreadNotification";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
+}
+
+interface StyledTabProps {
+  label: string;
 }
 
 function CustomTabPanel(props: TabPanelProps) {
@@ -27,13 +33,6 @@ function CustomTabPanel(props: TabPanelProps) {
       )}
     </div>
   );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
 }
 
 const AntTabs = styled(Tabs)({
@@ -76,50 +75,6 @@ const AntTab = styled((props: StyledTabProps) => (
   },
 }));
 
-interface StyledTabsProps {
-  children?: React.ReactNode;
-  value: number;
-  onChange: (event: React.SyntheticEvent, newValue: number) => void;
-}
-
-const StyledTabs = styled((props: StyledTabsProps) => (
-  <Tabs
-    {...props}
-    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
-  />
-))({
-  "& .MuiTabs-indicator": {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-  },
-  "& .MuiTabs-indicatorSpan": {
-    maxWidth: 40,
-    width: "100%",
-    backgroundColor: "#635ee7",
-  },
-});
-
-interface StyledTabProps {
-  label: string;
-}
-
-const StyledTab = styled((props: StyledTabProps) => (
-  <Tab disableRipple {...props} />
-))(({ theme }) => ({
-  textTransform: "none",
-  fontWeight: theme.typography.fontWeightRegular,
-  fontSize: theme.typography.pxToRem(15),
-  marginRight: theme.spacing(1),
-  color: "rgba(255, 255, 255, 0.7)",
-  "&.Mui-selected": {
-    color: "#fff",
-  },
-  "&.Mui-focusVisible": {
-    backgroundColor: "rgba(100, 95, 228, 0.32)",
-  },
-}));
-
 const Notification = () => {
   let notificationLength = 1;
 
@@ -144,24 +99,24 @@ const Notification = () => {
         </Box>
 
         {notificationLength !== 0 ? (
-          <Box sx={{ width: "100%", margin: "32px 0px 0px 32px" }}>
+          <Box sx={{ maxWidth: "100%" }}>
             <Box sx={{ bgcolor: "#fff" }}>
               <AntTabs
                 value={value}
                 onChange={handleChange}
                 aria-label="ant example"
-                sx={{ textAlign: "left" }}
+                sx={{ borderBottom: "1px solid #D1D1D1" }}
+                className="pl-8"
               >
                 <AntTab label="See all" />
                 <AntTab label="Unread" />
               </AntTabs>
-              <Box sx={{ p: 3 }} />
             </Box>
             <CustomTabPanel value={value} index={0}>
-              Item One
+              <AllNotification />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-              Item Two
+              <UnreadNotification />
             </CustomTabPanel>
           </Box>
         ) : (
