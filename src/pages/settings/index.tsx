@@ -4,10 +4,14 @@ import Typography from "@mui/material/Typography";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import SettingsLayout from "@/components/layout/SettingsLayout";
 
+
+
 export default function Settings() {
   return (
     <ProtectedLayout>
-      <SettingsLayout />
+          <SettingsLayout>
+            <></>
+          </SettingsLayout>
     </ProtectedLayout>
   );
 }
