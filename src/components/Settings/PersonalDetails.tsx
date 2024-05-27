@@ -8,7 +8,7 @@ const PersonalDetails = () => {
         <div>
             
             <div className="m-[32px]">
-                <div>
+                <div className="border-b-2 w-full">
                     <h1 className="text-[24px]">Personal Details</h1>
                     <p className="text-[16px] font-[400] text-[#3D3D3D]">Add or modify your personal information.</p>
                 </div>
