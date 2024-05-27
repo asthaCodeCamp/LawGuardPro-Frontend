@@ -28,7 +28,7 @@ function CustomTabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box>
-          <Typography>{children}</Typography>
+          <Box>{children}</Box>
         </Box>
       )}
     </div>
@@ -88,13 +88,13 @@ const Notification = () => {
     <ProtectedLayout>
       <Box className="block w-full max-h-screen">
         <Box className="w-full">
-          <Box className="ml-8 mt-8 mb-2">
-            <Typography className="font-[600] text-[24px] text-[#191919]">
+          <Box className="ml-8 mt-8 mb-2 flex flex-col">
+            <span className="font-[600] text-[24px] text-[#191919]">
               Notification
-            </Typography>
-            <Typography className="font-[400] text-[16px]">
+            </span>
+            <span className="font-[400] text-[16px]">
               Your notification history.
-            </Typography>
+            </span>
           </Box>
         </Box>
 

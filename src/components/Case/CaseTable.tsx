@@ -27,8 +27,6 @@ export default function CaseTable() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // For local data, you might want to directly set the data
-      // However, keeping fetch to simulate real data fetching
       setData(caseData as CaseData[]);
     };
     fetchData();
@@ -36,35 +34,35 @@ export default function CaseTable() {
 
   return (
     <div className="">
-      <div >
+      
         <TableContainer>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <span className="text-[16px] text-[#6D6D6D]">CASE NO.</span>
+                  <span className="text-[14px] text-[#6D6D6D] ml-[34px]">CASE NO.</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-[16px] text-[#6D6D6D]">CASE TITLE</span>
+                  <span className="text-[14px] text-[#6D6D6D]">CASE TITLE</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-[16px] text-[#6D6D6D]">
+                  <span className="text-[14px] text-[#6D6D6D]">
                     TOTAL QUOTED
                   </span>
                 </TableCell>
                 <TableCell align="right">
-                  <span className="text-[16px] text-[#6D6D6D]">TOTAL PAID</span>
+                  <span className="text-[14px] text-[#6D6D6D]">TOTAL PAID</span>
                 </TableCell>
                 <TableCell align="right">
-                  <span className="text-[16px] text-[#6D6D6D]">
+                  <span className="text-[14px] text-[#6D6D6D]">
                     LAST UPDATED
                   </span>
                 </TableCell>
                 <TableCell align="right">
-                  <span className="text-[16px] text-[#6D6D6D]">TASKS</span>
+                  <span className="text-[14px] text-[#6D6D6D]">TASKS</span>
                 </TableCell>
                 <TableCell align="right">
-                  <span className="text-[16px] text-[#6D6D6D]">STATUS</span>
+                  <span className="text-[14px] text-[#6D6D6D] mr-[34px]">STATUS</span>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -75,36 +73,36 @@ export default function CaseTable() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <span className="text-[16px] font-[400]">
+                    <span className="text-[14px] font-[400] ml-[34px]">
                       {row.case_no}
                     </span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-[16px] font-[400]">
+                    <span className="text-[14px] font-[400]">
                       {row.case_title}
                     </span>
                   </TableCell>
                   <TableCell align="center">
-                    <span className="text-[16px] font-[400]">
-                      {row.total_quoted}
+                    <span className="text-[14px] font-[400]">
+                      ${row.total_quoted}
                     </span>
                   </TableCell>
                   <TableCell align="center">
-                    <span className="text-[16px] font-[400]">
-                      {row.total_paid}
+                    <span className="text-[14px] font-[400]">
+                      ${row.total_paid}
                     </span>
                   </TableCell>
                   <TableCell align="center">
-                    <span className="text-[16px] font-[400]">
-                      {new Date(row.last_updated).toLocaleString()}
+                    <span className="text-[14px] font-[400]">
+                      {row.last_updated}
                     </span>
                   </TableCell>
                   <TableCell align="center">
-                    <span className="text-[16px] font-[400]">{row.tasks}</span>
+                    <span className="text-[14px] font-[400]">{row.tasks}</span>
                   </TableCell>
                   <TableCell align="right">
                     <span
-                      className={`text-[16px] font-[400] border-2 px-3 rounded-2xl py-1 ${
+                      className={`text-[16px] font-[400] border-2 px-3 rounded-2xl mr-[34px] py-1 ${
                         row.status === "closed"
                           ? "text-[#6D6D6D] border-[#D1D1D1]"
                           : "text-[#16A34A] border-[#16A34A]"
@@ -118,7 +116,7 @@ export default function CaseTable() {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      
     </div>
   );
 }
