@@ -10,7 +10,7 @@ const SettingsLink = () => {
       <div className="flex flex-col ">
         <Link
           className="w-[363px] h-[92px] text-[#6B0F99] text-[18px] font-[500] bg-[#E1ABFF] p-[32px] border-2"
-          href={"/settings"}
+          href={"/settings/personal-info"}
         >
           <PermIdentityOutlinedIcon /> Personal Details
         </Link>
