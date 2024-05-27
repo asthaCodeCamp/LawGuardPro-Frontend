@@ -15,7 +15,7 @@ const SettingsLink = () => {
       </Link>
       <Link
         className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-b-2"
-        href={"/person"}
+        href={"/login"}
       >
         <ShieldOutlinedIcon /> Security
       </Link>
