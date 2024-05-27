@@ -10,25 +10,25 @@ const SettingsLink = () => {
       <div className="flex flex-col ">
         <Link
           className="w-[363px] h-[92px] text-[#6B0F99] text-[18px] font-[500] bg-[#E1ABFF] p-[32px] border-2"
-          href={""}
+          href={"/settings"}
         >
           <PermIdentityOutlinedIcon /> Personal Details
         </Link>
         <Link
           className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-2"
-          href={"/security"}
+          href={"/settings/security"}
         >
           <ShieldOutlinedIcon /> Security
         </Link>
         <Link
           className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-2"
-          href={""}
+          href={"/settings/address"}
         >
           <MapOutlinedIcon /> Address
         </Link>
         <Link
           className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-2"
-          href={""}
+          href={"/settings/support"}
         >
           <ContactSupportOutlinedIcon /> Support
         </Link>
