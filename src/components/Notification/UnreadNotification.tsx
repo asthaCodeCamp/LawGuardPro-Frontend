@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import Image from "next/image";
 
 const UnreadNotification = () => {
   return (
@@ -17,7 +18,7 @@ const UnreadNotification = () => {
           className="ml-8 mr-[60px]"
         >
           <Box className="w-14 h-14 mr-4">
-            <img
+            <Image
               src="/assets/notificationImage/icon-1.jpeg"
               alt="avatar1"
               width={56}
@@ -27,12 +28,12 @@ const UnreadNotification = () => {
             />
           </Box>
           <Box className="w-[1090px] h-14 flex flex-col">
-            <Typography className="font-[400] text-[16px] leading-6 mb-2">
+            <span className="font-[400] text-[16px] leading-6 mb-2">
               You've been mentioned by{" "}
               <span className="font-[600]">Saifuddin Ahmed</span> in a message
               pertaining to <span className="font-[600]">Case File 012546</span>
-            </Typography>
-            <Typography className="flex items-center font-[400] text-[16px] leading-6 mb-2">
+            </span>
+            <span className="flex items-center font-[400] text-[16px] leading-6 mb-2">
               5 mins ago
               <span className="ml-2">
                 <svg
@@ -48,7 +49,7 @@ const UnreadNotification = () => {
                   />
                 </svg>
               </span>
-            </Typography>
+            </span>
           </Box>
           <Box className="flex justify-center items-center">
             <svg
@@ -80,7 +81,7 @@ const UnreadNotification = () => {
           className="ml-8 mr-[60px]"
         >
           <Box className="w-14 h-14 mr-4">
-            <img
+            <Image
               src="/assets/notificationImage/icon-1.jpeg"
               alt="avatar2"
               width={56}
@@ -90,12 +91,12 @@ const UnreadNotification = () => {
             />
           </Box>
           <Box className="w-[1090px] h-14 flex flex-col">
-            <Typography className="font-[400] text-[16px] leading-6 mb-2">
+            <span className="font-[400] text-[16px] leading-6 mb-2">
               You've been mentioned by{" "}
               <span className="font-[600]">Saifuddin Ahmed</span> in a message
               pertaining to <span className="font-[600]">Case File 012546</span>
-            </Typography>
-            <Typography className="flex items-center font-[400] text-[16px] leading-6 mb-2">
+            </span>
+            <span className="flex items-center font-[400] text-[16px] leading-6 mb-2">
               Today at 9:00 a.m
               <span className="ml-2">
                 <svg
@@ -111,7 +112,7 @@ const UnreadNotification = () => {
                   />
                 </svg>
               </span>
-            </Typography>
+            </span>
           </Box>
           <Box className="flex justify-center items-center">
             <svg
@@ -144,7 +145,7 @@ const UnreadNotification = () => {
           className="ml-8 mr-[60px]"
         >
           <Box className="w-14 h-14 mr-4">
-            <img
+            <Image
               src="/assets/notificationImage/icon-2.jpg"
               alt="avatar3"
               width={56}
@@ -154,11 +155,11 @@ const UnreadNotification = () => {
             />
           </Box>
           <Box className="w-[1090px] h-14 flex flex-col">
-            <Typography className="font-[400] text-[16px] leading-6 mb-2">
+            <span className="font-[400] text-[16px] leading-6 mb-2">
               <span className="font-[600]">Important Update: </span>
               New Features Now Available!
-            </Typography>
-            <Typography className="flex items-center font-[400] text-[16px] leading-6 mb-2">
+            </span>
+            <span className="flex items-center font-[400] text-[16px] leading-6 mb-2">
               Yesterday at 9:00 a.m
               <span className="ml-2">
                 <svg
@@ -174,7 +175,7 @@ const UnreadNotification = () => {
                   />
                 </svg>
               </span>
-            </Typography>
+            </span>
           </Box>
           <Box className="flex justify-center items-center">
             <svg
@@ -207,7 +208,7 @@ const UnreadNotification = () => {
           className="ml-8 mr-[60px]"
         >
           <Box className="w-14 h-14 mr-4">
-            <img
+            <Image
               src="/assets/notificationImage/icon-3.jpg"
               alt="avatar4"
               width={56}
@@ -217,10 +218,10 @@ const UnreadNotification = () => {
             />
           </Box>
           <Box className="w-[1090px] h-14 flex flex-col">
-            <Typography className="font-[400] text-[16px] leading-6 mb-2">
+            <span className="font-[400] text-[16px] leading-6 mb-2">
               Check your lawyer quote
-            </Typography>
-            <Typography className="flex items-center font-[400] text-[16px] leading-6 mb-2">
+            </span>
+            <span className="flex items-center font-[400] text-[16px] leading-6 mb-2">
               10 OCT 2023 at 8:50 a.m
               <span className="ml-2">
                 <svg
@@ -236,7 +237,7 @@ const UnreadNotification = () => {
                   />
                 </svg>
               </span>
-            </Typography>
+            </span>
           </Box>
           <Box className="flex justify-center items-center">
             <svg
