@@ -103,6 +103,7 @@ export default function ProtectedLayout({
   // const theme = useTheme();
   const [open, setOpen] = React.useState(
     router.pathname == "/settings" ||
+      router.pathname == "/settings/personal-info" ||
       router.pathname == "/settings/security" ||
       router.pathname == "/settings/address" ||
       router.pathname == "/settings/support"
@@ -300,7 +301,7 @@ export default function ProtectedLayout({
               </ListItem>
             </Link>
 
-            <Link href="/settings">
+            <Link href="/settings/personal-info">
               <ListItem
                 className=" my-5"
                 disablePadding
