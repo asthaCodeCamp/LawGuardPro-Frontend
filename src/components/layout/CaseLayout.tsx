@@ -1,6 +1,6 @@
-import SettingsLink from "../Settings/SettingsLink";
+import CaseInfoLink from "../CaseInfo/CaseInfoLink";
 
-export default function SettingsLayout({
+export default function CaseLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -8,8 +8,7 @@ export default function SettingsLayout({
   return (
     <div className="flex">
       <div className="">
-        <SettingsLink />
-        {/* <PersonalDetails/>      */}
+        <CaseInfoLink />
       </div>
       {children}
     </div>
