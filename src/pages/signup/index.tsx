@@ -22,6 +22,13 @@ const signup = () => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword((showConfirm) => !showConfirm);
+
+    const handleMouseDownConfirmPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
     return (
         <div className='flex justify-center items-center mt-[116px] mb-[206px]'>
             <div className="w-[700px]">
@@ -88,16 +95,16 @@ const signup = () => {
                                 <OutlinedInput
                                     placeholder='Re-enter password'
                                     id="outlined-adornment-password"
-                                    type={showPassword ? 'text' : 'password'}
+                                    type={showConfirmPassword ? 'text' : 'password'}
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
                                                 aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
+                                                onClick={handleClickShowConfirmPassword}
+                                                onMouseDown={handleMouseDownConfirmPassword}
                                                 edge="end"
                                             >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
                                         </InputAdornment>
                                     }
@@ -149,12 +156,12 @@ const signup = () => {
                         <p className="mt-2 ml-0 ">I have agree to the <span className="text-[#6B0F99]">Terms of Service</span>  and <span className="text-[#6B0F99]">Privacy Policy.</span></p>
                     </div>
                     <div className='mt-6'>
-                        <Button className="w-full py-[1px] bg-[#6B0F99] hover:bg-[#6B0F99] font-[600] text-[16px] hover:shadow-none shadow-none" variant="contained">Sign up</Button>
+                        <Button className="w-full py-3.5 bg-[#6B0F99] hover:bg-[#6B0F99] font-[600] text-[16px] hover:shadow-none shadow-none" variant="contained">Sign up</Button>
                     </div>
 
                     <div className="mt-[12px]">
                         <Button
-                            className="w-full h-[56px] bg-[#FFFFFF] text-[#191919] font-[600] text-[16px] outline outline-1 outline-[#d1d1d1] "
+                            className="w-full h-[52px] bg-[#FFFFFF] text-[#191919] font-[600] text-[16px] outline outline-1 outline-[#d1d1d1] "
                         // variant="outlined"
                         >
                             <>
