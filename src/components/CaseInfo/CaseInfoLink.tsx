@@ -1,8 +1,8 @@
 import Link from "next/link";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
-import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
+import ChatIcon from '@mui/icons-material/Chat';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const CaseInfoLink = () => {
   return (
@@ -12,25 +12,25 @@ const CaseInfoLink = () => {
           className="w-[363px] h-[92px] text-[#6B0F99] text-[18px] font-[500] bg-[#E1ABFF] p-[32px] border-b-[1px]"
           href={"/case-details/case-info"}
         >
-          <PermIdentityOutlinedIcon /> Case Info
+          <InfoOutlinedIcon/> Case Info
         </Link>
         <Link
           className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-b-[1px]"
           href={"/settings/security"}
         >
-          <ShieldOutlinedIcon /> Security
+          <ChatIcon /> Messages
         </Link>
         <Link
           className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-b-[1px]"
           href={"/settings/address"}
         >
-          <MapOutlinedIcon /> Address
+          <AttachFileOutlinedIcon/> Attachments
         </Link>
         <Link
           className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-b-[1px]"
           href={"/settings/support"}
         >
-          <ContactSupportOutlinedIcon /> Support
+          <DescriptionIcon /> Quotes
         </Link>
       </div>
     </div>
