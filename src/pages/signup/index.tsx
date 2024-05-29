@@ -13,6 +13,7 @@ import { countries } from '@/utilites/Countries';
 import Link from 'next/link';
 import PhoneCodePicker from '@/components/CountryPhoneCodePicker';
 import { useForm } from 'react-hook-form';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
 
 const signup = () => {
@@ -160,12 +161,12 @@ const signup = () => {
                             </FormControl>
                         </div>
                     </div>
-                    <div className='bg-[#EEF2FF]  rounded-md p-[16px] w-full'>
-                        <h1>Your password must:</h1>
-                        <p className={`${(getValues('password') || errors?.password?.message) ? lengthChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}>Length 8</p>
-                        <p className={`${(getValues('password') || errors?.password?.message) ? numberChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}>1 Number</p>
-                        <p className={`${(getValues('password') || errors?.password?.message) ? caseChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}>Upper & Lower Case</p>
-                        <p className={`${(getValues('password') || errors?.password?.message) ? specialCharacterChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}>Special Character</p>
+                    <div className='bg-[#EEF2FF]  rounded-md px-[20px] py-[28px] w-full justify-center items-center'>
+                        <h1 className='text-[13px] font-[500]'>Your password must: </h1>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? lengthChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Be at least 8 characters.</span></p>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? numberChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Include a number.</span></p>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? caseChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Have uppercase and lowercase letters.</span></p>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? specialCharacterChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Include at least one special character.</span></p>
                     </div>
                 </div>
                 <div className='mt-[12px] mb-[12px]'>
