@@ -24,22 +24,25 @@ const SecurityComponent = () => {
         <p className="text-[16px]">Account security settings</p>
       </div>
       <div className="mt-8 ml-8 w-[700px]">
-        <div className="flex flex-col mt-[16px]">
-          <label
-            className="mb-[12px] text-[16px] font-medium"
-            htmlFor="oldPassword"
-          >
-            Old password
-          </label>
-          <TextField
-            id="oldPassword"
-            placeholder="Enter your old password"
-            type="password"
-          />
-        </div>
+        <div className="flex flex-col mt-[16px]"></div>
       </div>
       <div className="flex ">
         <div className="mb-8 ml-8 w-[700px]">
+          <div className="mt-8  w-[700px]">
+            <div className="flex flex-col mt-[16px]">
+              <label
+                className="mb-[12px] text-[16px] font-medium"
+                htmlFor="oldPassword"
+              >
+                Old password
+              </label>
+              <TextField
+                id="oldPassword"
+                placeholder="Enter your old password"
+                type="password"
+              />
+            </div>
+          </div>
           <div className="flex flex-col mt-[16px]">
             <label
               className="mb-[12px] text-[16px] font-medium"
@@ -69,7 +72,7 @@ const SecurityComponent = () => {
             />
           </div>
         </div>
-        <div className="ml-8 mt-8 ">
+        <div className="ml-8 mt-44 mr-4 ">
           <div className="bg-[#EEF2FF] rounded-md p-[16px]">
             <h1>Your password must:</h1>
             <div className="text-sm mt-4">
