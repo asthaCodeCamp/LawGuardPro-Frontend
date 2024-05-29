@@ -1,6 +1,6 @@
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import SettingsLayout from "@/components/layout/SettingsLayout";
-import SupportComponent from "@/components/Settings/SupportComponent";
+import SupportComponent from "@/components/Settings/Support/SupportComponent";
 import React from "react";
 
 const Support = () => {

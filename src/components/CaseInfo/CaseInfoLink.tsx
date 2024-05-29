@@ -6,28 +6,28 @@ import DescriptionIcon from '@mui/icons-material/Description';
 
 const CaseInfoLink = () => {
   return (
-    <div className="bg-[#D1D1D1] h-full ">
+    <div className="bg-[#D1D1D1] w-48 h-full ">
       <div className="flex flex-col">
         <Link
-          className="w-[363px] h-[92px] text-[#6B0F99] text-[18px] font-[500] bg-[#E1ABFF] p-[32px] border-b-[1px]"
+          className=" text-[#6B0F99] text-[16px] font-[500] bg-[#E1ABFF] p-4 border-b-[1px]"
           href={"/case-details/case-info"}
         >
           <InfoOutlinedIcon/> Case Info
         </Link>
         <Link
-          className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-b-[1px]"
+          className=" text-black text-[16px] p-4 font-[500] bg-[#D1D1D1] border-b-[1px]"
           href={"/case-details/messages"}
         >
           <ChatIcon /> Messages
         </Link>
         <Link
-          className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-b-[1px]"
+          className=" text-black text-[16px] p-4  font-[500] bg-[#D1D1D1]  border-b-[1px]"
           href={"/case-details/attachments"}
         >
           <AttachFileOutlinedIcon/> Attachments
         </Link>
         <Link
-          className="w-[363px] h-[92px] text-black text-[18px] font-[500] bg-[#D1D1D1] p-[32px] border-b-[1px]"
+          className=" text-black text-[16px] p-4  font-[500] bg-[#D1D1D1] border-b-[1px]"
           href={"/case-details/quotes"}
         >
           <DescriptionIcon /> Quotes
