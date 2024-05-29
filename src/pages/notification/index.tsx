@@ -76,7 +76,7 @@ const AntTab = styled((props: StyledTabProps) => (
 }));
 
 const Notification = () => {
-  let notificationLength = 1;
+  let notificationLength = 0;
 
   const [value, setValue] = React.useState(0);
 
@@ -120,7 +120,7 @@ const Notification = () => {
             </CustomTabPanel>
           </Box>
         ) : (
-          <Box className="flex justify-center items-center h-full">
+          <Box className="flex justify-center items-center h-screen">
             <Box className="w-80">
               <EmptyNotification />
             </Box>
