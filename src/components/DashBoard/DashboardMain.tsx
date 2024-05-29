@@ -5,10 +5,11 @@ import CaseUpadet from "../Case/CaseUpadate";
 
 const DashboardMain = () => {
   return (
-    <div className="flex mt-[32px]">
-      <div className="border-r-2">
+    <div className="flex  w-full">
+      <div className="border-r-[0.8px]  w-[70%]">
         {/*profile complete sections */}
-        <div className="flex gap-[24px] ml-[32px] mr-[32px]">
+        <div>
+          <div className="flex gap-[24px] ml-[32px] mr-[32px] mt-[32px]">
           <div>
             <svg
               width="128"
@@ -30,13 +31,13 @@ const DashboardMain = () => {
             </svg>
           </div>
           <div className="gap-[8px]">
-            <p className="text-[16px] width-[500] mb-[8px]">
+            <p className="text-[16px]  mb-[8px]">
               Welcome, sabbir hasan
             </p>
-            <p className="text-[32px] width-[600] mb-[8px]">
+            <p className="text-[32px] mb-[8px]">
               Your profile is 50% complete.
             </p>
-            <p className="text-[16px] width-[400] text-gray-600">
+            <p className="text-[16px]  text-gray-600">
               You still need to provide a few more details.
             </p>
           </div>
@@ -50,21 +51,22 @@ const DashboardMain = () => {
             <ArrowForwardIosOutlinedIcon className=" w-[14px] ml-[8px]" />
           </Button>
         </div>
-        {/*Case Update sections */}
-        <div>
-          <EmptyCase />
-          <CaseUpadet />
         </div>
+        {/*Case Update sections */}
+        <div className="">
+          <EmptyCase />
+        </div>
+        <CaseUpadet />
       </div>
-      <div className="ml-[32px]">
-        <div>
-          <h1 className="text-[24px] font-[600]">Pending Quotes</h1>
+      <div className="ml-[32px] w-full flex flex-col w-[30%]">
+        <div className="">
+          <h1 className="text-[24px] font-[600] mt-[32px]">Pending Quotes</h1>
           <p className="text-[16px] font-[400] text-gray-600">
             You have no pending quotes.
           </p>
         </div>
-        <div>
-          <div className="text-center items-center justify-center mt-[315px] ml-[115px] mr-[115px]">
+        <div className="flex flex-col justify-center items-center h-full w-[100%] ">
+          <div className="justify-center items-center ">
             <svg
               width="105"
               height="104"
