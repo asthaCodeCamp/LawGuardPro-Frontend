@@ -6,7 +6,7 @@ import React from "react";
 const Support = () => {
   return (
     <ProtectedLayout>
-      <div className="w-full ">
+      <div className="w-full">
         <SettingsLayout>
           <div className=" w-full">
             <SupportComponent />
