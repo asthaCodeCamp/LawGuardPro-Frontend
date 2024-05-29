@@ -40,7 +40,7 @@ export default function CaseTable() {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <span className="text-[14px] text-[#6D6D6D] ml-[34px]">CASE NO.</span>
+                  <span className="text-[14px] text-[#6D6D6D] ml-[32px]">CASE NO.</span>
                 </TableCell>
                 <TableCell>
                   <span className="text-[14px] text-[#6D6D6D]">CASE TITLE</span>
@@ -62,7 +62,7 @@ export default function CaseTable() {
                   <span className="text-[14px] text-[#6D6D6D]">TASKS</span>
                 </TableCell>
                 <TableCell align="right">
-                  <span className="text-[14px] text-[#6D6D6D] mr-[34px]">STATUS</span>
+                  <span className="text-[14px] text-[#6D6D6D] mr-[32px]">STATUS</span>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -73,7 +73,7 @@ export default function CaseTable() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <span className="text-[14px] font-[400] ml-[34px]">
+                    <span className="text-[14px] font-[400] ml-[32px]">
                       {row.case_no}
                     </span>
                   </TableCell>

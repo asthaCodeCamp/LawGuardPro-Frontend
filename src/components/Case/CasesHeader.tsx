@@ -21,8 +21,8 @@ const CasesHeader = () => {
         </div>
       </div>
       <div className=" px-[32px]">
-        <div className="flex justify-between items-center px-6 gap-4 ">
-          <div className=" flex justify-between w-full px-6">
+        <div className="flex justify-between items-center px-6 gap-4  ">
+          <div className=" flex justify-between w-full px-6 pt-6 rounded-lg  border">
             <div>
               <p>Open Cases </p>
               <h1 className="text-2xl font-semibold ">02</h1>
@@ -51,7 +51,7 @@ const CasesHeader = () => {
               </svg>
             </div>
           </div>
-          <div className=" flex justify-between w-full px-6">
+          <div className=" flex justify-between w-full px-6 pt-6 rounded-lg border">
             <div>
               <p>Open Cases </p>
               <h1 className="text-2xl font-semibold ">02</h1>
