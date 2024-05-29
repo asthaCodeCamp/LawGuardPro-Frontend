@@ -7,9 +7,9 @@ const PersonalInfo = () => {
   return (
     <div>
       <ProtectedLayout>
-        <div className="flex flex-col">
+        <div className="w-full">
           <div><CaseinfoHeader/></div>
-          <div className="flex">
+          <div className="w-full">
             <CaseLayout>
               <CaseDetails />
             </CaseLayout>
