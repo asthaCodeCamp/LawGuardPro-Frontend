@@ -16,10 +16,10 @@ import { countries } from "@/utilites/Countries";
 
 const BillingAddress = () => {
   return (
-    <div>
+    <div className="flex flex-col">
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -38,10 +38,9 @@ const BillingAddress = () => {
           className="rounded-lg w-100 h-14"
         />
       </FormControl>
-
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -62,7 +61,7 @@ const BillingAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -83,7 +82,7 @@ const BillingAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -139,7 +138,7 @@ const BillingAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -184,7 +183,7 @@ const BillingAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}

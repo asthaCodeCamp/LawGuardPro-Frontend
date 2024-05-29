@@ -12,15 +12,17 @@ const MyCases = () => {
         <div className="w-full">
           <CaseHeader />
           <CaseTable />
-          <div className="flex  my-[36px] justify-between">
-            <div className="ml-[48px]">
+          <div className="flex  my-[36px] mx-auto  justify-between ">
+            <div className="ml-[48px] ">
               {" "}
               <h2>5 Cases found</h2>
             </div>
-            <div className=" ">
+            <div className=" mr-48">
               <CasePagination></CasePagination> 
             </div>
-            <div className=""></div>
+            <div className="">
+              
+            </div>
           </div>
         </div>
       </ProtectedLayout>
