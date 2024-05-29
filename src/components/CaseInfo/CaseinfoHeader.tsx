@@ -44,7 +44,7 @@ const CaseinfoHeader = () => {
   );
 
   return (
-    <div className="m-[32px] flex justify-between gap-[500px] ">
+    <div className="p-8 flex justify-between w-full ">
       <div>
         <div className="flex">
           <h1 className="text-[24px] font-[600] mr-[24px]">
