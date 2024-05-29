@@ -76,7 +76,7 @@ const AntTab = styled((props: StyledTabProps) => (
 }));
 
 const Notification = () => {
-  let notificationLength = 0;
+  let notificationLength = 1;
 
   const [value, setValue] = React.useState(0);
 
