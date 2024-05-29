@@ -50,7 +50,7 @@ const SupportFrom = () => {
         <MenuItem value="topic3">Topic 3</MenuItem>
       </TextField>
       <Box position="relative">
-        <label htmlFor="description" className=" text-[16px] font-semibold">
+        <label htmlFor="description" className=" text-[16px] font-semibold ">
           Describe
         </label>
         <TextField
@@ -65,12 +65,12 @@ const SupportFrom = () => {
         />
         <input
           accept="*/*"
-          style={{ display: "none", height: '300px' }}
+          style={{ display: "none", height: '300px', }}
           id="attachment-button-file"
           type="file"
           onChange={handleAttachmentChange}
-          
-          
+
+
         />
         <label htmlFor="attachment-button-file">
           <IconButton
