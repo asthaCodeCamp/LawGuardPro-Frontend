@@ -6,10 +6,12 @@ import React from "react";
 const PersonalInfo = () => {
   return (
     <ProtectedLayout>
-      <div className="flex">
+      <div className="w-full">
         <SettingsLayout>
           {/* <div className="flex border border-red-800">personal info here</div> */}
+          <div className="w-full">
           <PersonalDetails />
+          </div>
         </SettingsLayout>
       </div>
     </ProtectedLayout>

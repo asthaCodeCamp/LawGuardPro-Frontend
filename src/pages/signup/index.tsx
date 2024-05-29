@@ -6,15 +6,49 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import React from 'react';
+import React, { useRef } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button, Checkbox, FormControlLabel, IconButton, } from '@mui/material';
- import { countries } from '@/utilites/Countries';
+import { countries } from '@/utilites/Countries';
 import Link from 'next/link';
- import PhoneCodePicker from '@/components/CountryPhoneCodePicker';
+import PhoneCodePicker from '@/components/CountryPhoneCodePicker';
+import { useForm } from 'react-hook-form';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
 
 const signup = () => {
+    const { register, watch, handleSubmit, reset, setValue, getValues, setError, formState: { errors }, formState } = useForm({
+        mode: 'onChange'
+    });
+    const password = useRef({});
+    password.current = watch("password", "");
+    const onSubmit = async (data: any) => {
+        alert(JSON.stringify(data));
+    };
+    console.log(errors.password?.message);
+
+
+    // checker functions
+
+    const numberChecker = (value:string) => {
+        return /\d/.test(value);
+    }
+
+    const lengthChecker = (value:string) => {
+        return value?.length >= 8;
+    }
+
+    const caseChecker = (value:string) => {
+        return /^(?=.*[a-z])(?=.*[A-Z])/.test(value);
+    }
+
+    const specialCharacterChecker = (value:string) => {
+        return /[!@#$%^&*(),.?":{}|<>]/.test(value);
+    }
+
+
+
+
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -73,6 +107,21 @@ const signup = () => {
                                 <OutlinedInput
                                     placeholder='Enter password'
                                     id="outlined-adornment-password"
+                                    {...register('password',{required: "You must specify a password",
+                                    validate: {
+                                      minLength: (value) =>
+                                        value.length >= 8 || "Password must have at least 8 characters",
+                                      hasNumber: (value) =>
+                                        /\d/.test(value) || "Password should contain at least one number",
+                                      hasUpperLowerCase: (value) =>
+                                        /^(?=.*[a-z])(?=.*[A-Z])/.test(value) ||
+                                        "Password should contain at least one uppercase and lowercase letter",
+                                      hasSpecialChar: (value) =>
+                                        /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+                                        "Password should contain at least one special character",
+                                    },})}
+                                    // name="password"
+                                    // ref={password}
                                     type={showPassword ? 'text' : 'password'}
                                     endAdornment={
                                         <InputAdornment position="end">
@@ -112,9 +161,12 @@ const signup = () => {
                             </FormControl>
                         </div>
                     </div>
-                    <div className='bg-[#EEF2FF]  rounded-md p-[16px] w-full'>
-                        <h1>Your password must:</h1>
-
+                    <div className='bg-[#EEF2FF]  rounded-md px-[20px] py-[28px] w-full justify-center items-center'>
+                        <h1 className='text-[13px] font-[500]'>Your password must: </h1>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? lengthChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Be at least 8 characters.</span></p>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? numberChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Include a number.</span></p>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? caseChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Have uppercase and lowercase letters.</span></p>
+                        <p className={`${(getValues('password') || errors?.password?.message) ? specialCharacterChecker(getValues('password')) === false ? "text-red-400" : "text-green-400" : 'text-black'}`}><span className="text-[11px] font-[400]"><CheckOutlinedIcon className='w-4 mr-[8px]' /> Include at least one special character.</span></p>
                     </div>
                 </div>
                 <div className='mt-[12px] mb-[12px]'>
