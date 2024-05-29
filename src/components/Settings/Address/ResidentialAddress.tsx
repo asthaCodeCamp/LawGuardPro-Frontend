@@ -17,10 +17,10 @@ import { cities } from "@/utilites/Cities";
 
 const ResidentialAddress = () => {
   return (
-    <div>
+    <div className="flex flex-col">
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -41,7 +41,7 @@ const ResidentialAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -62,7 +62,7 @@ const ResidentialAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -118,7 +118,7 @@ const ResidentialAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
@@ -163,7 +163,7 @@ const ResidentialAddress = () => {
       </FormControl>
       <FormControl
         sx={{
-          width: "100%",
+          width: "48%",
           height: "92px",
           marginBottom: "24px",
         }}
