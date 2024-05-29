@@ -8,7 +8,9 @@ const Support = () => {
     <ProtectedLayout>
       <div className="w-full ">
         <SettingsLayout>
-          <div className=" w-full"><SupportComponent/></div>
+          <div className=" w-full">
+            <SupportComponent />
+          </div>
         </SettingsLayout>
       </div>
     </ProtectedLayout>
