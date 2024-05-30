@@ -7,6 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 import caseAttachments from "./CaseAttachmentData";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
@@ -70,7 +71,14 @@ const CaseAttachmentsTable = () => {
                   <span className="text-[14px] font-[400]">{row.type}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-[14px] font-[400]">
+                  <span className="text-[14px] font-[400] flex">
+                    <Image
+                      src={row.uploaded_by.logo}
+                      alt={row.uploaded_by.name}
+                      height={24}
+                      width={24}
+                      className="h-6 w-6 rounded-full mr-2"
+                    />
                     {row.uploaded_by.name}
                   </span>
                 </TableCell>
