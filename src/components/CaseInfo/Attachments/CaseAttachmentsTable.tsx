@@ -11,6 +11,7 @@ import Image from "next/image";
 
 import caseAttachments from "./CaseAttachmentData";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+import svgs from "@/components/svg/svg";
 
 interface Upload {
   logo: string;
@@ -63,7 +64,10 @@ const CaseAttachmentsTable = () => {
                 className=""
               >
                 <TableCell component="th" scope="row">
-                  <span className="text-[14px] font-[400] pl-4">
+                  <span className="flex text-[14px] font-[400] pl-4">
+                    <span className="mr-2">
+                      {row.type === "PDF" ? svgs?.pdfIcon : svgs?.docIcon}
+                    </span>
                     {row.title}
                   </span>
                 </TableCell>
