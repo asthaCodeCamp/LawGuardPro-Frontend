@@ -1,0 +1,23 @@
+[
+    {
+        "Quote_No": "1",
+        "value": 350,
+        "total_value": 350,
+        "status": "Paid",
+        "payment_method": "Stripe"
+    },
+    {
+        "Quote_No": "2",
+        "value": 350,
+        "total_value": 700,
+        "status": "Paid",
+        "payment_method": "Stripe"
+    },
+    {
+        "Quote_No": "3",
+        "value": 350,
+        "total_value": 1050,
+        "status": "Paid",
+        "payment_method": "Stripe"
+    }
+]
