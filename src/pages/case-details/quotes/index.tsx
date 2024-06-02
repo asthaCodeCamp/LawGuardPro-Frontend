@@ -1,3 +1,4 @@
+import AllQuotes from "@/components/CaseInfo/AllQuotes/AllQuotes";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import React from "react";
@@ -43,6 +44,9 @@ const Quotes = () => {
                 </svg>
                 <span className="ml-[16px] mt-2">Total Paid: $650.37</span>
               </h1>
+            </div>
+            <div>
+                <AllQuotes></AllQuotes>
             </div>
           </div>
         </CaseLayout>
