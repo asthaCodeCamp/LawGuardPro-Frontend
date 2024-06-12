@@ -1,0 +1,47 @@
+[
+  {
+      "case_no": "012546",
+      "case_title": "Share Transfers & Share Issuance",
+      "total_quoted": 15000,
+      "total_paid": 10000,
+      "last_updated": "2024-05-20",
+      "tasks": 4,
+      "status": "working"
+  },
+  {
+      "case_no": "012547",
+      "case_title": "Contract Negotiation",
+      "total_quoted": 20000,
+      "total_paid": 20000,
+      "last_updated": "2024-05-25",
+      "tasks": 3,
+      "status": "closed"
+  },
+  {
+      "case_no": "012548",
+      "case_title": "Intellectual Property Dispute",
+      "total_quoted": 30000,
+      "total_paid": 15000,
+      "last_updated": "2024-05-22",
+      "tasks": 2,
+      "status": "working"
+  },
+  {
+      "case_no": "012549",
+      "case_title": "Employment Contract Review",
+      "total_quoted": 10000,
+      "total_paid": 10000,
+      "last_updated": "2024-05-18",
+      "tasks": 3,
+      "status": "closed"
+  },
+  {
+      "case_no": "012550",
+      "case_title": "Real Estate Purchase",
+      "total_quoted": 50000,
+      "total_paid": 25000,
+      "last_updated": "2024-05-21",
+      "tasks": 4,
+      "status": "working"
+  }
+]
