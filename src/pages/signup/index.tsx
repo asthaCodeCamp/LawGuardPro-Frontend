@@ -14,9 +14,11 @@ import Link from 'next/link';
 import PhoneCodePicker from '@/components/CountryPhoneCodePicker';
 import { useForm } from 'react-hook-form';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import { signIn, useSession } from 'next-auth/react';
 
 
 const signup = () => {
+    const { data: session } = useSession<any>();
     const { register, watch, handleSubmit, reset, setValue, getValues, setError, formState: { errors }, formState } = useForm({
         mode: 'onChange'
     });
@@ -213,6 +215,7 @@ const signup = () => {
 
                     <div className="mt-[12px]">
                         <Button
+                        onClick={() => signIn("google")}
                             className="w-full h-[52px] bg-[#FFFFFF] text-[#191919] font-[600] text-[16px] outline outline-1 outline-[#d1d1d1] "
                         // variant="outlined"
                         >
