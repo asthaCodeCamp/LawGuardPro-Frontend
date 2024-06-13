@@ -1,7 +1,10 @@
-import CaseinfoHeader from "./CaseinfoHeader";
-
-const Messages =()=>{
-    return(
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+import { Avatar } from '@mui/material';
+const Messages = () => {
+    return (
         <div className="w-full border-t-[1px]">
             <div className=" border-b-[1px] p-8">
                 <h1 className="flex">
@@ -20,11 +23,70 @@ const Messages =()=>{
                 </h1>
             </div>
             <div>
+                <div className="mt-[32px] ml-[32px] mr-[32px]">
+                    {/* Bot Message */}
+                    <div className="flex gap-4 text-[12px] font-bold items-center">
+                        <div>
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="40" height="40" rx="20" fill="#EA3E08" />
+                                <path d="M17.5 22.5003C17.3352 22.5003 17.174 22.5492 17.037 22.6408C16.9 22.7323 16.7932 22.8625 16.7301 23.0148C16.667 23.167 16.6505 23.3346 16.6827 23.4962C16.7148 23.6579 16.7942 23.8064 16.9107 23.9229C17.0273 24.0395 17.1758 24.1188 17.3374 24.151C17.4991 24.1831 17.6666 24.1666 17.8189 24.1036C17.9712 24.0405 18.1013 23.9337 18.1929 23.7966C18.2844 23.6596 18.3333 23.4985 18.3333 23.3337C18.3333 23.1126 18.2455 22.9007 18.0892 22.7444C17.933 22.5881 17.721 22.5003 17.5 22.5003ZM11.6666 21.667C11.4456 21.667 11.2337 21.7548 11.0774 21.9111C10.9211 22.0674 10.8333 22.2793 10.8333 22.5003V24.167C10.8333 24.388 10.9211 24.6 11.0774 24.7562C11.2337 24.9125 11.4456 25.0003 11.6666 25.0003C11.8877 25.0003 12.0996 24.9125 12.2559 24.7562C12.4122 24.6 12.5 24.388 12.5 24.167V22.5003C12.5 22.2793 12.4122 22.0674 12.2559 21.9111C12.0996 21.7548 11.8877 21.667 11.6666 21.667ZM28.3333 21.667C28.1123 21.667 27.9003 21.7548 27.7441 21.9111C27.5878 22.0674 27.5 22.2793 27.5 22.5003V24.167C27.5 24.388 27.5878 24.6 27.7441 24.7562C27.9003 24.9125 28.1123 25.0003 28.3333 25.0003C28.5543 25.0003 28.7663 24.9125 28.9226 24.7562C29.0788 24.6 29.1666 24.388 29.1666 24.167V22.5003C29.1666 22.2793 29.0788 22.0674 28.9226 21.9111C28.7663 21.7548 28.5543 21.667 28.3333 21.667ZM24.1666 15.8337H20.8333V14.767C21.0852 14.6216 21.2947 14.4128 21.4409 14.1613C21.587 13.9098 21.6649 13.6245 21.6666 13.3337C21.6666 12.8916 21.4911 12.4677 21.1785 12.1551C20.8659 11.8426 20.442 11.667 20 11.667C19.558 11.667 19.134 11.8426 18.8215 12.1551C18.5089 12.4677 18.3333 12.8916 18.3333 13.3337C18.3351 13.6245 18.4129 13.9098 18.5591 14.1613C18.7053 14.4128 18.9147 14.6216 19.1666 14.767V15.8337H15.8333C15.1703 15.8337 14.5344 16.0971 14.0655 16.5659C13.5967 17.0347 13.3333 17.6706 13.3333 18.3337V25.8337C13.3333 26.4967 13.5967 27.1326 14.0655 27.6014C14.5344 28.0703 15.1703 28.3337 15.8333 28.3337H24.1666C24.8297 28.3337 25.4656 28.0703 25.9344 27.6014C26.4033 27.1326 26.6666 26.4967 26.6666 25.8337V18.3337C26.6666 17.6706 26.4033 17.0347 25.9344 16.5659C25.4656 16.0971 24.8297 15.8337 24.1666 15.8337ZM21.4333 17.5003L21.0166 19.167H18.9833L18.5666 17.5003H21.4333ZM25 25.8337C25 26.0547 24.9122 26.2666 24.7559 26.4229C24.5996 26.5792 24.3877 26.667 24.1666 26.667H15.8333C15.6123 26.667 15.4003 26.5792 15.2441 26.4229C15.0878 26.2666 15 26.0547 15 25.8337V18.3337C15 18.1126 15.0878 17.9007 15.2441 17.7444C15.4003 17.5881 15.6123 17.5003 15.8333 17.5003H16.85L17.5 20.2003C17.5456 20.3852 17.6532 20.5489 17.8048 20.6641C17.9564 20.7794 18.143 20.8392 18.3333 20.8337H21.6666C21.857 20.8392 22.0435 20.7794 22.1952 20.6641C22.3468 20.5489 22.4544 20.3852 22.5 20.2003L23.15 17.5003H24.1666C24.3877 17.5003 24.5996 17.5881 24.7559 17.7444C24.9122 17.9007 25 18.1126 25 18.3337V25.8337ZM22.5 22.5003C22.3352 22.5003 22.174 22.5492 22.037 22.6408C21.9 22.7323 21.7932 22.8625 21.7301 23.0148C21.667 23.167 21.6505 23.3346 21.6827 23.4962C21.7148 23.6579 21.7942 23.8064 21.9107 23.9229C22.0273 24.0395 22.1758 24.1188 22.3374 24.151C22.4991 24.1831 22.6666 24.1666 22.8189 24.1036C22.9712 24.0405 23.1013 23.9337 23.1929 23.7966C23.2844 23.6596 23.3333 23.4985 23.3333 23.3337C23.3333 23.1126 23.2455 22.9007 23.0892 22.7444C22.933 22.5881 22.721 22.5003 22.5 22.5003Z" fill="white" />
+                            </svg>
+                        </div>
+                        <div>LawGuard Pro</div>
+                        <div className="text-[#EA3E08] border-[#EA3E08] border-[0.8px] px-4 bg-[#FFF5F2] rounded-xl text-[12px] font-normal">Bot</div>
+                    </div>
+                    <div className="mt-[8px]">
+                        <p className="px-3 py-3 bg-[#F6F6F6] text-[12px] ml-[48px] rounded-md mr-[8%]">Hi Tomal Ahmed. Thank you for submitting your inquiry through LawGuard Pro. This  looks like it will fall under our fixed fe contact review service starting
+                            at $99 + vat. I will refer you to our Employment specialist right away and she will call you shortly to discuss your requirements. Best wishes, LawGuard
+                            Pro Bot.
+                        </p>
+                    </div>
+
+                </div>
+                <div className="mt-[24px] bg-[#EEF2FF] ml-[15%] mr-[15%] text-center py-2 rounded-md">
+                    <p className="text-[#1E40AF] text-[11px]">Your file has now been referred to one of our expert lawyers who will be in contact with you very shortly.</p>
+                </div>
+                <div className="mt-[24px] ml-[32px] mr-[32px]">
+                    <div className="flex gap-4 text-[12px] font-bold items-center">
+                        <div>
+                        <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                        </div>
+                        <div>Saifuddin Ahmed</div>
+                        <div className="text-[#6B0F99] border-[#6B0F99] border-[0.8px] px-4 bg-[#FBF4FF] rounded-xl text-[12px] font-normal">Lawyer</div>
+                    </div>
+                    <div className="mt-[8px]">
+                        <p className="px-3 py-3 bg-[#F6F6F6] text-[12px] ml-[48px] rounded-md mr-[30%]">
+                            Hi Tomal, thank you for your inquiry. I will give you a call soon to discuss your inquiry further. Kind regards, Saifuddin Ahmed.
+                        </p>
+                    </div>
+                </div>
                 <div>
-                    <p></p>
+                    <div>
+                        <div className="flex gap-4 mt-[24px] text-[12px] font-bold items-center justify-end mr-[32px] items-center">
+                            <div>Tomal Ahmed</div>
+                            <div><Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" /></div>
+                        </div>
+                    </div>
+                    < div className="text-end ml-[80%] mr-[78px] mb-[100px]">
+                        <p className="px-3 py-3 bg-[#F6F6F6] text-[12px] ml-[48px] rounded-md mt-[8px]">
+                            Hello
+                        </p>
+                    </div>
+                </div>
+                <div className=" ml-[32px] flex gap-4 mr-[32px] mb-[32px]">
+                    <Box
+                        sx={{
+                            width: 700,
+                            maxWidth: '100%',
+                        }}
+                    >
+                        <TextField fullWidth id="fullWidth" />
+                    </Box>
+                    <Button className="font-bold bg-[#6B0F99] hover:bg-[#6B0F99] w-[20%]" variant="contained">Send <SendIcon className="ml-[8px]" /> </Button>
                 </div>
             </div>
-        </div>
-    )
+            </div>
+    );   
 }
+
 export default Messages;
