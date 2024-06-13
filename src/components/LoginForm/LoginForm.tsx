@@ -11,6 +11,8 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { logIn } from "@/services/authentication/authentication.service";
+import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +31,14 @@ const LoginForm = () => {
   };
 
   const handleLogin = () => {
+    signIn("credentials", {
+      userName: "b@b.com",
+      password: "@0Ne@@@@",
+    });
+
+    // logIn({ userName: "b@b.com", password: "@0Ne@@@@" });
+
+    // console.log("at the handle login", data);
     if (email === "" || password === "") {
       setError("Email or Password can't be empty");
       setEmail("");
