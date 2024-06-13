@@ -120,7 +120,7 @@ const Notification = () => {
             </CustomTabPanel>
           </Box>
         ) : (
-          <Box className="flex justify-center items-center h-full">
+          <Box className="flex justify-center items-center h-screen">
             <Box className="w-80">
               <EmptyNotification />
             </Box>
