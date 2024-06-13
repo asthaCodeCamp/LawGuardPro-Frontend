@@ -1,21 +1,19 @@
 import {
+  Box,
   Button,
   FormControl,
   IconButton,
   InputAdornment,
   OutlinedInput,
-  TextField,
 } from "@mui/material";
 import { useState } from "react";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import Link from "next/link";
-import error from "next/error";
 import { useRouter } from "next/router";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -31,9 +29,6 @@ const LoginForm = () => {
   };
 
   const handleLogin = () => {
-    // console.log("Email === ", email);
-    // console.log("Password === ", password);
-
     if (email === "" || password === "") {
       setError("Email or Password can't be empty");
       setEmail("");
@@ -50,17 +45,16 @@ const LoginForm = () => {
     alert("I am from google");
   };
   return (
-    <div className="flex justify-center items-center mb-10">
-      <div className="w-[342px] mt-[116px]">
-        <div className=" h-[74px] mb-8">
+    <Box className="flex justify-center items-center mb-10 px-3">
+      <Box className="w-[342px] mt-[116px]">
+        <Box className=" h-[74px] mb-8">
           <h1 className="font-[600] text-[28px] leading-[42px]">
             Login into
             <span className="ms-2 text-[#6B0F99]">LawGuard Pro</span>
           </h1>
           <p>Please enter your details to login.</p>
-        </div>
-
-        <div className="h-60 mb-8">
+        </Box>
+        <Box className="h-60 mb-8">
           <FormControl sx={{ width: "100%", marginBottom: "16px" }}>
             <label htmlFor="email" className="block text-sm font-medium mb-2">
               Email
@@ -75,11 +69,10 @@ const LoginForm = () => {
               onChange={(e) => {
                 setEmail(e.currentTarget.value);
               }}
+              required
             />
           </FormControl>
-
           <FormControl sx={{ width: "100%", marginBottom: "16px" }}>
-            {/* <InputLabel htmlFor="password">Password</InputLabel> */}
             <label
               htmlFor="password"
               className="block text-sm font-medium mb-2"
@@ -111,18 +104,18 @@ const LoginForm = () => {
               onChange={(e) => {
                 setPassword(e.currentTarget.value);
               }}
+              required
             />
             {error && <p className="text-[#DC2626] text-xs">{error}</p>}
           </FormControl>
-
           <Link
             href="/reset-password"
             className="mb-8 font-[500] text-[16px] leading-6 text-[#6B0F99]"
           >
             Forgot password?
           </Link>
-        </div>
-        <div className="h-32 mb-8">
+        </Box>
+        <Box className="h-32 mb-8">
           <Button
             className="mb-4 w-full h-14 bg-[#6B0F99] rounded-lg hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
             onClick={handleLogin}
@@ -157,24 +150,22 @@ const LoginForm = () => {
                 fill="#1976D2"
               />
             </svg>
-
             <span className="ml-3"> Continue with Google</span>
           </Button>
-        </div>
-
-        <div className="w-64 h-6 mx-auto text-[16px] font-[400] leading-6 mb-8">
+        </Box>
+        <Box className="w-64 h-6 mx-auto text-[16px] font-[400] leading-6 mb-8">
           Don’t have an account?{" "}
           <Link href="/signup" className="text-[#6B0F99]">
             Sign up
           </Link>
-        </div>
-        <div className="text-[14px] font-[400] leading-[21px] mx-2">
+        </Box>
+        <Box className="text-[14px] font-[400] leading-[21px] mx-2">
           Check our{" "}
           <span className="font-bold underline">Terms of Service</span> and{" "}
           <span className="font-bold underline">Privacy Policy.</span>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
