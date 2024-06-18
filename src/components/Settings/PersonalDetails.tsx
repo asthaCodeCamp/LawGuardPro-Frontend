@@ -1,59 +1,134 @@
+import React, { useState, useEffect } from 'react';
 import { Button, TextField } from "@mui/material";
 import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
-import man from "../../../public/assets/man.png"
+import man from "../../../public/assets/man.png";
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
-const PersonalDetails = () => {
-    return (  
-        <div className="mb-[32px]">
-            <div className=" w-full">
-                <div className="border-b-[1px] p-8">
-                    <h1 className="text-[24px]">Personal Details</h1>
-                    <p className="text-[16px] font-[400] text-[#3D3D3D]">Add or modify your personal information.</p>
-                </div>
-                <div className="mt-[32px] ml-8">
-                    <h1 className="text-[16px] font-[600] text-[#191919]">Profile photo</h1>
-                    <p className="mt-[8px] text-[16px] font-[400] text-[#3D3D3D]">This will be displayed on your profile.</p>
-                </div>
-                <div className="mt-[16px] flex gap-[16px] ml-8">
-                    <Image src={man} alt="logo" height={96} width={96} />
-                    <Button variant="contained" className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none my-[23px] text-[14px] font-[600]">Change</Button>
-                    <Button variant="contained" className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none  my-[23px] text-[14px] font-[600]">Remove</Button>
-
-                </div>
-                <div className='flex gap-[16px] mt-8 mx-8'>
-                    <div className='flex flex-col w-full '>
-                        <label className='mb-[12px] text-[16px] font-medium' htmlFor="firstName">First Name</label>
-                        <TextField
-                            id="demo-helper-text-misaligned"
-                            placeholder='First Name'
-                        />
-                    </div>
-                    <div className='flex flex-col w-full'>
-                        <label className='mb-[12px] text-[16px] font-medium' htmlFor="firstName">Last Name</label>
-                        <TextField
-                            id="demo-helper-text-misaligned"
-                            placeholder='Last Name'
-                        />
-                    </div>
-
-                </div>
-                <div className='flex flex-col mt-[16px] mx-8'>
-                    <label className='mb-[12px] text-[16px] font-medium' htmlFor="firstName">Email address</label>
-                    <TextField
-                        id="demo-helper-text-misaligned"
-                        placeholder='Email address'
-                    />
-                </div>
-                <div className='flex flex-col  mt-[16px] mx-8'>
-                        <label className='mb-[12px] text-[16px] font-medium' htmlFor="firstName">Phone number</label>
-                        <PhoneCodePicker />
-                 </div>
-                 <Button className="mt-[16px] h-[56px] w-[147px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600] ml-8 capitalize" variant="contained">Save Changes</Button>
-
-            </div>
-            
-        </div>
-    );
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
+
+const PersonalDetails: React.FC = () => {
+  const { data: session } = useSession();
+  const [userData, setUserData] = useState<User>({
+    firstName: '',
+    lastName: '',
+    email: ''
+  });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (session) {
+        const user = {
+          firstName: session.user?.name || '',
+          lastName: session.user?.name || '',
+          email: session.user?.email || '',
+        };
+        if (!user.firstName || !user.lastName || !user.email ) {
+          try {
+            const response = await axios.get('http://54.203.205.46:5140/api/usersauth/login');
+            const fetchedUser = response.data;
+            setUserData({
+              firstName: fetchedUser.firstName,
+              lastName: fetchedUser.lastName,
+              email: fetchedUser.email,
+            });
+          } catch (error) {
+            console.error('Failed to fetch user data:', error);
+          }
+        } else {
+          setUserData(user);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [session]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData);
+      alert('User updated successfully!');
+    } catch (error) {
+      console.error('Failed to update user:', error);
+      alert('Failed to update user');
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    console.log(name);
+    setUserData(prevState => ({ ...prevState, [name]: value }));
+  };
+
+ 
+
+  return (
+    <div className="mb-[32px]">
+      <div className="w-full">
+        <div className="border-b-[1px] p-8">
+          <h1 className="text-[24px]">Personal Details</h1>
+          <p className="text-[16px] font-[400] text-[#3D3D3D]">Add or modify your personal information.</p>
+        </div>
+        <div className="mt-[32px] ml-8">
+          <h1 className="text-[16px] font-[600] text-[#191919]">Profile photo</h1>
+          <p className="mt-[8px] text-[16px] font-[400] text-[#3D3D3D]">This will be displayed on your profile.</p>
+        </div>
+        <div className="mt-[16px] flex gap-[16px] ml-8">
+          <Image src={man} alt="logo" height={96} width={96} />
+          <Button variant="contained" className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none my-[23px] text-[14px] font-[600]">Change</Button>
+          <Button variant="contained" className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none my-[23px] text-[14px] font-[600]">Remove</Button>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className='flex gap-[16px] mt-8 mx-8'>
+            <div className='flex flex-col w-full'>
+              <label className='mb-[12px] text-[16px] font-medium' htmlFor="firstName">First Name</label>
+              <TextField
+                id="firstName"
+                name="firstName"
+                placeholder='First Name'
+                value={userData.firstName}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='flex flex-col w-full'>
+              <label className='mb-[12px] text-[16px] font-medium' htmlFor="lastName">Last Name</label>
+              <TextField
+                id="lastName"
+                name="lastName"
+                placeholder='Last Name'
+                value={userData.lastName}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className='flex flex-col mt-[16px] mx-8'>
+            <label className='mb-[12px] text-[16px] font-medium' htmlFor="email">Email address</label>
+            <TextField
+              id="email"
+              name="email"
+              placeholder='Email address'
+              value={userData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className='flex flex-col mt-[16px] mx-8'>
+            <label className='mb-[12px] text-[16px] font-medium' htmlFor="phoneNumber">Phone number</label>
+            <PhoneCodePicker
+            //   value={userData.phoneNumber}
+            //   onChange={handlePhoneChange}
+            />
+          </div>
+          <Button className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize" variant="contained" type="submit">Save Changes</Button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default PersonalDetails;
