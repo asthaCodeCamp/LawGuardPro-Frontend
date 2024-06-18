@@ -62,7 +62,7 @@ const Messages = () => {
                 </div>
                 <div>
                     <div>
-                        <div className="flex gap-4 mt-[24px] text-[12px] font-bold items-center justify-end mr-[32px] items-center">
+                        <div className="flex gap-4 mt-[24px] text-[12px] font-bold  justify-end mr-[32px] items-center">
                             <div>Tomal Ahmed</div>
                             <div><Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" /></div>
                         </div>
