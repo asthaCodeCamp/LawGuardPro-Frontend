@@ -105,9 +105,8 @@ interface AddCaseModalProps {
 // }
 
 const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
-
   return (
-    <div>
+    <div className="">
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
@@ -120,7 +119,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
               <button onClick={handleClose}>
-              <CloseOutlinedIcon />
+                <CloseOutlinedIcon />
               </button>
             </Box>
             <Box className="w-full bg-[#EEF2FF] flex items-center my-2">
@@ -190,12 +189,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
                   Type of inquiry
                 </label>
                 <Autocomplete
-                  className=""
                   id="inquiry-type"
-                  // sx={{ width: 300,height:"12px" }}
-                  options={[{ type: "Divorce" }]}
+                  options={[{ type: "Criminal" }, { type: "Civil" }]}
                   autoHighlight
-                  getOptionLabel={(option: any) => option.city}
+                  getOptionLabel={(option: any) => option.type} // Corrected to access 'type' property
                   renderOption={(props: any, option: any) => (
                     <Box component="li" {...props}>
                       {option.type}
@@ -276,7 +273,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
               </Box>
             </Box>
             <Button
-            onClick={handleClose}
+              onClick={handleClose}
               type="submit"
               className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-3 mt-3  w-full text-[16px] font-semibold capitalize hover:bg-LawGuardPrimary"
             >
