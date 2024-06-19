@@ -95,14 +95,18 @@ const ModalContent = styled("div")(
     }
   `
 );
+interface AddCaseModalProps {
+  open: boolean;
+  handleClose: () => void;
+}
 
-const AddCaseMoadal = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+// interface InquiryType {
+//   type: string;
+// }
 
+const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
   return (
-    <div>
+    <div className="">
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
@@ -114,7 +118,9 @@ const AddCaseMoadal = () => {
           <Box className="w-full">
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
-              <CloseOutlinedIcon onClick={handleClose} />
+              <button onClick={handleClose}>
+                <CloseOutlinedIcon />
+              </button>
             </Box>
             <Box className="w-full bg-[#EEF2FF] flex items-center my-2">
               <Box className="ml-4 mr-2">
@@ -183,12 +189,10 @@ const AddCaseMoadal = () => {
                   Type of inquiry
                 </label>
                 <Autocomplete
-                  className=""
                   id="inquiry-type"
-                  // sx={{ width: 300,height:"12px" }}
-                  options={[{ type: "Divorce" }]}
+                  options={[{ type: "Criminal" }, { type: "Civil" }]}
                   autoHighlight
-                  getOptionLabel={(option: any) => option.city}
+                  getOptionLabel={(option: any) => option.type} // Corrected to access 'type' property
                   renderOption={(props: any, option: any) => (
                     <Box component="li" {...props}>
                       {option.type}
@@ -269,6 +273,7 @@ const AddCaseMoadal = () => {
               </Box>
             </Box>
             <Button
+              onClick={handleClose}
               type="submit"
               className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-3 mt-3  w-full text-[16px] font-semibold capitalize hover:bg-LawGuardPrimary"
             >
@@ -281,4 +286,4 @@ const AddCaseMoadal = () => {
   );
 };
 
-export default AddCaseMoadal;
+export default AddCaseModal;

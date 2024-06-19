@@ -14,8 +14,9 @@ const ResetPasswordRequestForm: React.FC = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/send-reset-link', { email });
-      if (response.data.success) {
+      const response = await axios.post('http://54.203.205.46:5140/api/usersauth/forgetpassword', { email });
+      console.log(response);
+      if (response?.status===200) {
         setMessage('Reset link sent successfully!');
       } else {
         setMessage('Failed to send reset link. Please try again.');

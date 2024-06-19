@@ -2,6 +2,7 @@ import CasePagination from "@/components/Case/CasePagination";
 import CaseTable from "@/components/Case/CaseTable";
 import CaseUpadate from "@/components/Case/CaseUpadate";
 import CaseHeader from "@/components/Case/CasesHeader";
+import AddCaseMoadal from "@/components/Modals/AddCaseModal";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -35,6 +36,7 @@ const MyCases = () => {
             </div>
           </div>
         </div>
+        <AddCaseMoadal/>
       </ProtectedLayout>
     </>
   );
