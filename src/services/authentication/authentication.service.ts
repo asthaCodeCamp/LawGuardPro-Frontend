@@ -37,15 +37,22 @@ export async function logIn(cred: {
 }): Promise<any> {
   try {
     // Get the session using NextAuth.js getSession function
-    const session = useSession();
+    // console.log("login here", cred);
+
+    // const session = useSession();
+    // const { data: session, status } = useSession();
+
+    // console.log("Status == ", status);
     // const session: any = {
     //   accessToken: "",
     // };
 
     // Check if session exists
-    if (!session) {
-      throw new Error("User session not found");
-    }
+    // console.log("login here", cred);
+
+    // if (!session) {
+    //   throw new Error("User session not found");
+    // }
 
     // Make the API request with the session as a bearer token
     const response = await fetch(
@@ -53,7 +60,7 @@ export async function logIn(cred: {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${session.data?.accessToken}`,
+          // Authorization: `Bearer ${session.data?.accessToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(cred),
@@ -62,10 +69,10 @@ export async function logIn(cred: {
 
     // Parse the response as JSON
     const data = await response.json();
-    console.log(data), "token";
+    console.log(data, "token");
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
-    throw error;
+    return error;
   }
 }
