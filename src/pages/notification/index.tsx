@@ -1,9 +1,11 @@
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import EmptyNotification from "@/components/Notification/EmptyNotification";
 import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import AllNotification from "@/components/Notification/AllNotification";
 import UnreadNotification from "@/components/Notification/UnreadNotification";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -84,6 +86,20 @@ const Notification = () => {
     setValue(newValue);
   };
 
+  const session = useSession();
+  const router = useRouter();
+  // const { pathname } = router;
+
+  // console.log("Login session == ", session);
+  // console.log("notification pathname ==== ", pathname);
+
+  useEffect(() => {
+    console.log(session, "at notification useEffect");
+    if (session?.status !== "authenticated") {
+      router.push("/login");
+    }
+  }, [session]);
+
   return (
     <ProtectedLayout>
       <Box className="block w-full max-h-screen">
@@ -130,4 +146,5 @@ const Notification = () => {
     </ProtectedLayout>
   );
 };
+
 export default Notification;
