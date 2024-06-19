@@ -11,6 +11,9 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import Link from "next/link";
 import { useRouter } from "next/router";
+// import { logIn } from "@/services/authentication/authentication.service";
+import { signIn } from "next-auth/react";
+import { CleaningServices } from "@mui/icons-material";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,22 +30,64 @@ const LoginForm = () => {
   ) => {
     event.preventDefault();
   };
+  const validateEmail = (email: string) => {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (email.match(mailformat)) {
+      //alert("Valid email address!");
+      //document.form1.text1.focus();
+      return true;
+    } else {
+      // alert("You have entered an invalid email address!");
+      //document.form1.text1.focus();
+      return false;
+    }
+  };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    // signIn("credentials", {
+    //   userName: "jubair@gmail.com",
+    //   password: "Jubair128@",
+    // }).then(() => router.push("/"));
+
     if (email === "" || password === "") {
       setError("Email or Password can't be empty");
       setEmail("");
       setPassword("");
-    } else if (email !== "abcd@gmail.com" || password !== "abcd") {
-      setError("Incorrect email or password");
+    } else if (!validateEmail(email)) {
+      setError("Invalid email address");
       setEmail("");
       setPassword("");
-    } else if (email === "abcd@gmail.com" || password === "abcd") {
-      router.push("/");
+    } else {
+      try {
+        const isLoggedin = await signIn("credentials", {
+          userName: email,
+          password: password,
+          callbackUrl: "/",
+        });
+
+        console.log("logged in info from user === ", isLoggedin);
+
+        if (isLoggedin?.error !== null) {
+          // toast.error("Incorrect Login Details!!");
+          setError("Incorrect email or password");
+          setEmail("");
+          setPassword("");
+        } else {
+          // toast.success("Login Successful!!");
+          console.log("Login Successful");
+          // router.push("/");
+        }
+      } catch (error) {
+        // toast.success(error);
+        console.log("Error occured");
+      }
     }
+
+    // logIn({ userName: "b@b.com", password: "@0Ne@@@@" });
+
   };
   const handleGoogleLogin = () => {
-    alert("I am from google");
+    signIn("google", { callbackUrl: "http://localhost:3000" });
   };
   return (
     <Box className="flex justify-center items-center mb-10 px-3">
@@ -68,10 +113,15 @@ const LoginForm = () => {
               className="rounded-lg w-100 mb-4"
               onChange={(e) => {
                 setEmail(e.currentTarget.value);
+                validateEmail(e.currentTarget.value);
               }}
               required
             />
+            {email !== "" && !validateEmail(email) && (
+              <p className="text-[#DC2626] text-xs">Invalid email format</p>
+            )}
           </FormControl>
+
           <FormControl sx={{ width: "100%", marginBottom: "16px" }}>
             <label
               htmlFor="password"
@@ -106,8 +156,10 @@ const LoginForm = () => {
               }}
               required
             />
-            {error && <p className="text-[#DC2626] text-xs">{error}</p>}
           </FormControl>
+          {(email === "" || password === "") && (
+            <p className="text-[#DC2626] text-xs">{error}</p>
+          )}
           <Link
             href="/reset-password"
             className="mb-8 font-[500] text-[16px] leading-6 text-[#6B0F99]"
@@ -161,8 +213,13 @@ const LoginForm = () => {
         </Box>
         <Box className="text-[14px] font-[400] leading-[21px] mx-2">
           Check our{" "}
-          <span className="font-bold underline">Terms of Service</span> and{" "}
-          <span className="font-bold underline">Privacy Policy.</span>
+          <span className="font-bold underline cursor-pointer">
+            Terms of Service
+          </span>{" "}
+          and{" "}
+          <span className="font-bold underline cursor-pointer">
+            Privacy Policy.
+          </span>
         </Box>
       </Box>
     </Box>
