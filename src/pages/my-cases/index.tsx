@@ -36,7 +36,6 @@ const MyCases = () => {
             </div>
           </div>
         </div>
-        <AddCaseMoadal/>
       </ProtectedLayout>
     </>
   );
