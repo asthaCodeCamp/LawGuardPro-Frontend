@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { InquiryType } from "@/utilites/InquiryType";
+import { useSession } from "next-auth/react";
 
 const Backdrop = React.forwardRef<
   HTMLDivElement,
@@ -101,15 +102,42 @@ const ModalContent = styled("div")(
 interface AddCaseModalProps {
   open: boolean;
   handleClose: () => void;
+  handleOpenSuccessModal: () => void
 }
 
-const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
+const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose,handleOpenSuccessModal }) => {
   const [inquiryName, setInquiryName] = React.useState("");
   const [inquiryType, setInquiryType] = React.useState<any>(null);
   const [description, setDescription] = React.useState("");
   // const [attachment, setAttachment] = React.useState<any | null>(null);
+
+  const { data: session } = useSession();
+
+  console.log("modal session ==== ", session);
+
   const [error, setError] = React.useState<string | null>(null);
-  const options = ['Civil', 'Criminal']; 
+  const options = [
+    "Corporate",
+    "Criminal",
+    "Family",
+    "Personal Injury",
+    "Estate Planning",
+    "Immigration",
+    "Intellectual Property",
+    "Employment",
+    "Bankruptcy",
+    "Tax",
+    "Environmental",
+    "Real Estate",
+    "Civil Rights",
+    "Entertainment",
+    "Health Care",
+    "International",
+    "Contract",
+    "Maritime",
+    "Securities",
+    "Education",
+  ];
   const handleInquiryNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -117,7 +145,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
     setInquiryName(event.target.value);
   };
 
-  const handleInquiryTypeChange = (event: React.ChangeEvent<{}>, newValue: string | null) => {
+  const handleInquiryTypeChange = (
+    event: React.ChangeEvent<{}>,
+    newValue: string | null
+  ) => {
     setInquiryType(newValue);
     console.log("Inquiry type === ", newValue);
   };
@@ -145,7 +176,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
 
   //   };
   //   console.log(requestData);
-  
+
   //   try {
   //     const response = await axios.post(
   //       "http://54.203.205.46:5140/api/case",
@@ -163,40 +194,67 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
   //     setError("Failed to submit the form. Please try again later.");
   //   }
   // };
+  // const handleSubmit = async () => {
+  //   const requestData = {
+  //     caseName: inquiryName,
+  //     caseType: inquiryType,
+  //     description: description,
+  //     attachment: "string"
+  //   };
+  //   console.log(requestData);
+
+  //   try {
+  //     const response = await fetch("http://54.203.205.46:5140/api/case", {
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: `Bearer ${session?.accessToken}`,
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(requestData)
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     const responseData = await response.json();
+  //     handleClose();
+  //     console.log("Response from server:", responseData);
+  //   } catch (error) {
+  //     console.error("Error submitting form", error);
+  //     setError("Failed to submit the form. Please try again later.");
+  //   }
+  // };
+
   const handleSubmit = async () => {
     const requestData = {
       caseName: inquiryName,
       caseType: inquiryType,
       description: description,
-      attachment: "string"
+      attachment: "string",
     };
     console.log(requestData);
-  
+
     try {
-      const response = await fetch("http://54.203.205.46:5140/api/case", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestData)
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
-      const responseData = await response.json();
+      const response = await axios.post(
+        "http://54.203.205.46:5140/api/case",
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       handleClose();
-      console.log("Response from server:", responseData);
+      handleOpenSuccessModal();
+      console.log("Response from server:", response.data);
     } catch (error) {
       console.error("Error submitting form", error);
       setError("Failed to submit the form. Please try again later.");
     }
   };
-  
-  
-  
-  
 
   return (
     <div>
@@ -285,7 +343,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
                   Type of inquiry
                 </label>
                 <Autocomplete
-                  options={options}  
+                  options={options}
                   renderInput={(params) => (
                     <TextField
                       {...params}
