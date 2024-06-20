@@ -4,10 +4,19 @@ import CaseUpadate from "@/components/Case/CaseUpadate";
 import CaseHeader from "@/components/Case/CasesHeader";
 import AddCaseMoadal from "@/components/Modals/AddCaseModal";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
-import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 
 const MyCases = () => {
-  // const [showModal , setShowModal] = useState(false);
+  const session = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    console.log(session, "at notification useEffect");
+    if (session?.status !== "authenticated") {
+      router.push("/login");
+    }
+  }, [session]);
   return (
     <>
       <ProtectedLayout>
