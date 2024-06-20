@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
@@ -17,6 +18,7 @@ import {
   TextFieldVariants,
 } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { InquiryType } from "@/utilites/InquiryType";
 
 const Backdrop = React.forwardRef<
   HTMLDivElement,
@@ -95,18 +97,109 @@ const ModalContent = styled("div")(
     }
   `
 );
+
 interface AddCaseModalProps {
   open: boolean;
   handleClose: () => void;
 }
 
-// interface InquiryType {
-//   type: string;
-// }
-
 const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
+  const [inquiryName, setInquiryName] = React.useState("");
+  const [inquiryType, setInquiryType] = React.useState<any>(null);
+  const [description, setDescription] = React.useState("");
+  // const [attachment, setAttachment] = React.useState<any | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const options = ['Civil', 'Criminal']; 
+  const handleInquiryNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log("Inquiry type === ", event.target.value);
+    setInquiryName(event.target.value);
+  };
+
+  const handleInquiryTypeChange = (event: React.ChangeEvent<{}>, newValue: string | null) => {
+    setInquiryType(newValue);
+    console.log("Inquiry type === ", newValue);
+  };
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDescription(event.target.value);
+  };
+
+  // const handleAttachmentChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   if (event.target.files) {
+  //     setAttachment(event.target.files[0]);
+  //   }
+  // };
+
+  // const handleSubmit = async () => {
+  //   const requestData = {
+  //     caseName: inquiryName,
+  //     caseType: inquiryType,
+  //     description: description,
+  //     attachment: "string"
+
+  //   };
+  //   console.log(requestData);
+  
+  //   try {
+  //     const response = await axios.post(
+  //       "http://54.203.205.46:5140/api/case",
+  //       requestData,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         },
+  //       }
+  //     );
+  //     handleClose();
+  //     console.log("Response from server:", response.data);
+  //   } catch (error) {
+  //     console.error("Error submitting form", error);
+  //     setError("Failed to submit the form. Please try again later.");
+  //   }
+  // };
+  const handleSubmit = async () => {
+    const requestData = {
+      caseName: inquiryName,
+      caseType: inquiryType,
+      description: description,
+      attachment: "string"
+    };
+    console.log(requestData);
+  
+    try {
+      const response = await fetch("http://54.203.205.46:5140/api/case", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+      handleClose();
+      console.log("Response from server:", responseData);
+    } catch (error) {
+      console.error("Error submitting form", error);
+      setError("Failed to submit the form. Please try again later.");
+    }
+  };
+  
+  
+  
+  
+
   return (
-    <div className="">
+    <div>
       <Modal
         aria-labelledby="unstyled-modal-title"
         aria-describedby="unstyled-modal-description"
@@ -122,6 +215,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
                 <CloseOutlinedIcon />
               </button>
             </Box>
+            {error && <p className="text-red-500">{error}</p>}{" "}
+            {/* Display error message if error state is set */}
             <Box className="w-full bg-[#EEF2FF] flex items-center my-2">
               <Box className="ml-4 mr-2">
                 <svg
@@ -145,7 +240,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
                   />
                 </svg>
               </Box>
-
               <Box className="w-[88%] h-auto font-[500] text-[16px] text-[#1E40AF] py-4">
                 You are creating a case for Tomal Ahmed. Please describe your
                 inquiry below.
@@ -171,6 +265,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
                   id="inquiry-name"
                   placeholder="Enter your inquiry name"
                   className="rounded-lg w-full h-16"
+                  value={inquiryName}
+                  onChange={handleInquiryNameChange}
                 />
               </FormControl>
 
@@ -189,33 +285,15 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
                   Type of inquiry
                 </label>
                 <Autocomplete
-                  id="inquiry-type"
-                  options={[{ type: "Criminal" }, { type: "Civil" }]}
-                  autoHighlight
-                  getOptionLabel={(option: any) => option.type} // Corrected to access 'type' property
-                  renderOption={(props: any, option: any) => (
-                    <Box component="li" {...props}>
-                      {option.type}
-                    </Box>
-                  )}
-                  renderInput={(
-                    params: JSX.IntrinsicAttributes & {
-                      variant?: TextFieldVariants | undefined;
-                    } & Omit<
-                        | OutlinedTextFieldProps
-                        | FilledTextFieldProps
-                        | StandardTextFieldProps,
-                        "variant"
-                      >
-                  ) => (
+                  options={options}  
+                  renderInput={(params) => (
                     <TextField
                       {...params}
                       placeholder="Select inquiry type"
-                      inputProps={{
-                        ...params.inputProps,
-                      }}
+                      value={inquiryType}
                     />
                   )}
+                  onChange={handleInquiryTypeChange}
                 />
               </FormControl>
 
@@ -231,8 +309,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
                   placeholder="Please briefly describe what you'd like to discuss with our lawyers."
                   multiline
                   rows={4}
-                  // value={description}
-                  // onChange={handleDescriptionChange}
+                  value={description}
+                  onChange={handleDescriptionChange}
                   variant="outlined"
                   className="w-full "
                 />
@@ -273,7 +351,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose }) => {
               </Box>
             </Box>
             <Button
-              onClick={handleClose}
+              onClick={handleSubmit}
               type="submit"
               className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-3 mt-3  w-full text-[16px] font-semibold capitalize hover:bg-LawGuardPrimary"
             >
