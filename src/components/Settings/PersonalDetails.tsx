@@ -3,8 +3,9 @@ import { Button, TextField } from "@mui/material";
 import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
 import man from "../../../public/assets/man.png";
-import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface User {
   firstName: string;
@@ -13,47 +14,17 @@ interface User {
 }
 
 const PersonalDetails: React.FC = () => {
-  const { data: session } = useSession();
   const [userData, setUserData] = useState<User>({
     firstName: '',
     lastName: '',
     email: ''
   });
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (session) {
-        const user = {
-          firstName: session.user?.name || '',
-          lastName: session.user?.name || '',
-          email: session.user?.email || '',
-        };
-        if (!user.firstName || !user.lastName || !user.email ) {
-          try {
-            const response = await axios.get('http://54.203.205.46:5140/api/usersauth/login');
-            const fetchedUser = response.data;
-            setUserData({
-              firstName: fetchedUser.firstName,
-              lastName: fetchedUser.lastName,
-              email: fetchedUser.email,
-            });
-          } catch (error) {
-            console.error('Failed to fetch user data:', error);
-          }
-        } else {
-          setUserData(user);
-        }
-      }
-    };
-
-    fetchUserData();
-  }, [session]);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData);
-      alert('User updated successfully!');
+      toast.success('User Update Successful');
     } catch (error) {
       console.error('Failed to update user:', error);
       alert('Failed to update user');
@@ -62,11 +33,9 @@ const PersonalDetails: React.FC = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    console.log(name);
     setUserData(prevState => ({ ...prevState, [name]: value }));
   };
-
- 
+  console.log(userData.email);
 
   return (
     <div className="mb-[32px]">

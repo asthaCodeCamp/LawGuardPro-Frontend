@@ -1,23 +1,37 @@
-import React, { useState } from "react";
-import { Button, TextField, IconButton } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Button, TextField } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import axios from "axios";
+import { getCsrfToken, useSession } from "next-auth/react";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-const SecurityComponent = () => {
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState<string[]>([]);
-  const [message, setMessage] = useState("");
-  const [showOldPassword, setShowOldPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+interface PasswordValidation {
+  length: boolean;
+  number: boolean;
+  uppercase: boolean;
+  lowercase: boolean;
+  specialChar: boolean;
+}
 
-  const validatePassword = (password: string) => {
+const SecurityComponent: React.FC = () => {
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [oldPassword, setOldPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      const csrfTokenData = await getCsrfToken();
+      setCsrfToken(csrfTokenData ?? null); 
+    };
+
+    fetchCsrfToken();
+  }, []);
+
+  const validatePassword = (password: string): PasswordValidation => {
     return {
       length: password.length >= 8,
       number: /\d/.test(password),
@@ -29,63 +43,54 @@ const SecurityComponent = () => {
 
   const passwordValidation = validatePassword(newPassword);
 
-  const handleClickShowOldPassword = () => {
-    setShowOldPassword(!showOldPassword);
-  };
-  const handleClickShowNewPassword = () => {
-    setShowNewPassword(!showNewPassword);
-  };
-  const handleClickShowConfirmPassword = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmitReset = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  };
 
-  const handleSubmit = async () => {
-    setErrors([]);
-    setMessage("");
-
-    if (newPassword !== confirmPassword) {
-      setErrors(["Passwords do not match"]);
+    if (!session) {
+      toast.error('You are not logged in');
       return;
     }
 
-    const isValid = Object.values(passwordValidation).every(Boolean);
+    if (newPassword !== confirmPassword) {
+      toast.error("New password and confirm password do not match.");
+      return;
+    }
+
+    const passwordValidation = validatePassword(newPassword);
+    const isValid = passwordValidation.length &&
+      passwordValidation.number &&
+      passwordValidation.uppercase &&
+      passwordValidation.lowercase &&
+      passwordValidation.specialChar;
+
     if (!isValid) {
-      setErrors(["Password does not meet the required criteria"]);
+      toast.error("New password does not meet the security criteria.");
       return;
     }
 
     try {
-      const response = await fetch("http://54.203.205.46:5140/api/resetpassword/resetpassword", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.put(
+        'http://54.203.205.46:5140/api/resetpassword/resetpassword',
+        {
           oldPassword,
-          newPassword,
-        }),
-      });
-
-      if (response.ok) {
-        setMessage("Password updated successfully");
-        setOldPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
-      } else {
-        const data = await response.json();
-        setErrors([data.message || "Failed to update password"]);
-      }
+          newPassword
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${session.accessToken}`,
+            'X-CSRF-Token': csrfToken || '',
+          }
+        }
+      );
+      toast.success('Password update successful');
     } catch (error) {
-      setErrors(["Failed to update password"]);
+      console.error('Failed to update password:', error);
+      toast.error('Failed to update password');
     }
   };
 
   return (
-    <>
+    <form onSubmit={handleSubmitReset}>
       <div className="border p-8">
         <h1 className="font-semibold text-2xl mb-1">Security</h1>
         <p className="text-[16px]">Account security settings</p>
@@ -93,7 +98,7 @@ const SecurityComponent = () => {
       <div className="mt-8 ml-8 w-[700px]">
         <div className="flex flex-col mt-[16px]"></div>
       </div>
-      <div className="flex">
+      <div className="flex ">
         <div className="mb-8 ml-8 w-[700px]">
           <div className="mt-8 w-[700px]">
             <div className="flex flex-col mt-[16px]">
@@ -106,22 +111,9 @@ const SecurityComponent = () => {
               <TextField
                 id="oldPassword"
                 placeholder="Enter your old password"
-                type={showOldPassword ? 'text' : 'password'}
+                type="password"
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowOldPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showOldPassword ? <Visibility/> : <VisibilityOff/>}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
               />
             </div>
           </div>
@@ -135,22 +127,9 @@ const SecurityComponent = () => {
             <TextField
               id="newPassword"
               placeholder="Enter your new password"
-              type={showNewPassword ? 'text' : 'password'}
+              type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowNewPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showNewPassword ? <Visibility/> : <VisibilityOff/>}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
           </div>
           <div className="flex flex-col mt-[16px]">
@@ -163,38 +142,13 @@ const SecurityComponent = () => {
             <TextField
               id="confirmPassword"
               placeholder="Confirm your new password"
-              type={showConfirmPassword ? 'text' : 'password'}
+              type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowConfirmPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showConfirmPassword ? <Visibility/> : <VisibilityOff/>}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
           </div>
-          {errors.length > 0 && (
-            <div className="mt-4 text-red-500">
-              {errors.map((error, index) => (
-                <p key={index}>{error}</p>
-              ))}
-            </div>
-          )}
-          {message && (
-            <div className="mt-4 text-green-500">
-              <p>{message}</p>
-            </div>
-          )}
         </div>
-        <div className="ml-8 mt-44 mr-4">
+        <div className="ml-8 mt-44 mr-4 ">
           <div className="bg-[#EEF2FF] rounded-md p-[16px]">
             <h1>Your password must:</h1>
             <div className="text-sm mt-4">
@@ -277,13 +231,12 @@ const SecurityComponent = () => {
       <div className="ml-8">
         <Button
           type="submit"
-          className="mb-10 self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-4 text-[16px] font-semibold hover:bg-LawGuardPrimary"
-          onClick={handleSubmit}
+          className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-4 text-[16px] font-semibold hover:bg-LawGuardPrimary"
         >
           Save changes
         </Button>
       </div>
-    </>
+    </form>
   );
 };
 
