@@ -6,6 +6,7 @@ import man from "../../../public/assets/man.png";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getSession } from 'next-auth/react';
 
 interface User {
   firstName: string;
@@ -17,8 +18,22 @@ const PersonalDetails: React.FC = () => {
   const [userData, setUserData] = useState<User>({
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
   });
+  const [userDatasesson, setUserDatasesson] = useState<{ email: string } | null>(null);
+  console.log(userDatasesson);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const session = await getSession();
+      if (session) {
+        setUserDatasesson({
+          email: session.user?.email || '',
+        });
+      }
+    };
+    fetchUser();
+  }, []);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,11 +94,10 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="email">Email address</label>
             <TextField
-              id="email"
-              name="email"
-              placeholder='Email address'
-              value={userData.email}
-              onChange={handleChange}
+              value={userDatasesson?.email}
+              InputProps={{
+                readOnly: true,
+              }}
             />
           </div>
           <div className='flex flex-col mt-[16px] mx-8'>

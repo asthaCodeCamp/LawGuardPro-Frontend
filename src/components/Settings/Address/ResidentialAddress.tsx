@@ -2,22 +2,92 @@ import {
   Autocomplete,
   Box,
   Button,
-  FilledTextFieldProps,
   FormControl,
   FormLabel,
   OutlinedInput,
-  OutlinedTextFieldProps,
-  StandardTextFieldProps,
   TextField,
+  TextFieldProps,
   TextFieldVariants,
 } from "@mui/material";
-import { JSX } from "react";
+import { JSX, useState, useEffect } from "react";
 import { countries } from "@/utilites/Countries";
 import { cities } from "@/utilites/Cities";
+import { getCsrfToken, getSession } from "next-auth/react";
+import { Session } from "inspector";
 
 const ResidentialAddress = () => {
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [userData, setUserData] = useState<{ email: string } | null>(null);
+  const [formData, setFormData] = useState({
+    address1: "",
+    address2: "",
+    country: "",
+    city: "",
+    postalCode: "",
+  });
+
+  useEffect(() => {
+    const fetchCsrfAndUser = async () => {
+      const token = await getCsrfToken();
+      setCsrfToken(token || null);
+
+      const session = await getSession();
+      console.log(session);
+      if (session) {
+        setUserData({
+          email: session.user?.email || '',
+        });
+      }
+    };
+
+    fetchCsrfAndUser();
+  }, []);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handleAutocompleteChange = (id: string, value: any) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!csrfToken) return;
+
+    try {
+      const response = await fetch("/api/save-address", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+        body: JSON.stringify({
+          ...formData,
+          email: userData?.email,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save address");
+      }
+
+      // Handle success, e.g., show a success message
+    } catch (error) {
+      // Handle error, e.g., show an error message
+      console.error(error);
+    }
+  };
+  console.log(userData);
   return (
-    <div className="flex flex-col">
+    <form onSubmit={handleSubmit} className="flex flex-col">
       <FormControl
         sx={{
           width: "48%",
@@ -37,6 +107,8 @@ const ResidentialAddress = () => {
           id="address1"
           placeholder="Enter address 1"
           className="rounded-lg w-100 h-14"
+          value={formData.address1}
+          onChange={handleChange}
         />
       </FormControl>
       <FormControl
@@ -58,6 +130,8 @@ const ResidentialAddress = () => {
           id="address2"
           placeholder="Enter address 2 (optional)"
           className="rounded-lg w-100 h-14"
+          value={formData.address2}
+          onChange={handleChange}
         />
       </FormControl>
       <FormControl
@@ -96,16 +170,7 @@ const ResidentialAddress = () => {
               {option.label} ({option.code})
             </Box>
           )}
-          renderInput={(
-            params: JSX.IntrinsicAttributes & {
-              variant?: TextFieldVariants | undefined;
-            } & Omit<
-                | OutlinedTextFieldProps
-                | FilledTextFieldProps
-                | StandardTextFieldProps,
-                "variant"
-              >
-          ) => (
+          renderInput={(params: TextFieldProps) => (
             <TextField
               {...params}
               placeholder="Select country"
@@ -114,6 +179,9 @@ const ResidentialAddress = () => {
               }}
             />
           )}
+          onChange={(event, value) =>
+            handleAutocompleteChange("country", value ? value.label : "")
+          }
         />
       </FormControl>
       <FormControl
@@ -141,16 +209,7 @@ const ResidentialAddress = () => {
               {option.city}
             </Box>
           )}
-          renderInput={(
-            params: JSX.IntrinsicAttributes & {
-              variant?: TextFieldVariants | undefined;
-            } & Omit<
-                | OutlinedTextFieldProps
-                | FilledTextFieldProps
-                | StandardTextFieldProps,
-                "variant"
-              >
-          ) => (
+          renderInput={(params: TextFieldProps) => (
             <TextField
               {...params}
               placeholder="Select town or city"
@@ -159,6 +218,9 @@ const ResidentialAddress = () => {
               }}
             />
           )}
+          onChange={(event, value) =>
+            handleAutocompleteChange("city", value ? value.city : "")
+          }
         />
       </FormControl>
       <FormControl
@@ -179,15 +241,18 @@ const ResidentialAddress = () => {
           id="postal-code"
           placeholder="Enter postal code"
           className="rounded-lg w-100 h-14"
+          value={formData.postalCode}
+          onChange={handleChange}
         />
       </FormControl>
       <Button
+        type="submit"
         className="w-[147px] h-14 rounded-lg flex justify-center items-center bg-[#6B0F99] hover:bg-[#6B0F99] font-[600] text-[16px] hover:shadow-none shadow-none capitalize mb-10"
         variant="contained"
       >
         Save changes
       </Button>
-    </div>
+    </form>
   );
 };
 
