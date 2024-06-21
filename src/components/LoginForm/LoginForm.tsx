@@ -14,7 +14,8 @@ import { useRouter } from "next/router";
 // import { logIn } from "@/services/authentication/authentication.service";
 import { signIn } from "next-auth/react";
 import { CleaningServices } from "@mui/icons-material";
-
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -62,12 +63,14 @@ const LoginForm = () => {
         const isLoggedin = await signIn("credentials", {
           userName: email,
           password: password,
-          callbackUrl: "/",
+          redirect:false
+          // callbackUrl: "/",
         });
 
-        console.log("logged in info from user === ", isLoggedin);
+        // alert(`Hello == ${isLoggedin}`);
+        // console.log("logged in info from user === ", isLoggedin.error);
 
-        if (isLoggedin?.error !== null) {
+        if (!isLoggedin?.ok) {
           // toast.error("Incorrect Login Details!!");
           setError("Incorrect email or password");
           setEmail("");
@@ -75,7 +78,7 @@ const LoginForm = () => {
         } else {
           // toast.success("Login Successful!!");
           console.log("Login Successful");
-          // router.push("/");
+          router.push("/");
         }
       } catch (error) {
         // toast.success(error);
