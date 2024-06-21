@@ -24,6 +24,8 @@ import { useRouter } from "next/router";
 import svgs from "@/components/svg/svg";
 import { getSession, useSession } from 'next-auth/react';
 
+import { signOut } from "next-auth/react"
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -300,7 +302,7 @@ export default function ProtectedLayout({
           </Box>
 
           <Box>
-            <Link href={"/login"}>
+            <Link href="">
               <ListItem
                 className="my-5"
                 disablePadding
@@ -312,6 +314,7 @@ export default function ProtectedLayout({
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
+                  onClick = {()=>signOut()}
                 >
                   <ListItemIcon
                     sx={{
