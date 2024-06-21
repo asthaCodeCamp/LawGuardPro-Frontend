@@ -3,7 +3,7 @@ import { Button, TextField } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import axios from "axios";
 import { getCsrfToken, useSession } from "next-auth/react";
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface PasswordValidation {
@@ -21,7 +21,7 @@ const SecurityComponent: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const { data: session } = useSession();
-
+  console.log(session);
   useEffect(() => {
     console.log(session, "test-one");
     const fetchCsrfToken = async () => {
