@@ -8,10 +8,10 @@ import { Theme } from "@emotion/react";
 export default function CasePagination() {
   const [page, setPage] = useState(1);
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
 
-  
+    setPage(value);
+    console.log(value);
+  };
 
   return (
     <Stack spacing={2}>

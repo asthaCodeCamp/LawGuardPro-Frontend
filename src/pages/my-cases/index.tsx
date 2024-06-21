@@ -6,10 +6,10 @@ import AddCaseMoadal from "@/components/Modals/AddCaseModal";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const MyCases = () => {
-  const session = useSession();
+  const session  = useSession();
   const router = useRouter();
   useEffect(() => {
     console.log(session, "at notification useEffect");
@@ -17,6 +17,38 @@ const MyCases = () => {
       router.push("/login");
     }
   }, [session]);
+
+   
+
+
+  const [cases, setCases] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
+  useEffect(() => {
+    const fetchData = async () => {
+      
+      try {
+        const response = await fetch(`http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${pageSize}`, {
+          headers: {
+            Authorization: `Bearer ${session?.data?.accessToken}`,
+          }
+        });
+        const result = await response.json();
+        console.log("Cases", result);
+        setCases(result.data);
+        setTotalPages(result.totalPages);  // Assuming your API returns totalPages
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [page, pageSize, session]);
+
+
   return (
     <>
       <ProtectedLayout>
