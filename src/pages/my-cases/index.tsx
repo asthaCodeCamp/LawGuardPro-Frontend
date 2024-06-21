@@ -21,23 +21,24 @@ const MyCases = () => {
    
 
 
-  const [cases, setCases] = useState([]);
+  const [caseData, setCasesData] = useState([]);
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(5);
-  const [totalPages, setTotalPages] = useState(1);
+  const parPage = 5;
+  // const [pageSize] = useState(5);
+  // const [totalPages, setTotalPages] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       
       try {
-        const response = await fetch(`http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${pageSize}`, {
+        const response = await fetch(`http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${parPage}`, {
           headers: {
             Authorization: `Bearer ${session?.data?.accessToken}`,
           }
         });
         const result = await response.json();
         console.log("Cases", result);
-        setCases(result.data);
-        setTotalPages(result.totalPages);  // Assuming your API returns totalPages
+        setCasesData(result.data);
+        // setTotalPages(result.totalPages); 
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -46,22 +47,23 @@ const MyCases = () => {
     };
 
     fetchData();
-  }, [page, pageSize, session]);
-
+  }, [page, session]);
+  console.log("Case HEader",caseData);
+const {totalCount}:any = caseData;
 
   return (
     <>
       <ProtectedLayout>
         <div className="w-full">
-          <CaseHeader />
-          <CaseTable />
+          <CaseHeader casesData={caseData} />
+          <CaseTable casesData={caseData} />
           <div className="flex  my-[36px] mx-auto  justify-between ">
             <div className="ml-[48px] ">
               {" "}
-              <h2>5 Cases found</h2>
+              <h2>{totalCount} Cases found</h2>
             </div>
             <div className=" mr-48">
-              <CasePagination></CasePagination> 
+              <CasePagination casesData={caseData} pages={page} setPage={setPage} ></CasePagination> 
             </div>
             <div className="">
               
