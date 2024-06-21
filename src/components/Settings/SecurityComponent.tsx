@@ -23,13 +23,14 @@ const SecurityComponent: React.FC = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
+    console.log(session, "test-one");
     const fetchCsrfToken = async () => {
       const csrfTokenData = await getCsrfToken();
-      setCsrfToken(csrfTokenData ?? null); 
+      setCsrfToken(csrfTokenData ?? null);
     };
 
     fetchCsrfToken();
-  }, []);
+  }, [session]);
 
   const validatePassword = (password: string): PasswordValidation => {
     return {
@@ -56,7 +57,6 @@ const SecurityComponent: React.FC = () => {
       return;
     }
 
-    const passwordValidation = validatePassword(newPassword);
     const isValid = passwordValidation.length &&
       passwordValidation.number &&
       passwordValidation.uppercase &&
@@ -83,9 +83,17 @@ const SecurityComponent: React.FC = () => {
         }
       );
       toast.success('Password update successful');
-    } catch (error) {
-      console.error('Failed to update password:', error);
-      toast.error('Failed to update password');
+    } catch (error: any) {
+      if (error.response) {
+        console.error('Failed to update password:', error.response.data);
+        toast.error(`Failed to update password: ${error.response.data.message || error.response.status}`);
+      } else if (error.request) {
+        console.error('No response received:', error.request);
+        toast.error('No response from the server. Please try again later.');
+      } else {
+        console.error('Error in password update:', error.message);
+        toast.error(`An error occurred: ${error.message}`);
+      }
     }
   };
 

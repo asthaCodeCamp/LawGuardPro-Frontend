@@ -27,12 +27,8 @@ export default NextAuth({
           token = data?.data?.token;
         });
         console.log(token, "token from authorize");
-
         if (user && token) {
-          return {
-            ...user,
-            accessToken: token,
-          } as User;
+          return { ...user, accessToken: token } as User;
         } else {
           return null;
         }
@@ -44,17 +40,15 @@ export default NextAuth({
       console.log(token?.accessToken, "token from jwt");
       console.log(user, "user from jwt");
       if (user) {
-        token = { ...token, ...user };
+        return { ...token, ...user };
       }
       return token;
     },
     async session({ session, token }) {
       console.log(session, "session from session");
       console.log(token, "token from session");
-      if (token) {
-        session.accessToken = token.accessToken;
-      }
-      console.log(session, "session from session after accesstoken");
+      session.accessToken = token.accessToken;
+      session.user = token;
       return session;
     },
   },

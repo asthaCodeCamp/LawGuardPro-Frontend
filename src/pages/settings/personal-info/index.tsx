@@ -9,6 +9,7 @@ const PersonalInfo = () => {
   const session = useSession();
   const router = useRouter();
   useEffect(() => {
+    console.log(session, "personal-info");
     if (session?.status !== "authenticated") {
       router.push("/login");
     }

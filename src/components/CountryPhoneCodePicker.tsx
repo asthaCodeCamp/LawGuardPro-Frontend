@@ -7,6 +7,11 @@ interface Country {
   phone: string;
 }
 
+interface PhoneCodePickerProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
 const countries: Country[] = [
   { code: 'BD', name: 'BD', phone: '+880' },
   { code: 'US', name: 'US', phone: '+1' },
@@ -16,14 +21,15 @@ const countries: Country[] = [
   // Add more countries as needed
 ];
 
-const PhoneCodePicker: React.FC = () => {
+const PhoneCodePicker: React.FC<PhoneCodePickerProps> = ({ value, onChange }) => {
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>(value);
 
   const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const country = countries.find(c => c.code === event.target.value);
     if (country) {
       setSelectedCountry(country);
+      onChange(`${country.phone} ${phoneNumber}`);
     }
   };
 
@@ -31,6 +37,7 @@ const PhoneCodePicker: React.FC = () => {
     const value = event.target.value;
     if (/^\d*$/.test(value)) {  // Ensure only digits
       setPhoneNumber(value);
+      onChange(`${selectedCountry.phone} ${value}`);
     }
   };
 

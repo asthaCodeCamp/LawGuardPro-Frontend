@@ -12,6 +12,12 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber?: string;
+}
+
+interface Session {
+  user: User;
+  expires: string;
 }
 
 const PersonalDetails: React.FC = () => {
@@ -19,21 +25,30 @@ const PersonalDetails: React.FC = () => {
     firstName: '',
     lastName: '',
     email: '',
+    phoneNumber: '',
   });
-  const [userDatasesson, setUserDatasesson] = useState<{ email: string } | null>(null);
-  console.log(userDatasesson);
+
+  const [userDataSession, setUserDataSession] = useState<User | null>(null);
+
   useEffect(() => {
     const fetchUser = async () => {
-      const session = await getSession();
-      if (session) {
-        setUserDatasesson({
-          email: session.user?.email || '',
-        });
+      const session = await getSession() as Session | null;
+      if (session && session.user) {
+        setUserDataSession(session.user);
+        setUserData(prevState => ({
+          ...prevState,
+          firstName: session.user.firstName,
+          lastName: session.user.lastName,
+          email: session.user.email,
+          phoneNumber: session.user.phoneNumber || '',
+        }));
       }
     };
+
     fetchUser();
   }, []);
 
+  console.log(userDataSession?.firstName);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,7 +57,7 @@ const PersonalDetails: React.FC = () => {
       toast.success('User Update Successful');
     } catch (error) {
       console.error('Failed to update user:', error);
-      alert('Failed to update user');
+      toast.error('Failed to update user');
     }
   };
 
@@ -50,7 +65,10 @@ const PersonalDetails: React.FC = () => {
     const { name, value } = event.target;
     setUserData(prevState => ({ ...prevState, [name]: value }));
   };
-  console.log(userData.email);
+
+  const handlePhoneChange = (value: string) => {
+    setUserData(prevState => ({ ...prevState, phoneNumber: value }));
+  };
 
   return (
     <div className="mb-[32px]">
@@ -75,8 +93,7 @@ const PersonalDetails: React.FC = () => {
               <TextField
                 id="firstName"
                 name="firstName"
-                placeholder='First Name'
-                value={userData.firstName}
+                placeholder={userDataSession?.firstName || ''}
                 onChange={handleChange}
               />
             </div>
@@ -85,8 +102,7 @@ const PersonalDetails: React.FC = () => {
               <TextField
                 id="lastName"
                 name="lastName"
-                placeholder='Last Name'
-                value={userData.lastName}
+                placeholder={userDataSession?.lastName || ''}
                 onChange={handleChange}
               />
             </div>
@@ -94,7 +110,7 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="email">Email address</label>
             <TextField
-              value={userDatasesson?.email}
+              value={userDataSession?.email || ''}
               InputProps={{
                 readOnly: true,
               }}
@@ -103,8 +119,8 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="phoneNumber">Phone number</label>
             <PhoneCodePicker
-            //   value={userData.phoneNumber}
-            //   onChange={handlePhoneChange}
+              value={userData.phoneNumber || ''}
+              onChange={handlePhoneChange}
             />
           </div>
           <Button className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize" variant="contained" type="submit">Save Changes</Button>
