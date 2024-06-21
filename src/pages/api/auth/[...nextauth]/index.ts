@@ -53,6 +53,7 @@ export default NextAuth({
       console.log(token, "token from session");
       if (token) {
         session.accessToken = token.accessToken;
+        session.user = token;
       }
       console.log(session, "session from session after accesstoken");
       return session;
