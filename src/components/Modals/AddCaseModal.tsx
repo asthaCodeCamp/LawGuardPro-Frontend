@@ -202,7 +202,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({ open, handleClose,handleOpe
   //     attachment: "string"
   //   };
   //   console.log(requestData);
-
   //   try {
   //     const response = await fetch("http://54.203.205.46:5140/api/case", {
   //       method: 'POST',
