@@ -22,6 +22,8 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [isLoading,setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -60,6 +62,7 @@ const LoginForm = () => {
       setPassword("");
     } else {
       try {
+        setIsLoading(true);
         const isLoggedin = await signIn("credentials", {
           userName: email,
           password: password,
@@ -75,12 +78,14 @@ const LoginForm = () => {
           setError("Incorrect email or password");
           setEmail("");
           setPassword("");
+          setIsLoading(!isLoading);
         } else {
           // toast.success("Login Successful!!");
-          console.log("Login Successful");
+          // console.log("Login Successful");
           router.push("/");
         }
       } catch (error) {
+        setIsLoading(false)
         // toast.success(error);
         console.log("Error occured");
       }
@@ -175,7 +180,9 @@ const LoginForm = () => {
             className="mb-4 w-full h-14 bg-[#6B0F99] rounded-lg hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
             onClick={handleLogin}
           >
-            Continue
+            {
+              isLoading?"Loading...":"Continue"
+            }
           </Button>
           <Button
             className="w-full h-14 bg-[#FFFFFF] rounded-lg text-[#191919] font-[600] text-[16px] outline outline-1 outline-[#d1d1d1] capitalize"
