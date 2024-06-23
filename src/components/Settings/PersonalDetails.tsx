@@ -35,25 +35,22 @@ const PersonalDetails: React.FC = () => {
       const session = await getSession() as Session | null;
       if (session && session.user) {
         setUserDataSession(session.user);
-        setUserData(prevState => ({
-          ...prevState,
+        setUserData({
           firstName: session.user.firstName,
           lastName: session.user.lastName,
           email: session.user.email,
           phoneNumber: session.user.phoneNumber || '',
-        }));
+        });
       }
     };
 
     fetchUser();
   }, []);
 
-  console.log(userDataSession?.firstName);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData);
+      await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData);
       toast.success('User Update Successful');
     } catch (error) {
       console.error('Failed to update user:', error);
@@ -93,7 +90,7 @@ const PersonalDetails: React.FC = () => {
               <TextField
                 id="firstName"
                 name="firstName"
-                placeholder={userDataSession?.firstName || ''}
+                value={userData.firstName}
                 onChange={handleChange}
               />
             </div>
@@ -102,7 +99,7 @@ const PersonalDetails: React.FC = () => {
               <TextField
                 id="lastName"
                 name="lastName"
-                placeholder={userDataSession?.lastName || ''}
+                value={userData.lastName}
                 onChange={handleChange}
               />
             </div>
@@ -110,7 +107,7 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="email">Email address</label>
             <TextField
-              value={userDataSession?.email || ''}
+              value={userData.email}
               InputProps={{
                 readOnly: true,
               }}
@@ -119,7 +116,6 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="phoneNumber">Phone number</label>
             <PhoneCodePicker
-              value={userData.phoneNumber || ''}
               onChange={handlePhoneChange}
             />
           </div>

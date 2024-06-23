@@ -98,12 +98,13 @@ const SecurityComponent: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmitReset}>
+   <div className="w-[100%]">
+     <form onSubmit={handleSubmitReset}>
       <div className="border p-8">
         <h1 className="font-semibold text-2xl mb-1">Security</h1>
         <p className="text-[16px]">Account security settings</p>
       </div>
-      <div className="mt-8 ml-8 w-[700px]">
+      <div className="ml-8 w-[700px]">
         <div className="flex flex-col mt-[16px]"></div>
       </div>
       <div className="flex ">
@@ -157,9 +158,9 @@ const SecurityComponent: React.FC = () => {
           </div>
         </div>
         <div className="ml-8 mt-44 mr-4 ">
-          <div className="bg-[#EEF2FF] rounded-md p-[16px]">
+          <div className="bg-[#EEF2FF] rounded-md p-[10px]">
             <h1>Your password must:</h1>
-            <div className="text-sm mt-4">
+            <div className="text-sm">
               <div className="flex">
                 <CheckIcon
                   className={`h-4 w-4 ${
@@ -169,7 +170,7 @@ const SecurityComponent: React.FC = () => {
                   }`}
                 />
                 <p
-                  className={`mb-2 ml-2 ${
+                  className={` ml-2 ${
                     passwordValidation.length
                       ? "text-green-500"
                       : "text-gray-500"
@@ -187,7 +188,7 @@ const SecurityComponent: React.FC = () => {
                   }`}
                 />
                 <p
-                  className={`mb-2 ml-2 ${
+                  className={` ml-2 ${
                     passwordValidation.number
                       ? "text-green-500"
                       : "text-gray-500"
@@ -205,7 +206,7 @@ const SecurityComponent: React.FC = () => {
                   }`}
                 />
                 <p
-                  className={`mb-2 ml-2 ${
+                  className={` ml-2 ${
                     passwordValidation.uppercase && passwordValidation.lowercase
                       ? "text-green-500"
                       : "text-gray-500"
@@ -223,7 +224,7 @@ const SecurityComponent: React.FC = () => {
                   }`}
                 />
                 <p
-                  className={`mb-2 ml-2 ${
+                  className={`ml-2 ${
                     passwordValidation.specialChar
                       ? "text-green-500"
                       : "text-gray-500"
@@ -239,12 +240,13 @@ const SecurityComponent: React.FC = () => {
       <div className="ml-8">
         <Button
           type="submit"
-          className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-4 text-[16px] font-semibold hover:bg-LawGuardPrimary"
+          className="mb-9 self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-4 text-[16px] font-semibold hover:bg-LawGuardPrimary"
         >
           Save changes
         </Button>
       </div>
     </form>
+   </div>
   );
 };
 
