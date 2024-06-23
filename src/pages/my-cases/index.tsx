@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const MyCases = () => {
-  const session  = useSession();
+  const session = useSession();
   const router = useRouter();
    
   // const [caseData, setCasesData] = useState([]);
@@ -80,7 +80,7 @@ const MyCases = () => {
               
             </div>
           </div>
-        </div>}
+        )}
       </ProtectedLayout>
     </>
   );
@@ -88,7 +88,7 @@ const MyCases = () => {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log( session , "session at home page ")
+  console.log(session, "session at home page ");
   if (!session) {
     return {
       redirect: {
@@ -98,9 +98,8 @@ export async function getServerSideProps({ req }: any) {
     };
   }
   return {
-    props: { session},
+    props: { session },
   };
 }
-
 
 export default MyCases;

@@ -116,7 +116,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const [inquiryName, setInquiryName] = React.useState("");
   const [inquiryType, setInquiryType] = React.useState<any>(null);
   const [description, setDescription] = React.useState("");
-  // const [attachment, setAttachment] = React.useState<any | null>(null);
 
   const { data: session } = useSession();
 
@@ -167,72 +166,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     setDescription(event.target.value);
   };
 
-  // const handleAttachmentChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   if (event.target.files) {
-  //     setAttachment(event.target.files[0]);
-  //   }
-  // };
-
-  // const handleSubmit = async () => {
-  //   const requestData = {
-  //     caseName: inquiryName,
-  //     caseType: inquiryType,
-  //     description: description,
-  //     attachment: "string"
-
-  //   };
-  //   console.log(requestData);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://54.203.205.46:5140/api/case",
-  //       requestData,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         },
-  //       }
-  //     );
-  //     handleClose();
-  //     console.log("Response from server:", response.data);
-  //   } catch (error) {
-  //     console.error("Error submitting form", error);
-  //     setError("Failed to submit the form. Please try again later.");
-  //   }
-  // };
-  // const handleSubmit = async () => {
-  //   const requestData = {
-  //     caseName: inquiryName,
-  //     caseType: inquiryType,
-  //     description: description,
-  //     attachment: "string"
-  //   };
-  //   console.log(requestData);
-  //   try {
-  //     const response = await fetch("http://54.203.205.46:5140/api/case", {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: `Bearer ${session?.accessToken}`,
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify(requestData)
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-
-  //     const responseData = await response.json();
-  //     handleClose();
-  //     console.log("Response from server:", responseData);
-  //   } catch (error) {
-  //     console.error("Error submitting form", error);
-  //     setError("Failed to submit the form. Please try again later.");
-  //   }
-  // };
-
   const handleSubmit = async () => {
     const requestData = {
       caseName: inquiryName,
@@ -266,9 +199,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       setError("Failed to submit the form. Please try again later.");
     }
   };
-  // file upload chunk--------------------------------------------------------------------------------------
+  // file upload chunk--------
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [status, setStatus] = React.useState<string>("");
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -283,9 +215,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       return;
     }
 
-    const chunkSize = 1 * 1024 * 1024; // 5MB (adjust based on your requirements)
+    const chunkSize = 1 * 1024 * 1024; // 1MB
     const totalChunks = Math.ceil(selectedFile.size / chunkSize);
-    const chunkProgress = 100 / totalChunks;
     let chunkNumber = 0;
     let start = 0;
     let end = chunkSize;
@@ -294,10 +225,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       if (start < selectedFile.size) {
         const chunk = selectedFile.slice(start, end);
         const formData = new FormData();
-        formData.append("file", chunk);
-        formData.append("chunkNumber", chunkNumber.toString());
+        formData.append("chunk", chunk);
+        formData.append("fileName", selectedFile.name);
+        formData.append("chunkIndex", chunkNumber.toString());
         formData.append("totalChunks", totalChunks.toString());
-        formData.append("originalname", selectedFile.name);
 
         try {
           const response = await fetch(
@@ -314,8 +245,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           const temp = `Chunk ${
             chunkNumber + 1
           }/${totalChunks} uploaded successfully`;
-          setStatus(temp);
-          // setProgress((chunkNumber + 1) * chunkProgress);
           console.log(temp);
 
           chunkNumber++;
@@ -327,9 +256,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           console.error("Error uploading chunk:", error);
         }
       } else {
-        // setProgress(100);
         setSelectedFile(null);
-        setStatus("File upload completed");
       }
     };
 
@@ -471,9 +398,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   required
                   id="attachment-button-file"
                   type="file"
-                  // onChange={handleAttachmentChange}
                 />
-                {/* ------------------------------------------------------------------------------------------------------------- */}
 
                 <label htmlFor="attachment-button-file" className="mb-3">
                   <IconButton
@@ -486,12 +411,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                     </h3>
                   </IconButton>
                 </label>
-
-                {/* {attachment && (
-                  <span className="absolute bottom-0 left-16 mb-2">
-                    {attachment.name}
-                  </span>
-                )} */}
               </Box>
             </Box>
             <Button

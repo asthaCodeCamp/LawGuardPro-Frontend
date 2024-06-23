@@ -6,14 +6,19 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 const PersonalInfo = () => {
-  // const session = useSession();
-  // const router = useRouter();
-  // useEffect(() => {
-  //   console.log(session, "personal-info");
-  //   if (session?.status !== "authenticated") {
-  //     router.push("/login");
-  //   }
-  // }, [session]);
+  const session = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    // console.log(session, "at notification useEffect");
+    if (session?.data) {
+      if (session?.status !== "authenticated") {
+        router.push("/login");
+      }
+    }
+    // else {
+    //   router.push("/login");
+    // }
+  }, [session]);
   return (
     <ProtectedLayout>
       <div className="w-full">
@@ -30,7 +35,7 @@ const PersonalInfo = () => {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log( session , "session at home page ")
+  console.log(session, "session at home page ");
   if (!session) {
     return {
       redirect: {
@@ -40,7 +45,7 @@ export async function getServerSideProps({ req }: any) {
     };
   }
   return {
-    props: { session},
+    props: { session },
   };
 }
 
