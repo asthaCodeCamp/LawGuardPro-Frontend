@@ -119,7 +119,13 @@ export default function ProtectedLayout({
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        border: "1px solid black ",
+        padding: "0px",
+      }}
+    >
       <CssBaseline />
       <AppBar open={open} className="bg-white shadow-none border-b-[1px] ">
         <Toolbar>
@@ -369,10 +375,11 @@ export default function ProtectedLayout({
           </Box>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      {/* <Box component="main">
         <DrawerHeader />
         {children}
-      </Box>
+      </Box> */}
+      {children}
     </Box>
   );
 }
