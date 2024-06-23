@@ -18,6 +18,7 @@ interface CaseData {
 
 import caseData from "../../services/fakeData/caseData.json";
 import Link from "next/link";
+import CircularIndeterminate from "../Spinner/Spinner";
 
 export default function CaseTable({casesData}:any) {
 
@@ -105,7 +106,7 @@ export default function CaseTable({casesData}:any) {
           </Table>
         </TableContainer>
       ) : (
-        <p>Loading ....</p>
+        <div className="flex justify-center"><CircularIndeterminate></CircularIndeterminate></div>
       )}
     </div>
   );
