@@ -8,13 +8,13 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 const Security = () => {
-  // const session = useSession();
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (session?.status !== "authenticated") {
-  //     router.push("/login");
-  //   }
-  // }, [session]);
+  const session = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (session?.status !== "authenticated") {
+      router.push("/login");
+    }
+  }, [session]);
   return (
     <ProtectedLayout>
       <div className="w-full ">

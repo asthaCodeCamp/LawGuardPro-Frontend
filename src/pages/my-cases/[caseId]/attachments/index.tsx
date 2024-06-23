@@ -8,13 +8,13 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Attachments = () => {
-  // const session = useSession();
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (session?.status !== "authenticated") {
-  //     router.push("/login");
-  //   }
-  // }, [session]);
+  const session = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (session?.status !== "authenticated") {
+      router.push("/login");
+    }
+  }, [session]);
   return (
     <ProtectedLayout>
       <div className="flex flex-col w-full">
