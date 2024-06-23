@@ -12,20 +12,20 @@ import React, { useEffect, useState } from "react";
 const MyCases = () => {
   const session = useSession();
   const router = useRouter();
-   
+
   // const [caseData, setCasesData] = useState([]);
   const [page, setPage] = useState(1);
   // const [pageSize] = useState(5);
   // const [totalPages, setTotalPages] = useState(1);
   // const [totalCount , setTotalCount] = useState<number>(0)
-  const {data , isPending} = useGetAllCases({pageSize: 5 , pageNumber: page })
+  const { data, isPending } = useGetAllCases({ pageSize: 5, pageNumber: page });
 
   // const fetchData = async () => {
-      
+
   //   try {
-  //     const response = await fetch(`http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${parPage}`, {
+  //     const response = await fetch(http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${parPage}, {
   //       headers: {
-  //         Authorization: `Bearer ${session?.data?.accessToken}`,
+  //         Authorization: Bearer ${session?.data?.accessToken},
   //       }
   //     });
   //     const result = await response.json();
@@ -34,7 +34,7 @@ const MyCases = () => {
   //     if(result.data){
   //       setTotalCount(result.data.totalCount)
   //     }
-  //     // setTotalPages(result.totalPages); 
+  //     // setTotalPages(result.totalPages);
   //   } catch (error) {
   //     console.error('Error fetching data:', error);
   //   } finally {
@@ -53,11 +53,11 @@ const MyCases = () => {
   // console.log("Case HEader",caseData);
 
   useEffect(() => {
-    if(session.data){
+    if (session.data) {
       if (session?.status !== "authenticated") {
         router.push("/login");
       }
-    }else{
+    } else {
       router.push("/login");
     }
   }, [session]);
@@ -65,20 +65,25 @@ const MyCases = () => {
   return (
     <>
       <ProtectedLayout>
-        {data  &&     <div className="w-full">
-          <CaseHeader casesData={data} />
-          <CaseTable casesData={data} />
-          <div className="flex  my-[36px] mx-auto  justify-between ">
-            <div className="ml-[48px] ">
-              {" "}
-              <h2>{data.totalCount} Cases found</h2>
+        {data && (
+          <div className="w-full">
+            <CaseHeader casesData={data} />
+            <CaseTable casesData={data} />
+            <div className="flex  my-[36px] mx-auto  justify-between ">
+              <div className="ml-[48px] ">
+                {" "}
+                <h2>{data.totalCount} Cases found</h2>
+              </div>
+              <div className=" mr-48">
+                <CasePagination
+                  casesData={data}
+                  pages={page}
+                  setPage={setPage}
+                ></CasePagination>
+              </div>
+              <div className=""></div>
             </div>
-            <div className=" mr-48">
-              <CasePagination casesData={data} pages={page} setPage={setPage} ></CasePagination> 
-            </div>
-            <div className="">
-              
-            </div>
+            )
           </div>
         )}
       </ProtectedLayout>

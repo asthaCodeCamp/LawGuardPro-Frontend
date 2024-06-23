@@ -386,7 +386,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   multiline
                   rows={4}
                   value={description}
-                  required
+                  
                   onChange={handleDescriptionChange}
                   variant="outlined"
                   className="w-full "
@@ -395,7 +395,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   onChange={handleFileChange}
                   accept="*/*"
                   style={{ display: "none", height: "300px" }}
-                  required
+                
                   id="attachment-button-file"
                   type="file"
                 />
