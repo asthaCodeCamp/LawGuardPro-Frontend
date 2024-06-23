@@ -4,7 +4,7 @@ import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
 import React, { useEffect } from "react";
 import AllNotification from "@/components/Notification/AllNotification";
 import UnreadNotification from "@/components/Notification/UnreadNotification";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 interface TabPanelProps {
@@ -86,19 +86,19 @@ const Notification = () => {
     setValue(newValue);
   };
 
-  const session = useSession();
-  const router = useRouter();
+  // const session = useSession();
+  // const router = useRouter();
   // const { pathname } = router;
 
   // console.log("Login session == ", session);
   // console.log("notification pathname ==== ", pathname);
 
-  useEffect(() => {
-    console.log(session, "at notification useEffect");
-    if (session?.status !== "authenticated") {
-      router.push("/login");
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   console.log(session, "at notification useEffect");
+  //   if (session?.status !== "authenticated") {
+  //     router.push("/login");
+  //   }
+  // }, [session]);
 
   return (
     <ProtectedLayout>
@@ -147,4 +147,19 @@ const Notification = () => {
   );
 };
 
+export async function getServerSideProps({ req }: any) {
+  const session = await getSession({ req });
+  console.log( session , "session at home page ")
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session},
+  };
+}
 export default Notification;
