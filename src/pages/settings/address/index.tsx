@@ -3,7 +3,7 @@ import ResidentialAddress from "@/components/Settings/Address/ResidentialAddress
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import SettingsLayout from "@/components/layout/SettingsLayout";
 import { Box, Tab, Tabs, styled } from "@mui/material";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
@@ -76,13 +76,13 @@ const AntTab = styled((props: StyledTabProps) => (
 const Address = () => {
   const [value, setValue] = React.useState(0);
   //var index;
-  const session = useSession();
-  const router = useRouter();
-  useEffect(() => {
-    if (session?.status !== "authenticated") {
-      router.push("/login");
-    }
-  }, [session]);
+  // const session = useSession();
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (session?.status !== "authenticated") {
+  //     router.push("/login");
+  //   }
+  // }, [session]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -127,6 +127,21 @@ const Address = () => {
     </ProtectedLayout>
   );
 };
+export async function getServerSideProps({ req }: any) {
+  const session = await getSession({ req });
+  console.log( session , "session at home page ")
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session},
+  };
+}
 
 export default Address;
 
