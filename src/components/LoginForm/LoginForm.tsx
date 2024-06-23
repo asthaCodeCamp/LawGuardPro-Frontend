@@ -22,6 +22,8 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const [isLoading,setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -60,6 +62,7 @@ const LoginForm = () => {
       setPassword("");
     } else {
       try {
+        setIsLoading(true);
         const isLoggedin = await signIn("credentials", {
           userName: email,
           password: password,
@@ -70,17 +73,19 @@ const LoginForm = () => {
         // alert(`Hello == ${isLoggedin}`);
         // console.log("logged in info from user === ", isLoggedin.error);
 
-        if (!isLoggedin?.ok) {
+        if (!(isLoggedin)?.ok) {
           // toast.error("Incorrect Login Details!!");
           setError("Incorrect email or password");
           setEmail("");
           setPassword("");
+          setIsLoading(false);
         } else {
           // toast.success("Login Successful!!");
-          console.log("Login Successful");
+          // console.log("Login Successful");
           router.push("/");
         }
       } catch (error) {
+        setIsLoading(false)
         // toast.success(error);
         console.log("Error occured");
       }
@@ -120,9 +125,9 @@ const LoginForm = () => {
               }}
               required
             />
-            {email !== "" && !validateEmail(email) && (
+            {/* {email !== "" && !validateEmail(email) && (
               <p className="text-[#DC2626] text-xs">Invalid email format</p>
-            )}
+            )} */}
           </FormControl>
 
           <FormControl sx={{ width: "100%", marginBottom: "16px" }}>
@@ -159,10 +164,11 @@ const LoginForm = () => {
               }}
               required
             />
-          </FormControl>
-          {(email === "" || password === "") && (
-            <p className="text-[#DC2626] text-xs">{error}</p>
+            {error && (
+            <p className="text-[#DC2626] text-xs mt-2">{error}</p>
           )}
+          </FormControl>
+          
           <Link
             href="/reset-password"
             className="mb-8 font-[500] text-[16px] leading-6 text-[#6B0F99]"
@@ -175,7 +181,9 @@ const LoginForm = () => {
             className="mb-4 w-full h-14 bg-[#6B0F99] rounded-lg hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
             onClick={handleLogin}
           >
-            Continue
+            {
+              isLoading?"Loading...":"Continue"
+            }
           </Button>
           <Button
             className="w-full h-14 bg-[#FFFFFF] rounded-lg text-[#191919] font-[600] text-[16px] outline outline-1 outline-[#d1d1d1] capitalize"

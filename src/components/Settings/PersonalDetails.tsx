@@ -93,7 +93,7 @@ const PersonalDetails: React.FC = () => {
               <TextField
                 id="firstName"
                 name="firstName"
-                value={userDataSession?.firstName || ''}
+                placeholder={userDataSession?.firstName || ''}
                 onChange={handleChange}
               />
             </div>
@@ -102,7 +102,7 @@ const PersonalDetails: React.FC = () => {
               <TextField
                 id="lastName"
                 name="lastName"
-                value={userDataSession?.lastName || ''}
+                placeholder={userDataSession?.lastName || ''}
                 onChange={handleChange}
               />
             </div>

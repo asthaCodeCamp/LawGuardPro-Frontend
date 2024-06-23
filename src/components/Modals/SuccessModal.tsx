@@ -19,6 +19,7 @@ interface SuccessModalProps {
   handleClose: () => void;
 }
 
+
 const SuccessModal: React.FC<SuccessModalProps> = ({ open, handleClose }) => {
   return (
     <Modal

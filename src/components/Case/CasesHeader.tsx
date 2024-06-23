@@ -2,8 +2,15 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import AddCaseModal from "../Modals/AddCaseModal";
 import SuccessModal from "../Modals/SuccessModal";
-
-const CasesHeader : React.FC = () => {
+// import { casesData } from "./CaseTable";
+// interface MyCasesProps {
+//   casesData: casesData[];
+// }
+const CasesHeader : React.FC<any> = ({casesData}) => {
+  console.log("case data from header", casesData);
+  const {openCase, closedCase,onAddCaseClick} = casesData;
+  console.log('opencase', openCase);
+  
   const [addCaseOpen, setAddCaseOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
 
@@ -50,7 +57,7 @@ const CasesHeader : React.FC = () => {
           <div className="flex justify-between w-full px-6 pt-6 rounded-lg border">
             <div>
               <p>Open Cases</p>
-              <h1 className="text-2xl font-semibold">03</h1>
+              <h1 className="text-2xl font-semibold">{casesData.openCase}</h1>
             </div>
             <div>
               <svg
@@ -79,7 +86,7 @@ const CasesHeader : React.FC = () => {
           <div className="flex justify-between w-full px-6 pt-6 rounded-lg border">
             <div>
               <p>Closed Cases</p>
-              <h1 className="text-2xl font-semibold">02</h1>
+              <h1 className="text-2xl font-semibold">{casesData.closedCase}</h1>
             </div>
             <div>
               <svg
