@@ -21,6 +21,8 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { InquiryType } from "@/utilites/InquiryType";
 import { useSession } from "next-auth/react";
 import svgs from "@/components/svg/svg";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { QueryKeys } from "@/utilites/enums";
 
 const Backdrop = React.forwardRef<
   HTMLDivElement,
@@ -149,6 +151,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     console.log("Inquiry type === ", event.target.value);
     setInquiryName(event.target.value);
   };
+  const queryClient = useQueryClient()
 
   const handleInquiryTypeChange = (
     event: React.ChangeEvent<{}>,
@@ -251,7 +254,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         }
       );
 
+
+
       handleFileUpload();
+    
       handleClose();
       handleOpenSuccessModal();
       console.log("Response from server:", response.data);
@@ -302,6 +308,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
             }
           );
           const data = await response.json();
+          
           console.log({ data });
 
           const temp = `Chunk ${
@@ -328,6 +335,12 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
 
     uploadNextChunk();
   };
+  
+
+  const reval = () =>{
+    
+    queryClient.invalidateQueries({queryKey: [QueryKeys.cases , 5 , 1] })
+  }
 
   return (
     <div>
@@ -339,6 +352,9 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent className="w-[90%] md:w-[56%] lg:w-[35%] h-auto">
+        <button onClick={()=> reval()}>
+        hello
+      </button>
           <Box className="w-full">
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
@@ -388,7 +404,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   htmlFor="inquiry-name"
                   className="block text-[16px] text-[#191919] font-semibold mb-2 h-6"
                 >
-                  Inquiry name
+                  Inquiry name <span className="text-red-700">*</span>
                 </label>
 
                 <OutlinedInput
@@ -413,14 +429,16 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   htmlFor="inquiry-type"
                   className="block text-[16px] text-[#191919] font-semibold mb-2 h-6"
                 >
-                  Type of inquiry
+                  Type of inquiry <span className="text-red-700">*</span>
                 </label>
                 <Autocomplete
+          
                   options={options}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       placeholder="Select inquiry type"
+                      required
                       value={inquiryType}
                     />
                   )}
@@ -433,7 +451,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   htmlFor="description"
                   className="text-[16px] font-semibold text-[#191919] mb-5"
                 >
-                  Describe
+                  Describe <span className="text-red-700">*</span>
                 </FormLabel>
                 <TextField
                   id="description"
@@ -441,6 +459,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   multiline
                   rows={4}
                   value={description}
+                  required
                   onChange={handleDescriptionChange}
                   variant="outlined"
                   className="w-full "
@@ -449,6 +468,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   onChange={handleFileChange}
                   accept="*/*"
                   style={{ display: "none", height: "300px" }}
+                  required
                   id="attachment-button-file"
                   type="file"
                   // onChange={handleAttachmentChange}
@@ -483,7 +503,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
             </Button>
           </Box>
         </ModalContent>
+        
       </Modal>
+
+ 
     </div>
   );
 };
