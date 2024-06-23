@@ -122,8 +122,6 @@ export default function ProtectedLayout({
     <Box
       sx={{
         display: "flex",
-        border: "1px solid black ",
-        padding: "0px",
       }}
     >
       <CssBaseline />
@@ -375,7 +373,7 @@ export default function ProtectedLayout({
           </Box>
         </List>
       </Drawer>
-      {/* <Box component="main">
+      {/* <Box component="main" >
         <DrawerHeader />
         {children}
       </Box> */}
