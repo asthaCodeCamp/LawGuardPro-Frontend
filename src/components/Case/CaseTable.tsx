@@ -69,7 +69,7 @@ export default function CaseTable({casesData}:any) {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    <Link href={`my-case/${row.caseId}`}>
+                    <Link href={`my-cases/${row.caseId}`}>
                       <span className="text-[14px] font-[400] ml-[32px]">
                         {row.caseNumber}
                       </span>

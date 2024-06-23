@@ -19,7 +19,7 @@ export default function Home() {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-
+  console.log( session , "session at home page ")
   if (!session) {
     return {
       redirect: {
