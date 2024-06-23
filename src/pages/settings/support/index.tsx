@@ -9,9 +9,15 @@ const Support = () => {
   const session = useSession();
   const router = useRouter();
   useEffect(() => {
-    if (session?.status !== "authenticated") {
-      router.push("/login");
+    // console.log(session, "at notification useEffect");
+    if (session?.data) {
+      if (session?.status !== "authenticated") {
+        router.push("/login");
+      }
     }
+    // else {
+    //   router.push("/login");
+    // }
   }, [session]);
   return (
     <ProtectedLayout>
@@ -28,7 +34,7 @@ const Support = () => {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log( session , "session at home page ")
+  console.log(session, "session at home page ");
   if (!session) {
     return {
       redirect: {
@@ -38,7 +44,7 @@ export async function getServerSideProps({ req }: any) {
     };
   }
   return {
-    props: { session},
+    props: { session },
   };
 }
 

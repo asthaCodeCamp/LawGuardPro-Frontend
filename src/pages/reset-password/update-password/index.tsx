@@ -7,10 +7,15 @@ const UpdatePassword = () => {
   const session = useSession();
   const router = useRouter();
   useEffect(() => {
-    console.log(session, "at notification useEffect");
-    if (session?.status !== "authenticated") {
-      router.push("/login");
+    // console.log(session, "at notification useEffect");
+    if (session?.data) {
+      if (session?.status !== "authenticated") {
+        router.push("/login");
+      }
     }
+    // else {
+    //   router.push("/login");
+    // }
   }, [session]);
   return (
     <>

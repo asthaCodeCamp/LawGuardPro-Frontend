@@ -21,6 +21,8 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { InquiryType } from "@/utilites/InquiryType";
 import { useSession } from "next-auth/react";
 import svgs from "@/components/svg/svg";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { QueryKeys } from "@/utilites/enums";
 
 const Backdrop = React.forwardRef<
   HTMLDivElement,
@@ -114,7 +116,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const [inquiryName, setInquiryName] = React.useState("");
   const [inquiryType, setInquiryType] = React.useState<any>(null);
   const [description, setDescription] = React.useState("");
-  // const [attachment, setAttachment] = React.useState<any | null>(null);
 
   const { data: session } = useSession();
 
@@ -149,6 +150,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     console.log("Inquiry type === ", event.target.value);
     setInquiryName(event.target.value);
   };
+  const queryClient = useQueryClient()
 
   const handleInquiryTypeChange = (
     event: React.ChangeEvent<{}>,
@@ -163,72 +165,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   ) => {
     setDescription(event.target.value);
   };
-
-  // const handleAttachmentChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   if (event.target.files) {
-  //     setAttachment(event.target.files[0]);
-  //   }
-  // };
-
-  // const handleSubmit = async () => {
-  //   const requestData = {
-  //     caseName: inquiryName,
-  //     caseType: inquiryType,
-  //     description: description,
-  //     attachment: "string"
-
-  //   };
-  //   console.log(requestData);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://54.203.205.46:5140/api/case",
-  //       requestData,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         },
-  //       }
-  //     );
-  //     handleClose();
-  //     console.log("Response from server:", response.data);
-  //   } catch (error) {
-  //     console.error("Error submitting form", error);
-  //     setError("Failed to submit the form. Please try again later.");
-  //   }
-  // };
-  // const handleSubmit = async () => {
-  //   const requestData = {
-  //     caseName: inquiryName,
-  //     caseType: inquiryType,
-  //     description: description,
-  //     attachment: "string"
-  //   };
-  //   console.log(requestData);
-  //   try {
-  //     const response = await fetch("http://54.203.205.46:5140/api/case", {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: `Bearer ${session?.accessToken}`,
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify(requestData)
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-
-  //     const responseData = await response.json();
-  //     handleClose();
-  //     console.log("Response from server:", responseData);
-  //   } catch (error) {
-  //     console.error("Error submitting form", error);
-  //     setError("Failed to submit the form. Please try again later.");
-  //   }
-  // };
 
   const handleSubmit = async () => {
     const requestData = {
@@ -251,7 +187,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         }
       );
 
+
+
       handleFileUpload();
+    
       handleClose();
       handleOpenSuccessModal();
       console.log("Response from server:", response.data);
@@ -260,9 +199,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       setError("Failed to submit the form. Please try again later.");
     }
   };
-  // file upload chunk--------------------------------------------------------------------------------------
+  // file upload chunk--------
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [status, setStatus] = React.useState<string>("");
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -279,7 +217,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
 
     const chunkSize = 1 * 1024 * 1024; // 1MB
     const totalChunks = Math.ceil(selectedFile.size / chunkSize);
-    const chunkProgress = 100 / totalChunks;
     let chunkNumber = 0;
     let start = 0;
     let end = chunkSize;
@@ -302,13 +239,12 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
             }
           );
           const data = await response.json();
+          
           console.log({ data });
 
           const temp = `Chunk ${
             chunkNumber + 1
           }/${totalChunks} uploaded successfully`;
-          setStatus(temp);
-          // setProgress((chunkNumber + 1) * chunkProgress);
           console.log(temp);
 
           chunkNumber++;
@@ -320,14 +256,18 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           console.error("Error uploading chunk:", error);
         }
       } else {
-        // setProgress(100);
         setSelectedFile(null);
-        setStatus("File upload completed");
       }
     };
 
     uploadNextChunk();
   };
+  
+
+  const reval = () =>{
+    
+    queryClient.invalidateQueries({queryKey: [QueryKeys.cases , 5 , 1] })
+  }
 
   return (
     <div>
@@ -339,6 +279,9 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent className="w-[90%] md:w-[56%] lg:w-[35%] h-auto">
+        <button onClick={()=> reval()}>
+        hello
+      </button>
           <Box className="w-full">
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
@@ -388,7 +331,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   htmlFor="inquiry-name"
                   className="block text-[16px] text-[#191919] font-semibold mb-2 h-6"
                 >
-                  Inquiry name
+                  Inquiry name <span className="text-red-700">*</span>
                 </label>
 
                 <OutlinedInput
@@ -413,14 +356,16 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   htmlFor="inquiry-type"
                   className="block text-[16px] text-[#191919] font-semibold mb-2 h-6"
                 >
-                  Type of inquiry
+                  Type of inquiry <span className="text-red-700">*</span>
                 </label>
                 <Autocomplete
+          
                   options={options}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       placeholder="Select inquiry type"
+                      required
                       value={inquiryType}
                     />
                   )}
@@ -433,7 +378,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   htmlFor="description"
                   className="text-[16px] font-semibold text-[#191919] mb-5"
                 >
-                  Describe
+                  Describe <span className="text-red-700">*</span>
                 </FormLabel>
                 <TextField
                   id="description"
@@ -441,6 +386,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   multiline
                   rows={4}
                   value={description}
+                  
                   onChange={handleDescriptionChange}
                   variant="outlined"
                   className="w-full "
@@ -449,11 +395,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   onChange={handleFileChange}
                   accept="*/*"
                   style={{ display: "none", height: "300px" }}
+                
                   id="attachment-button-file"
                   type="file"
-                  // onChange={handleAttachmentChange}
                 />
-                {/* ------------------------------------------------------------------------------------------------------------- */}
 
                 <label htmlFor="attachment-button-file" className="mb-3">
                   <IconButton
@@ -466,12 +411,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                     </h3>
                   </IconButton>
                 </label>
-
-                {/* {attachment && (
-                  <span className="absolute bottom-0 left-16 mb-2">
-                    {attachment.name}
-                  </span>
-                )} */}
               </Box>
             </Box>
             <Button
@@ -483,7 +422,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
             </Button>
           </Box>
         </ModalContent>
+        
       </Modal>
+
+ 
     </div>
   );
 };

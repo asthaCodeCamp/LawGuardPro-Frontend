@@ -5,6 +5,7 @@ import { redirect } from "next/dist/server/api-utils";
 export default function Home() {
   const { data: session } = useSession();
   // console.log("Home session === ", session);
+
   return (
     <div>
       {session && (
@@ -19,7 +20,7 @@ export default function Home() {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log( session , "session at home page ")
+  console.log(session, "session at home page ");
   if (!session) {
     return {
       redirect: {
@@ -30,7 +31,6 @@ export async function getServerSideProps({ req }: any) {
   }
 
   return {
-    props: { session},
-    
+    props: { session },
   };
 }

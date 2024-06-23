@@ -90,14 +90,19 @@ const Notification = () => {
   const router = useRouter();
   const { pathname } = router;
 
-  console.log("Login session == ", session);
-  console.log("notification pathname ==== ", pathname);
+  // console.log("Login session == ", session);
+  // console.log("notification pathname ==== ", pathname);
 
   useEffect(() => {
-    console.log(session, "at notification useEffect");
-    if (session?.status !== "authenticated") {
-      router.push("/login");
+    // console.log(session, "at notification useEffect");
+    if (session?.data) {
+      if (session?.status !== "authenticated") {
+        router.push("/login");
+      }
     }
+    // else {
+    //   router.push("/login");
+    // }
   }, [session]);
 
   return (
