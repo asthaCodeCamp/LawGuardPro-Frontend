@@ -21,15 +21,8 @@ import Link from "next/link";
 
 export default function CaseTable({casesData}:any) {
 
-  // const [data, setData] = useState<CaseData[]>([]);
   const {cases}:any = casesData;
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setData(caseData as CaseData[]);
-  //   };
-  //   fetchData();
-  // }, []);
+;
 
   return (
     <div className="">

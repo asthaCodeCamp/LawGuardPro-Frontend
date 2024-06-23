@@ -1,11 +1,42 @@
 import * as React from 'react';
 import { Button } from '@mui/material';
+import AddCaseDashboard from './AddCaseDashboard';
+import { useSession } from 'next-auth/react';
 
 interface EmptyCaseProps {
-    onAddCaseClick: () => void;
+   
 }
 
-const EmptyCase: React.FC<EmptyCaseProps> = ({ onAddCaseClick }) => {
+const EmptyCase: React.FC<EmptyCaseProps> = ({ }) => {
+    const session = useSession();
+    const [caseData, setCasesData] = React.useState([]);
+  const [page, setPage] = React.useState(1);
+  const parPage = 5;
+  // const [pageSize] = useState(5);
+  // const [totalPages, setTotalPages] = useState(1);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      
+      try {
+        const response = await fetch(`http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${parPage}`, {
+          headers: {
+            Authorization: `Bearer ${session?.data?.accessToken}`,
+          }
+        });
+        const result = await response.json();
+        console.log("Cases", result);
+        setCasesData(result.data);
+        // setTotalPages(result.totalPages); 
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [page, session]);
+const {totalCount}:any = caseData;
     return (
         <div>
             <div className="ml-8">
@@ -23,13 +54,9 @@ const EmptyCase: React.FC<EmptyCaseProps> = ({ onAddCaseClick }) => {
                 <p className="text-[18px] font-[500] mt-[16px] mb-[24px]">
                     You currently don’t have any case updates.
                 </p>
-                <Button
-                    className="bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] font-[600]"
-                    variant="contained"
-                    onClick={onAddCaseClick}
-                >
-                    + Add new case
-                </Button>
+                <div>
+                    <AddCaseDashboard casesData={caseData}/>
+                </div>
             </div>
         </div>
     );
