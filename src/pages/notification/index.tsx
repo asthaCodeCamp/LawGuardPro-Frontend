@@ -86,19 +86,19 @@ const Notification = () => {
     setValue(newValue);
   };
 
-  // const session = useSession();
-  // const router = useRouter();
-  // const { pathname } = router;
+  const session = useSession();
+  const router = useRouter();
+  const { pathname } = router;
 
-  // console.log("Login session == ", session);
-  // console.log("notification pathname ==== ", pathname);
+  console.log("Login session == ", session);
+  console.log("notification pathname ==== ", pathname);
 
-  // useEffect(() => {
-  //   console.log(session, "at notification useEffect");
-  //   if (session?.status !== "authenticated") {
-  //     router.push("/login");
-  //   }
-  // }, [session]);
+  useEffect(() => {
+    console.log(session, "at notification useEffect");
+    if (session?.status !== "authenticated") {
+      router.push("/login");
+    }
+  }, [session]);
 
   return (
     <ProtectedLayout>
@@ -149,7 +149,7 @@ const Notification = () => {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log( session , "session at home page ")
+  console.log(session, "session at home page ");
   if (!session) {
     return {
       redirect: {
@@ -159,7 +159,7 @@ export async function getServerSideProps({ req }: any) {
     };
   }
   return {
-    props: { session},
+    props: { session },
   };
 }
 export default Notification;
