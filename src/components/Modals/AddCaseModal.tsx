@@ -277,7 +277,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       return;
     }
 
-    const chunkSize = 1 * 1024 * 1024; // 5MB (adjust based on your requirements)
+    const chunkSize = 1 * 1024 * 1024; // 1MB
     const totalChunks = Math.ceil(selectedFile.size / chunkSize);
     const chunkProgress = 100 / totalChunks;
     let chunkNumber = 0;
@@ -288,10 +288,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       if (start < selectedFile.size) {
         const chunk = selectedFile.slice(start, end);
         const formData = new FormData();
-        formData.append("file", chunk);
-        formData.append("chunkNumber", chunkNumber.toString());
+        formData.append("chunk", chunk);
+        formData.append("fileName", selectedFile.name);
+        formData.append("chunkIndex", chunkNumber.toString());
         formData.append("totalChunks", totalChunks.toString());
-        formData.append("originalname", selectedFile.name);
 
         try {
           const response = await fetch(
