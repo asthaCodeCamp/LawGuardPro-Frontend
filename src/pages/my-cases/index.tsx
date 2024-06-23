@@ -11,15 +11,15 @@ import React, { useEffect, useState } from "react";
 const MyCases = () => {
   const session  = useSession();
   const router = useRouter();
-  useEffect(() => {
-    if(session.data){
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
-    }else{
-      router.push("/login");
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if(session.data){
+  //     if (session?.status !== "authenticated") {
+  //       router.push("/login");
+  //     }
+  //   }else{
+  //     router.push("/login");
+  //   }
+  // }, [session]);
    
   const [caseData, setCasesData] = useState([]);
   const [page, setPage] = useState(1);
