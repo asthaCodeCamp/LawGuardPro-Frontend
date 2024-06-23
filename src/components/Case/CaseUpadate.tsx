@@ -55,7 +55,6 @@ const CaseUpdate: React.FC<CaseUpdateProps> = ({ casesData }: any) => {
 
     fetchData();
   }, [page, session]);
-  console.log("Case HEader", caseData);
   const { totalCount }: any = caseData;
   return (
     <div className="mb-20">
