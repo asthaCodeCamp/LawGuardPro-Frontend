@@ -116,7 +116,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const [inquiryName, setInquiryName] = React.useState("");
   const [inquiryType, setInquiryType] = React.useState<any>(null);
   const [description, setDescription] = React.useState("");
-
+  const [loading, setLoading] = React.useState(false);
   const { data: session } = useSession();
 
   console.log("modal session ==== ", session);
@@ -176,6 +176,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     console.log(requestData);
 
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://54.203.205.46:5140/api/case",
         requestData,
@@ -186,18 +187,22 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           },
         }
       );
-
-
-
       handleFileUpload();
     
       handleClose();
       handleOpenSuccessModal();
       console.log("Response from server:", response.data);
+      setInquiryName('');
+      setInquiryType('');
+      setDescription('');
     } catch (error) {
       console.error("Error submitting form", error);
       setError("Failed to submit the form. Please try again later.");
     }
+    finally{
+      setLoading(false);
+    }
+
   };
   // file upload chunk--------
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -211,7 +216,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
 
   const handleFileUpload = (): void => {
     if (!selectedFile) {
-      alert("Please select a file to upload.");
+      // alert("Please select a file to upload.");
       return;
     }
 
@@ -268,6 +273,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     
     queryClient.invalidateQueries({queryKey: [QueryKeys.cases , 5 , 1] })
   }
+  const handleClick = () => {
+    handleSubmit();
+    reval();
+  };
 
   return (
     <div>
@@ -279,9 +288,9 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent className="w-[90%] md:w-[56%] lg:w-[35%] h-auto">
-        <button onClick={()=> reval()}>
+        {/* <button onClick={()=> reval()}>
         hello
-      </button>
+      </button> */}
           <Box className="w-full">
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
@@ -365,7 +374,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                     <TextField
                       {...params}
                       placeholder="Select inquiry type"
-                      required
                       value={inquiryType}
                     />
                   )}
@@ -386,7 +394,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   multiline
                   rows={4}
                   value={description}
-                  
                   onChange={handleDescriptionChange}
                   variant="outlined"
                   className="w-full "
@@ -414,11 +421,11 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
               </Box>
             </Box>
             <Button
-              onClick={handleSubmit}
+              onClick={handleClick}
               type="submit"
               className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-3 mt-3  w-full text-[16px] font-semibold capitalize hover:bg-LawGuardPrimary"
             >
-              Submit
+              {loading ? 'Submitting...' : 'Submit'}
             </Button>
           </Box>
         </ModalContent>

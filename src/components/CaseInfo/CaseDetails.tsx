@@ -1,4 +1,4 @@
-const CaseDetails = () => {
+const CaseDetails = ({description}:any) => {
     return (
         <div className="border-t-2">
             <div className=" border-b-2 p-8">
@@ -19,8 +19,9 @@ const CaseDetails = () => {
             </div>
             <div className="m-8">
                 <h1 className="text-[24px] font-[600]">Case Details</h1>
-                <p className="text-[16px]">I hope this message finds you well. I am writing to bring to your attention a significant legal matter concerning a breach of contract between [Party A] and [Party B].
-                    On [Date], a binding agreement was executed between the aforementioned parties, outlining the terms and conditions for [Nature of Agreement]. Regrettably, it has come to our attention that [Party B] has failed to fulfill their obligations as stipulated in the contract, specifically pertaining to [Specify Breach]. This breach has resulted in substantial financial and reputational damages incurred by [Party A]. It is our position that [Party B] is liable for these losses in accordance with the terms outlined in the agreement. In light of the foregoing, we hereby request that [Party B] promptly rectifies this matter by [Specify Remedial Action] within [Specify Deadline]. Failure to do so may necessitate further legal action to recover the damages sustained by [Party A]. We remain open to amicable resolution discussions and hope to reach a mutually satisfactory outcome. Please do not hesitate to contact us at your earliest convenience to arrange a meeting. Thank you for your immediate attention to this matter. We look forward to your prompt response.</p>
+                <p className="text-[16px]">
+                    {description}
+                </p>
             </div>
         </div>
     )

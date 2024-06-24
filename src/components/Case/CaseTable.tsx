@@ -20,8 +20,9 @@ import caseData from "../../services/fakeData/caseData.json";
 import Link from "next/link";
 import CircularIndeterminate from "../Spinner/Spinner";
 
-export default function CaseTable({ casesData }: any) {
-  const { cases }: any = casesData;
+export default function CaseTable({casesData}:any) {
+
+  const {cases}:any = casesData;
   return (
     <div className="">
       {cases?.length > 0 ? (
@@ -38,17 +39,13 @@ export default function CaseTable({ casesData }: any) {
                   <span className="text-[14px] text-[#6D6D6D]">CASE TITLE</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-[14px] text-[#6D6D6D]">
-                    TOTAL QUOTED
-                  </span>
+                  <span className="text-[14px] text-[#6D6D6D]">TOTAL QUOTED</span>
                 </TableCell>
                 <TableCell>
                   <span className="text-[14px] text-[#6D6D6D]">TOTAL PAID</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-[14px] text-[#6D6D6D]">
-                    LAST UPDATED
-                  </span>
+                  <span className="text-[14px] text-[#6D6D6D]">LAST UPDATED</span>
                 </TableCell>
                 <TableCell>
                   <span className="text-[14px] text-[#6D6D6D] mr-[32px]">
@@ -58,7 +55,7 @@ export default function CaseTable({ casesData }: any) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {cases.map((row: any) => (
+              {cases.map((row:any) => (
                 <TableRow
                   key={row.caseId}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -71,11 +68,9 @@ export default function CaseTable({ casesData }: any) {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    {/* <Link href={`my-cases/${row.caseId}/case-info`}> */}
                     <span className="text-[14px] font-[400]">
                       {row.caseName}
                     </span>
-                    {/* </Link> */}
                   </TableCell>
                   <TableCell>
                     <span className="text-[14px] font-[400]">
@@ -89,7 +84,7 @@ export default function CaseTable({ casesData }: any) {
                   </TableCell>
                   <TableCell>
                     <span className="text-[14px] font-[400]">
-                      {row.lastUpdated}
+                      {row.lastUpdated.substring(0, 10)}
                     </span>
                   </TableCell>
                   <TableCell>
@@ -109,9 +104,7 @@ export default function CaseTable({ casesData }: any) {
           </Table>
         </TableContainer>
       ) : (
-        <div className="flex justify-center">
-          <CircularIndeterminate></CircularIndeterminate>
-        </div>
+        <div className="flex justify-center"><CircularIndeterminate></CircularIndeterminate></div>
       )}
     </div>
   );
