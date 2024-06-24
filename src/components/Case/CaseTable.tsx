@@ -23,8 +23,6 @@ import CircularIndeterminate from "../Spinner/Spinner";
 export default function CaseTable({casesData}:any) {
 
   const {cases}:any = casesData;
-;
-
   return (
     <div className="">
       {cases?.length > 0 ? (
@@ -86,7 +84,7 @@ export default function CaseTable({casesData}:any) {
                   </TableCell>
                   <TableCell>
                     <span className="text-[14px] font-[400]">
-                      {row.lastUpdated}
+                      {row.lastUpdated.substring(0, 10)}
                     </span>
                   </TableCell>
                   <TableCell>
