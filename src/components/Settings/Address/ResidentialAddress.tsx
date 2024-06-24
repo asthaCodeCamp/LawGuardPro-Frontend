@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -72,13 +72,14 @@ const ResidentialAddress: React.FC = () => {
       console.log("Form submitted successfully:", response.data);
 
       // Reset form fields
-      setFormData({
-        addressLine1: "",
-        addressLine2: "",
-        town: "",
-        postalCode: "",
-        country: "",
-      });
+      const data = response.data;
+    setFormData({
+      addressLine1: data.addressLine1,
+      addressLine2: data.addressLine2,
+      town: data.town,
+      postalCode: data.postalCode || 0,
+      country: data.country,
+    })
 
     } catch (error:any) {
       if (axios.isAxiosError(error)) {
@@ -90,6 +91,29 @@ const ResidentialAddress: React.FC = () => {
       }
     }
   };
+
+  const getAddress = async () => {
+    const response = await axios.get(
+      "http://54.203.205.46:5140/api/address/get/residence",
+      {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }
+    );
+    const data = response.data;
+    setFormData({
+      addressLine1: data.addressLine1,
+      addressLine2: data.addressLine2,
+      town: data.town,
+      postalCode: data.postalCode || 0,
+      country: data.country,
+    })
+  }
+
+  useEffect(()=>{
+    getAddress();
+  },[session])
 
   return (
     <div className="flex flex-col">
