@@ -24,20 +24,16 @@ import { useEffect, useState } from "react";
 //   totalQuoted: number;
 // }
 const Attachments = () => {
-  const session = useSession();
+  // const session = useSession();
   const router = useRouter();
   const { data } = useGetSingleCase(router.query?.caseId as string);
   const [cases, SetCases] = useState(data);
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    // console.log(session, "at notification useEffect");
-    if (session?.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
+    if (!session && status !== "loading") {
+      router.push("/login");
     }
-    // else {
-    //   router.push("/login");
-    // }
   }, [session]);
   return (
     <ProtectedLayout>

@@ -86,7 +86,7 @@ const Notification = () => {
     setValue(newValue);
   };
 
-  const session = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const { pathname } = router;
 
@@ -94,15 +94,9 @@ const Notification = () => {
   // console.log("notification pathname ==== ", pathname);
 
   useEffect(() => {
-    // console.log(session, "at notification useEffect");
-    if (session?.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
+    if (!session && status !== "loading") {
+      router.push("/login");
     }
-    // else {
-    //   router.push("/login");
-    // }
   }, [session]);
 
   return (
@@ -152,19 +146,19 @@ const Notification = () => {
   );
 };
 
-export async function getServerSideProps({ req }: any) {
-  const session = await getSession({ req });
-  console.log(session, "session at home page ");
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: { session },
-  };
-}
+// export async function getServerSideProps({ req }: any) {
+//   const session = await getSession({ req });
+//   console.log(session, "session at home page ");
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: { session },
+//   };
+// }
 export default Notification;

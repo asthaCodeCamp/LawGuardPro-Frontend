@@ -9,47 +9,41 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     CredentialsProvider({
-      name: "credentials",
-      credentials: {
-        userName: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials: any, req) {
+      name: "Credentials",
+      credentials: {},
+      authorize: async (credentials: any) => {
         console.log(credentials, "cred from our sign in");
-        let user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
-        let token = "";
-        await logIn({
-          userName: credentials?.userName,
-          password: credentials?.password,
-        }).then((data) => {
-          console.log("at the handle login", data.data.user);
-          user = data?.data?.user;
-          token = data?.data?.token;
-        });
-        console.log(token, "token from authorize");
-        if (user && token) {
-          return { ...user, accessToken: token } as User;
-        } else {
-          return null;
+
+        try {
+          const loginResult = await logIn({
+            userName: credentials?.userName,
+            password: credentials?.password,
+          });
+          console.log(loginResult?.data, "token from authorize");
+          return loginResult?.data;
+        } catch (error: any) {
+          throw new Error(
+            error?.data?.messages || error?.response?.data?.messages
+          );
         }
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      console.log(token?.accessToken, "token from jwt");
-      console.log(user, "user from jwt");
-      if (user) {
-        return { ...token, ...user };
+    async jwt(jwtData: any) {
+      // console.log(jwtData.token, "token from jwt");
+      if (jwtData.user) {
+        jwtData.token.user = jwtData.user?.user;
+        jwtData.token.accessToken = jwtData.user?.token;
       }
-      return token;
+      return jwtData.token;
     },
-    async session({ session, token }) {
-      console.log(session, "session from session");
-      console.log(token, "token from session");
-      session.accessToken = token.accessToken;
-      session.user = token;
-      return session;
+    async session(sessionData: any) {
+      // console.log(sessionData.session, "session from session");
+      console.log(sessionData, "token from session");
+      sessionData.session = sessionData.token;
+
+      return sessionData.session;
     },
   },
 });

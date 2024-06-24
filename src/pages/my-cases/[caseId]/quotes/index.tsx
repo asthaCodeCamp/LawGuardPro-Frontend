@@ -8,22 +8,18 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 const Quotes = () => {
-  const session = useSession();
+  // const session = useSession();
   const router = useRouter();
   const { data, isPending } = useGetAllQuotes(router.query?.caseId as string);
 
   // const [cases, setCases] = useState(data);
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    // console.log(session, "at notification useEffect");
-    if (session?.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
+    if (!session && status !== "loading") {
+      router.push("/login");
     }
     // setCases(data);
-    // else {
-    //   router.push("/login");
-    // }
   }, [session]);
 
   console.log("cases quotessss === ", data);

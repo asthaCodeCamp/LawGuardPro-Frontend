@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const CaseInfo = () => {
-  const session = useSession();
+  // const session = useSession();
   const router = useRouter();
   const { data } = useGetSingleCase(router.query?.caseId as string);
 
@@ -23,21 +23,12 @@ const CaseInfo = () => {
   // const{caseNumber,lastUpdated}:CaseInfoHeaderProps=data;
 
   console.log("Single Case data === ", data);
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    // console.log(session, "at notification useEffect");
-    // console.log("router at case info ===", router);
-
-    if (session?.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
+    if (!session && status !== "loading") {
+      router.push("/login");
     }
-    // console.log("UseEffect cases === ", cases);
-
-    // setCases(data);
-    // else {
-    //   router.push("/login");
-    // }
   }, [session]);
   return (
     <div>
