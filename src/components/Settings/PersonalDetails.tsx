@@ -1,61 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Button, TextField } from "@mui/material";
 import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
 import man from "../../../public/assets/man.png";
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import useUserData from '../../services/PersonalDetails/useUserData';
 import 'react-toastify/dist/ReactToastify.css';
-import { getSession } from 'next-auth/react';
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber?: string;
-}
-
-interface Session {
-  user: User;
-  expires: string;
-}
 
 const PersonalDetails: React.FC = () => {
-  const [userData, setUserData] = useState<User>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-  });
-
-  const [userDataSession, setUserDataSession] = useState<User | null>(null);
-
+  const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
   useEffect(() => {
-    const fetchUser = async () => {
-      const session = await getSession() as Session | null;
-      if (session && session.user) {
-        setUserDataSession(session.user);
-        setUserData({
-          firstName: session.user.firstName,
-          lastName: session.user.lastName,
-          email: session.user.email,
-          phoneNumber: session.user.phoneNumber || '',
-        });
-      }
-    };
-
-    fetchUser();
-  }, []);
+    if (fetchedUserData?.data) {
+      const { firstName, lastName, email, phoneNumber } = fetchedUserData.data;
+      setUserData({ firstName, lastName, email, phoneNumber });
+    }
+  }, [fetchedUserData, setUserData]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData);
-      toast.success('User Update Successful');
-    } catch (error) {
-      console.error('Failed to update user:', error);
-      toast.error('Failed to update user');
-    }
+    await updateUser(userData);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +78,7 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="phoneNumber">Phone number</label>
             <PhoneCodePicker
+              value={userData.phoneNumber || ' '}
               onChange={handlePhoneChange}
             />
           </div>
