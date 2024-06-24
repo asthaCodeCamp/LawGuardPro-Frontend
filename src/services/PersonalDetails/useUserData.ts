@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 
 interface User {
   firstName: string;
@@ -16,14 +16,16 @@ interface Session {
 }
 
 const useUserData = () => {
+  const { data: sessionData } = useSession();
   const [userData, setUserData] = useState<User>({
     firstName: '',
     lastName: '',
-    email: '',
     phoneNumber: '',
+    email: '',
   });
 
   const [fetchedUserData, setFetchedUserData] = useState<User | null>(null);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -34,13 +36,17 @@ const useUserData = () => {
           setUserData({
             firstName: session.user.firstName,
             lastName: session.user.lastName,
-            email: session.user.email,
             phoneNumber: session.user.phoneNumber || '',
+            email: session.user.email,
           });
 
-          const response = await axios.get(`http://54.203.205.46:5140/api/usersauth/getuserinfo?Email=${session.user.email}`);
+          const response = await axios.get(`http://54.203.205.46:5140/api/usersauth/getuserinfo?Email=${session.user.email}`, {
+            headers: {
+              Authorization: `Bearer ${sessionData?.accessToken}`
+            }
+          });
           const user = response?.data?.data;
-          console.log(user,"sabbir");
+          console.log(user, "sabbir");
           setFetchedUserData(user)
         } else {
           console.log('No session found');
@@ -56,8 +62,14 @@ const useUserData = () => {
 
   const updateUser = async (userData: User) => {
     try {
-      await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData);
+      const res = await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData,{
+        headers: {
+          Authorization: `Bearer ${sessionData?.accessToken}`
+        }
+      });
+      // console.log(res);
       toast.success('User Update Successful');
+      return res.data.data;
     } catch (error) {
       console.error('Failed to update user:', error);
       toast.error('Failed to update user');

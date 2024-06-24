@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Autocomplete,
   Box,
@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { cities } from "../../../utilites/Cities";
 import { countries } from "../../../utilites/Countries";
@@ -33,6 +33,9 @@ const BillingAddress: React.FC = () => {
     postalCode: "",
     country: "",
   });
+  const [selectedCountry,setSelectedCountry] = useState<any>(null);
+  const [selectedCity,setSelectedCity] = useState<any>(null);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const { data: session } = useSession();
 
@@ -79,16 +82,25 @@ const BillingAddress: React.FC = () => {
 
 
       // Reset form fields
+      const data = response.data;
       setFormData({
-        billingName: "",
-        addressLine1: "",
-        addressLine2: "",
-        town: "",
-        postalCode: "",
-        country: "",
-      });
+        billingName: data.billingName,
+        addressLine1: data.addressLine1,
+        addressLine2: data.addressLine2,
+        town: data.town,
+        postalCode: data.postalCode,
+        country: data.country,
+      })
 
-    } catch (error:any) {
+      setRefresh(!refresh);
+
+      const town = cities.find(item => item.city?.toLowerCase() === dataToSubmit.town?.toLowerCase())
+      setSelectedCity(town)
+
+      const country = countries.find(item => item.label?.toLowerCase() === dataToSubmit.country?.toLowerCase())
+      setSelectedCountry(country)
+
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         toast.error(`Axios error: ${error.response?.data || error.message}`);;
       } else {
@@ -97,9 +109,54 @@ const BillingAddress: React.FC = () => {
     }
   };
 
+  const getAddress = async () => {
+    const response = await axios.get(
+      "http://54.203.205.46:5140/api/address/get/billing",
+      {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      }
+    );
+    const data = response.data;
+    console.log(data);
+    setFormData({
+      billingName: data.billingName,
+      addressLine1: data.addressLine1,
+      addressLine2: data.addressLine2,
+      town: data.town,
+      postalCode: data.postalCode,
+      country: data.country,
+    })
+  }
+
+  useEffect(() => {
+    getAddress();
+  }, [session])
+
+  useEffect(() => {
+    if(formData.country){
+      const country = countries.find(item => item.label?.toLowerCase() === formData.country?.toLowerCase())
+    setSelectedCountry(country)
+    }
+  }, [session,refresh, formData])
+
+  useEffect(() => {
+    if(formData.town){
+      const town = cities.find(item => item.city?.toLowerCase() === formData.town?.toLowerCase())
+    setSelectedCity(town)
+    }
+  }, [session, refresh, formData])
+
+
+
+  console.log({selectedCity, selectedCountry, formData});
+
+
+
   return (
     <div className="flex flex-col">
-  
+
       <FormControl sx={{ width: "48%", height: "92px", marginBottom: "24px" }}>
         <FormLabel
           htmlFor="billing-name"
@@ -156,6 +213,7 @@ const BillingAddress: React.FC = () => {
           Town
         </FormLabel>
         <Autocomplete
+        value={selectedCity}
           className="w-full"
           id="town"
           sx={{ width: 300 }}
@@ -201,6 +259,7 @@ const BillingAddress: React.FC = () => {
           Country residency
         </FormLabel>
         <Autocomplete
+        value={selectedCountry}
           className="w-full"
           id="country"
           sx={{ width: 300 }}
@@ -225,6 +284,7 @@ const BillingAddress: React.FC = () => {
           )}
           renderInput={(params) => (
             <TextField
+            // value={countries.find(item => item.label.toLowerCase() === formData.country.toLowerCase())}
               {...params}
               placeholder="Select country"
               inputProps={{ ...params.inputProps }}

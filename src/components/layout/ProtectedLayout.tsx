@@ -104,7 +104,8 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
+  // console.log(session);
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
   useEffect(() => {
     if (fetchedUserData) {

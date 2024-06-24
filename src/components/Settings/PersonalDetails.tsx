@@ -5,15 +5,20 @@ import Image from "next/image";
 import man from "../../../public/assets/man.png";
 import useUserData from '../../services/PersonalDetails/useUserData';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const PersonalDetails: React.FC = () => {
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
+  const { data,update } = useSession();
+  // const router = useRouter();
+  console.log(data);
   const [loading, setLoading] = useState(false);
-console.log(fetchedUserData);
+  // console.log(fetchedUserData);
   useEffect(() => {
     if (fetchedUserData) {
-      const { firstName, lastName, email, phoneNumber } = fetchedUserData;
-      setUserData({ firstName, lastName, email, phoneNumber });
+      const { firstName, lastName, phoneNumber, email } = fetchedUserData;
+      setUserData({ firstName, lastName, phoneNumber, email });
     }
   }, [fetchedUserData, setUserData]);
 
@@ -21,7 +26,19 @@ console.log(fetchedUserData);
     event.preventDefault();
     setLoading(true);
     try {
-      await updateUser(userData);
+      const res = await updateUser(userData);
+      // console.log(res);
+      setUserData({
+        firstName: res.firstname,
+        lastName: res.lastName,
+        phoneNumber: res.phoneNumber,
+        email: res.email
+      });
+      // router.reload();
+      update((prev:any) => ({...prev, user: {firstName: res.firstname,
+        lastName: res.lastName,
+        email: res.email}}))
+
     } finally {
       setLoading(false);
     }
@@ -91,9 +108,9 @@ console.log(fetchedUserData);
               onChange={handlePhoneChange}
             />
           </div>
-          <Button 
-            className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize" 
-            variant="contained" 
+          <Button
+            className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize"
+            variant="contained"
             type="submit"
             disabled={loading}
           >
