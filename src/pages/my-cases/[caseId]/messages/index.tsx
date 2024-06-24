@@ -1,14 +1,18 @@
-import CaseinfoHeader from "@/components/CaseInfo/CaseinfoHeader";
+import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CaseinfoHeader from "@/components/CaseInfo/CaseInfoHeader";
 import Messages from "@/components/CaseInfo/Messages";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
+import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const meassage = () => {
   const session = useSession();
   const router = useRouter();
+  const { data } = useGetSingleCase(router.query?.caseId as string);
+  const [cases, setCases] = useState(data);
   useEffect(() => {
     // console.log(session, "at notification useEffect");
     if (session?.data) {
@@ -16,6 +20,7 @@ const meassage = () => {
         router.push("/login");
       }
     }
+    setCases(data);
     // else {
     //   router.push("/login");
     // }
@@ -24,7 +29,10 @@ const meassage = () => {
     <ProtectedLayout>
       <div className="w-full">
         <div>
-          <CaseinfoHeader />
+          <CaseInfoHeader
+            caseNumber={cases?.data?.caseNumber}
+            lastUpdated={cases?.data?.lastUpdated}
+          />
         </div>
         <div className="w-full">
           <CaseLayout>
