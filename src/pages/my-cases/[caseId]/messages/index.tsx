@@ -1,4 +1,4 @@
-import CaseinfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
 import Messages from "@/components/CaseInfo/Messages";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
@@ -7,7 +7,7 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const meassage = () => {
+const message = () => {
   const session = useSession();
   const router = useRouter();
   const { data } = useGetSingleCase(router.query?.caseId as string);
@@ -28,7 +28,7 @@ const meassage = () => {
     <ProtectedLayout>
       <div className="w-full">
         <div>
-          <CaseinfoHeader
+          <CaseInfoHeader
             caseNumber={cases?.data?.caseNumber}
             lastUpdated={cases?.data?.lastUpdated}
           />
@@ -58,4 +58,4 @@ export async function getServerSideProps({ req }: any) {
     props: { session },
   };
 }
-export default meassage;
+export default message;
