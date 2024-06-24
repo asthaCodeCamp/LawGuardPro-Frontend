@@ -4,6 +4,7 @@ import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutl
 import EmptyCase from "../Case/EmptyCase";
 import CaseUpdate from "../Case/CaseUpadate"; // Correct import
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 type CaseData = {
   totalCount: number;
@@ -88,13 +89,19 @@ const DashboardMain: React.FC = () => {
             </div>
           </div>
           <div className="flex gap-[24px] ml-[32px] mr-[32px] mt-[32px] mb-[34px]">
+            
             <Button
               className="w-full font-[600] bg-[#F6F6F6] shadow-none text-black"
               variant="text"
             >
+              <Link href={'/settings/personal-info'}>
               Complete your profile{" "}
+              </Link>
+              
               <ArrowForwardIosOutlinedIcon className="w-[14px] ml-[8px]" />
             </Button>
+            
+            
           </div>
         </div>
         {/* Case Update sections */}
