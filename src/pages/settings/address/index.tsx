@@ -76,18 +76,14 @@ const AntTab = styled((props: StyledTabProps) => (
 const Address = () => {
   const [value, setValue] = React.useState(0);
   var index;
-  const session = useSession();
+  // const session = useSession();
   const router = useRouter();
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    // console.log(session, "at notification useEffect");
-    if (session?.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
+    if (!session && status !== "loading") {
+      router.push("/login");
     }
-    // else {
-    //   router.push("/login");
-    // }
   }, [session]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

@@ -41,8 +41,8 @@ export const useCreateQuote = () => {
       });
       return response;
     },
-    onSuccess: (data, variables) =>
-      console.log("successfully created quote", data),
+
+    onSuccess: (data) => console.log("successfully created quote", data),
     onError: (error) => {
       console.log(error);
     },

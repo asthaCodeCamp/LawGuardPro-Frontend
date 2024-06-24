@@ -22,7 +22,7 @@ import React, { useEffect, useState } from "react";
 // import { authOptions } from "../api/auth/[...nextauth]";
 
 const MyCases = () => {
-  const session = useSession();
+  // const session = useSession();
   const router = useRouter();
 
   const [page, setPage] = useState(1);
@@ -59,13 +59,10 @@ const MyCases = () => {
   // },[isPending])
 
   // console.log("Case HEader",caseData);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (session.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
-    } else {
+    if (!session && status !== "loading") {
       router.push("/login");
     }
   }, [session]);

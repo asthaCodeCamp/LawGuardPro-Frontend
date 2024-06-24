@@ -8,21 +8,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const message = () => {
-  const session = useSession();
+  // const session = useSession();
   const router = useRouter();
   const { data } = useGetSingleCase(router.query?.caseId as string);
   const [cases, setCases] = useState(data);
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    // console.log(session, "at notification useEffect");
-    if (session?.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
+    if (!session && status !== "loading") {
+      router.push("/login");
     }
     setCases(data);
-    // else {
-    //   router.push("/login");
-    // }
   }, [session]);
   return (
     <ProtectedLayout>
@@ -45,7 +41,7 @@ const message = () => {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log(session, "session at home page ");
+  console.log(session, "session at message ");
   if (!session) {
     return {
       redirect: {

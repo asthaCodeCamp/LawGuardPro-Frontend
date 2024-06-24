@@ -3,18 +3,14 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 const SingleCase = () => {
-  const session = useSession();
+  // const session = useSession();
   const router = useRouter();
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    // console.log(session, "at notification useEffect");
-    if (session?.data) {
-      if (session?.status !== "authenticated") {
-        router.push("/login");
-      }
+    if (!session && status !== "loading") {
+      router.push("/login");
     }
-    // else {
-    //   router.push("/login");
-    // }
   }, [session]);
   return <div>This is case Info</div>;
 };
