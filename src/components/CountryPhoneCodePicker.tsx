@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, MenuItem, Box } from '@mui/material';
 
 interface Country {
@@ -24,6 +24,15 @@ const countries: Country[] = [
 const PhoneCodePicker: React.FC<PhoneCodePickerProps> = ({ value, onChange }) => {
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [phoneNumber, setPhoneNumber] = useState<string>(value);
+
+  // console.log({value,phoneNumber});
+
+  useEffect(()=>{
+    if(value){
+      const number = value?.split(" ")?.[1];
+      setPhoneNumber(number);
+    }
+  },[value])
 
   const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const country = countries.find(c => c.code === event.target.value);
