@@ -1,21 +1,40 @@
 import CaseDetails from "@/components/CaseInfo/CaseDetails";
-import CaseinfoHeader from "@/components/CaseInfo/CaseinfoHeader";
+import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CircularIndeterminate from "@/components/Spinner/Spinner";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
+import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const PersonalInfo = () => {
+const CaseInfo = () => {
   const session = useSession();
   const router = useRouter();
+  const { data } = useGetSingleCase(router.query?.caseId as string);
+
+  // const [caseInfo, setCaseInfo] = useState<CaseInfoHeaderProps>({
+  //   caseNumber: "",
+  //   lastUpdated: "",
+  // });
+
+  // const [cases, setCases] = useState(data);
+
+  // const{caseNumber,lastUpdated}:CaseInfoHeaderProps=data;
+
+  console.log("Single Case data === ", data);
   useEffect(() => {
     // console.log(session, "at notification useEffect");
+    // console.log("router at case info ===", router);
+
     if (session?.data) {
       if (session?.status !== "authenticated") {
         router.push("/login");
       }
     }
+    // console.log("UseEffect cases === ", cases);
+
+    // setCases(data);
     // else {
     //   router.push("/login");
     // }
@@ -25,11 +44,26 @@ const PersonalInfo = () => {
       <ProtectedLayout>
         <div className="w-full">
           <div>
-            <CaseinfoHeader />
+            {data ? (
+              <CaseInfoHeader
+                caseNumber={data?.data?.caseNumber}
+                lastUpdated={data?.data?.lastUpdated}
+              />
+            ) : (
+              <CaseInfoHeader caseNumber="#00032" lastUpdated={"2024/05/30"} />
+            )}
           </div>
           <div className="w-full">
             <CaseLayout>
-              <CaseDetails />
+              {data ? (
+                <CaseDetails
+                  description={data?.data?.description}
+                  totalQuoted={data?.data?.totalQuoted}
+                  totalPaid={data?.data?.totalPaid}
+                />
+              ) : (
+                <CircularIndeterminate />
+              )}
             </CaseLayout>
           </div>
         </div>
@@ -54,4 +88,4 @@ export async function getServerSideProps({ req }: any) {
   };
 }
 
-export default PersonalInfo;
+export default CaseInfo;

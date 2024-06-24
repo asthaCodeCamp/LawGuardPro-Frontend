@@ -12,11 +12,22 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import MessageSidebarComponent from "../MessageSidebarComponent";
+import { CleaningServices } from "@mui/icons-material";
 
-const CaseinfoHeader = () => {
+interface CaseInfoHeaderProps {
+  caseNumber: string;
+  lastUpdated: string;
+}
+
+const CaseInfoHeader: React.FC<{ caseNumber: string; lastUpdated: string }> = ({
+  caseNumber,
+  lastUpdated,
+}) => {
   const [state, setState] = React.useState({
     right: false,
   });
+
+  console.log(caseNumber, "caseNumber");
 
   const toggleDrawer =
     (anchor: "right", open: boolean) =>
@@ -43,6 +54,16 @@ const CaseinfoHeader = () => {
     </Box>
   );
 
+  var updateDate = lastUpdated?.slice(0, 10);
+  var day = updateDate?.slice(8, 10);
+  var month = updateDate?.slice(5, 7);
+  var year = updateDate?.slice(0, 4);
+  var formattedDate = day + "/" + month + "/" + year;
+
+  if (caseNumber) {
+    console.log("case number == = = ", caseNumber);
+  }
+
   return (
     <>
       <div className="m-[32px] flex justify-between gap-[500px] ">
@@ -59,10 +80,10 @@ const CaseinfoHeader = () => {
           </div>
           <div className="mt-[8px] flex">
             <p className="border-r-2 text-[16px] font-[400] pr-[16px]">
-              CASE NO: #012546
+              CASE NO: #{caseNumber}
             </p>
             <p className="ml-[16px] text-[16px] font-[400]">
-              LAST UPDATED: <span className="font-[600]">20/10/2023</span>
+              LAST UPDATED: <span className="font-[600]">{formattedDate}</span>
             </p>
           </div>
         </div>
@@ -87,4 +108,4 @@ const CaseinfoHeader = () => {
   );
 };
 
-export default CaseinfoHeader;
+export default CaseInfoHeader;
