@@ -88,7 +88,7 @@ const Quotes = () => {
                   </h1>
                 </div>
                 <div>
-                  <AllQuotes />
+                  <AllQuotes quotes = {data?.data?.quotes}/>
                 </div>
               </div>
             ) : (
