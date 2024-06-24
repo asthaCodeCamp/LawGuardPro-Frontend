@@ -25,7 +25,7 @@ export default function CaseTable({casesData}:any) {
   const {cases}:any = casesData;
   return (
     <div className="">
-      {cases?.length > 0 ? (
+      
         <TableContainer>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -103,9 +103,9 @@ export default function CaseTable({casesData}:any) {
             </TableBody>
           </Table>
         </TableContainer>
-      ) : (
-        <div className="flex justify-center"><CircularIndeterminate></CircularIndeterminate></div>
-      )}
+      
+        
+      
     </div>
   );
 }

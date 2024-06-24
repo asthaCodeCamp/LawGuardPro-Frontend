@@ -3,6 +3,7 @@ import CaseTable from "@/components/Case/CaseTable";
 import CaseUpadate from "@/components/Case/CaseUpadate";
 import CaseHeader from "@/components/Case/CasesHeader";
 import AddCaseMoadal from "@/components/Modals/AddCaseModal";
+import CircularIndeterminate from "@/components/Spinner/Spinner";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetAllCases } from "@/modules/MyCases/MyCases.hooks";
 import {
@@ -90,7 +91,7 @@ const MyCases = () => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="w-full">
             <div className="w-full border-b pb-4">
               <div className="px-[32px] mb-4">
                 <div className="flex justify-between items-center py-4 px-6">
@@ -118,7 +119,7 @@ const MyCases = () => {
                       <Skeleton
                         className="mt-1"
                         variant="rectangular"
-                        width={210}
+                        width={50}
                         height={20}
                       />
                     </div>
@@ -152,7 +153,7 @@ const MyCases = () => {
                       <Skeleton
                         className="mt-1"
                         variant="rectangular"
-                        width={210}
+                        width={50}
                         height={20}
                       />
                     </div>
@@ -176,113 +177,9 @@ const MyCases = () => {
                 </div>
               </div>
             </div>
-            <div className="">
-              <TableContainer>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <span className="text-[14px] text-[#6D6D6D] ml-[32px]">
-                          CASE NO.
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] text-[#6D6D6D]">
-                          CASE TITLE
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] text-[#6D6D6D]">
-                          TOTAL QUOTED
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] text-[#6D6D6D]">
-                          TOTAL PAID
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] text-[#6D6D6D]">
-                          LAST UPDATED
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] text-[#6D6D6D] mr-[32px]">
-                          STATUS
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        <span className="text-[14px] font-[400] ml-[32px]">
-                          <Skeleton
-                            variant="rectangular"
-                            width={210}
-                            height={20}
-                          />
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] font-[400]">
-                          <Skeleton
-                            className="mt-2"
-                            variant="rectangular"
-                            width={210}
-                            height={20}
-                          />
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] font-[400]">
-                          <Skeleton
-                            className="mt-2"
-                            variant="rectangular"
-                            width={210}
-                            height={20}
-                          />
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] font-[400]">
-                          <Skeleton
-                            className="mt-2"
-                            variant="rectangular"
-                            width={210}
-                            height={20}
-                          />
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[14px] font-[400]">
-                          <Skeleton
-                            className="mt-2"
-                            variant="rectangular"
-                            width={210}
-                            height={20}
-                          />
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span
-                          className={`text-[16px] font-[400] border-2 px-3 rounded-2xl mr-[34px] py-1`}
-                        >
-                          <Skeleton
-                            className="mt-1"
-                            variant="rectangular"
-                            width={210}
-                            height={20}
-                          />
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
+               <div className="flex justify-center mt-20">
+               <CircularIndeterminate></CircularIndeterminate>
+               </div>
           </div>
         )}
       </ProtectedLayout>
@@ -292,7 +189,7 @@ const MyCases = () => {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log(session, "session at home page ");
+  console.log(session, "session at home page ");    
   if (!session) {
     return {
       redirect: {
