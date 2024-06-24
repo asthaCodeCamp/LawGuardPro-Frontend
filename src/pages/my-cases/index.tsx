@@ -5,9 +5,11 @@ import CaseHeader from "@/components/Case/CasesHeader";
 import AddCaseMoadal from "@/components/Modals/AddCaseModal";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetAllCases } from "@/modules/MyCases/MyCases.hooks";
+import { getServerSession } from "next-auth";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+// import { authOptions } from "../api/auth/[...nextauth]";
 
 const MyCases = () => {
   const session = useSession();
@@ -83,7 +85,6 @@ const MyCases = () => {
               </div>
               <div className=""></div>
             </div>
-            )
           </div>
         )}
       </ProtectedLayout>
