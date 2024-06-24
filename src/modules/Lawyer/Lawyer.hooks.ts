@@ -6,16 +6,16 @@ import { getLawyerByCaseId } from "./Lawyer.service";
 // import { getAllAttachments } from "./Attachments.service";
 
 export const useGetLawyerByCaseId  = ( caseID : string ) =>{
-    const session  = useSession();
+    const {data:session}  = useSession();
     return useQuery({
         queryKey: [QueryKeys.lawyer ,  caseID],
         queryFn: async () =>{
-            const lawyer = await getLawyerByCaseId({caseID: caseID ,   accessToken: session.data?.accessToken})
+            const lawyer = await getLawyerByCaseId({caseID: caseID ,   accessToken: session?.accessToken})
             return lawyer ;
         },
         refetchOnMount: true,
         refetchOnWindowFocus: false,
-        enabled: !!session.data?.accessToken,
+        enabled: !!session?.accessToken,
         retry: 1,
     })
 }
