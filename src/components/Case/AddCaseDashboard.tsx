@@ -8,8 +8,8 @@ import SuccessModal from "../Modals/SuccessModal";
 // }
 const AddCaseDashboard : React.FC<any> = ({casesData}) => {
   console.log("case data from header", casesData);
-  const {openCase, closedCase,onAddCaseClick} = casesData;
-  console.log('opencase', openCase);
+  // const {openCase, closedCase,onAddCaseClick} = casesData;
+  // console.log('opencase', openCase);
   
   const [addCaseOpen, setAddCaseOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
