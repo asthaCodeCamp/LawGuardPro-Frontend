@@ -10,13 +10,15 @@ const MessageSidebarComponent = () => {
     <div className="p-6 z-10">
       <div className="flex justify-between pr-6">
         <p className="text-2xl font-semibold">More Details</p>
-        <Image
-          src={closeImage}
-          alt="Picture of the author"
-          width={30}
-          height={20}
-          className="rounded-full"
-        />
+        <button>
+          <Image
+            src={closeImage}
+            alt="Picture of the author"
+            width={30}
+            height={20}
+            className="rounded-full"
+          />
+        </button>
       </div>
       <div className="mt-6 mb-12 ">
         <p className="font-semibold mb-2">Client details</p>
@@ -57,7 +59,7 @@ const MessageSidebarComponent = () => {
       <div className="border rounded-md p-2">
         <p className="font-semibold my-4">Ratings from previous clients</p>
         <div className="mb-4">
-          <span>star star</span> <span>4.5 out of 5</span>
+          <span>⭐⭐⭐⭐</span> <span>4 out of 5</span>
           <p className="mt-4 font-semibold">Clients Feedback</p>
           <div className="border-b-2 "></div>
           <div className="flex my-6">
