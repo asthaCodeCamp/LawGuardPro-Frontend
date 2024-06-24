@@ -1,4 +1,4 @@
-import CaseInfoHeader from "@/components/CaseInfo/CaseinfoHeader";
+import CaseinfoHeader from "@/components/CaseInfo/CaseInfoHeader";
 import Messages from "@/components/CaseInfo/Messages";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
@@ -28,7 +28,7 @@ const meassage = () => {
     <ProtectedLayout>
       <div className="w-full">
         <div>
-          <CaseInfoHeader
+          <CaseinfoHeader
             caseNumber={cases?.data?.caseNumber}
             lastUpdated={cases?.data?.lastUpdated}
           />

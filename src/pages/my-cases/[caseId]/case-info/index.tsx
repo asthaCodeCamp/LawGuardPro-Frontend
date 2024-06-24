@@ -1,28 +1,12 @@
 import CaseDetails from "@/components/CaseInfo/CaseDetails";
 import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CircularIndeterminate from "@/components/Spinner/Spinner";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-interface CaseInfoHeaderProps {
-  caseNumber: string;
-  lastUpdated: string;
-}
-
-interface CaseData {
-  caseId: string;
-  caseName: string;
-  caseNumber: string;
-  lastUpdated: string;
-  status: string;
-  totalPaid: number;
-  totalQuoted: number;
-  description: string;
-  lawyerId: string;
-  userId: string;
-}
 
 const CaseInfo = () => {
   const session = useSession();
@@ -34,7 +18,7 @@ const CaseInfo = () => {
   //   lastUpdated: "",
   // });
 
-  const [cases, setCases] = useState(data);
+  // const [cases, setCases] = useState(data);
 
   // const{caseNumber,lastUpdated}:CaseInfoHeaderProps=data;
 
@@ -48,9 +32,9 @@ const CaseInfo = () => {
         router.push("/login");
       }
     }
-    console.log("UseEffect cases === ", cases);
+    // console.log("UseEffect cases === ", cases);
 
-    setCases(data);
+    // setCases(data);
     // else {
     //   router.push("/login");
     // }
@@ -60,14 +44,26 @@ const CaseInfo = () => {
       <ProtectedLayout>
         <div className="w-full">
           <div>
-            <CaseInfoHeader
-              caseNumber={cases?.data?.caseNumber}
-              lastUpdated={cases?.data?.lastUpdated}
-            />
+            {data ? (
+              <CaseInfoHeader
+                caseNumber={data?.data?.caseNumber}
+                lastUpdated={data?.data?.lastUpdated}
+              />
+            ) : (
+              <CaseInfoHeader caseNumber="#00032" lastUpdated={"2024/05/30"} />
+            )}
           </div>
           <div className="w-full">
             <CaseLayout>
-              <CaseDetails description={cases?.data?.description} />
+              {data ? (
+                <CaseDetails
+                  description={data?.data?.description}
+                  totalQuoted={data?.data?.totalQuoted}
+                  totalPaid={data?.data?.totalPaid}
+                />
+              ) : (
+                <CircularIndeterminate />
+              )}
             </CaseLayout>
           </div>
         </div>
