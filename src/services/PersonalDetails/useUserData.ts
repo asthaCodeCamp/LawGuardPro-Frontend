@@ -39,7 +39,8 @@ const useUserData = () => {
           });
 
           const response = await axios.get(`http://54.203.205.46:5140/api/usersauth/getuserinfo?Email=${session.user.email}`);
-          const user = response.data;
+          const user = response?.data?.data;
+          console.log(user,"sabbir");
           setFetchedUserData(user)
         } else {
           console.log('No session found');
@@ -51,7 +52,7 @@ const useUserData = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [1]);
 
   const updateUser = async (userData: User) => {
     try {

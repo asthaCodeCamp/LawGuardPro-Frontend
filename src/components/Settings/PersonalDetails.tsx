@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Button, TextField } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { Button, TextField, CircularProgress } from "@mui/material";
 import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
 import man from "../../../public/assets/man.png";
@@ -8,16 +8,23 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const PersonalDetails: React.FC = () => {
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
+  const [loading, setLoading] = useState(false);
+console.log(fetchedUserData);
   useEffect(() => {
-    if (fetchedUserData?.data) {
-      const { firstName, lastName, email, phoneNumber } = fetchedUserData.data;
+    if (fetchedUserData) {
+      const { firstName, lastName, email, phoneNumber } = fetchedUserData;
       setUserData({ firstName, lastName, email, phoneNumber });
     }
   }, [fetchedUserData, setUserData]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await updateUser(userData);
+    setLoading(true);
+    try {
+      await updateUser(userData);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +76,8 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="email">Email address</label>
             <TextField
+              id="email"
+              name="email"
               value={userData.email}
               InputProps={{
                 readOnly: true,
@@ -78,11 +87,18 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="phoneNumber">Phone number</label>
             <PhoneCodePicker
-              value={userData.phoneNumber || ' '}
+              value={userData.phoneNumber || ''}
               onChange={handlePhoneChange}
             />
           </div>
-          <Button className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize" variant="contained" type="submit">Save Changes</Button>
+          <Button 
+            className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize" 
+            variant="contained" 
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Save Changes'}
+          </Button>
         </form>
       </div>
     </div>
