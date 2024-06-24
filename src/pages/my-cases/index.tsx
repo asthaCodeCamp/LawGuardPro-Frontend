@@ -19,6 +19,7 @@ import { getSession, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+// import { authOptions } from "../api/auth/[...nextauth]";
 
 const MyCases = () => {
   const session = useSession();
