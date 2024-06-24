@@ -4,10 +4,27 @@ import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import { Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useCreateQuote } from "@/modules/CaseQuotes/CaseQuotes.hooks";
+import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
+import { useRouter } from "next/router";
 const Messages = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(0);
+
   const getRandomValue = () => {
-    return (Math.random() * 1000).toFixed(2);
+    return Math.floor(Math.random() * 1000);
+  };
+
+  const { mutate: createQuotes, isPending } = useCreateQuote();
+  const router = useRouter();
+  const { data } = useGetSingleCase(router.query?.caseId as string);
+  console.log(data, "data at messages");
+  const onCreateQuote = () => {
+    createQuotes({
+      caseId: data.data.caseId,
+      lawerId: data.data.lawyerId,
+      value: value,
+      totalValue: value,
+    });
   };
 
   useEffect(() => {
@@ -155,7 +172,10 @@ const Messages = () => {
                 </div>
               </div>
               <div className="flex justify-end">
-                <button className="px-3 py-3 bg-[#6B0F99] hover:bg-[#6B0F99] text-white rounded">
+                <button
+                  className="px-3 py-3 bg-[#6B0F99] hover:bg-[#6B0F99] text-white rounded"
+                  onClick={() => onCreateQuote()}
+                >
                   ACCEPT QUOTE
                 </button>
               </div>
