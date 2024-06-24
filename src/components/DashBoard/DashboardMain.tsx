@@ -5,6 +5,7 @@ import EmptyCase from "../Case/EmptyCase";
 import CaseUpdate from "../Case/CaseUpadate"; // Correct import
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import CircularIndeterminate from "../Spinner/Spinner";
 
 type CaseData = {
   totalCount: number;
@@ -13,6 +14,7 @@ type CaseData = {
 
 const DashboardMain: React.FC = () => {
   const [showCaseUpdate, setShowCaseUpdate] = useState(false);
+  const [loading, setLoading] = useState(true); 
   const session = useSession();
   let fullName =
     session?.data?.user?.firstName + " " + session?.data?.user?.lastName;
@@ -27,6 +29,7 @@ const DashboardMain: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await fetch(
           `http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
           {
@@ -40,7 +43,10 @@ const DashboardMain: React.FC = () => {
         setCaseData(result);
       } catch (error) {
         console.error("Error fetching data:", error);
+      }finally {
+        setLoading(false); 
       }
+      
     };
 
     fetchData();
@@ -106,7 +112,18 @@ const DashboardMain: React.FC = () => {
         </div>
         {/* Case Update sections */}
         <div className="mb-10">
-          {totalCount === 0 ? <EmptyCase /> : <CaseUpdate />}
+        {loading ? (
+            <div className="flex justify-center">
+              <CircularIndeterminate />
+            </div>
+          ) : (
+            // Conditionally render the EmptyCase or CaseUpdate component based on the totalCount
+            totalCount === 0 ? (
+              <EmptyCase />
+            ) : (
+              <CaseUpdate />
+            )
+          )}
         </div>
       </div>
       <div className="ml-[32px] flex flex-col w-[30%]">

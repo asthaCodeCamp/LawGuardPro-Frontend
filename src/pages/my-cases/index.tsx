@@ -3,6 +3,7 @@ import CaseTable from "@/components/Case/CaseTable";
 import CaseUpadate from "@/components/Case/CaseUpadate";
 import CaseHeader from "@/components/Case/CasesHeader";
 import AddCaseMoadal from "@/components/Modals/AddCaseModal";
+import CaseTableSkeleton from "@/components/Skeleton/CaseTableSkeleton";
 import CircularIndeterminate from "@/components/Spinner/Spinner";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetAllCases } from "@/modules/MyCases/MyCases.hooks";
@@ -177,8 +178,8 @@ const MyCases = () => {
                 </div>
               </div>
             </div>
-               <div className="flex justify-center mt-20">
-               <CircularIndeterminate></CircularIndeterminate>
+               <div className="px-8">
+               <CaseTableSkeleton></CaseTableSkeleton>
                </div>
           </div>
         )}
