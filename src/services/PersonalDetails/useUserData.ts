@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getSession, useSession } from 'next-auth/react';
+import useUserNameStore from '@/utilites/store';
 
 interface User {
   firstName: string;
@@ -23,6 +24,8 @@ const useUserData = () => {
     phoneNumber: '',
     email: '',
   });
+
+  const setName = useUserNameStore((state) => state.setName)
 
   const [fetchedUserData, setFetchedUserData] = useState<User | null>(null);
 
@@ -48,6 +51,7 @@ const useUserData = () => {
           const user = response?.data?.data;
           console.log(user, "sabbir");
           setFetchedUserData(user)
+          setName(user.firstName+' '+user.lastName);
         } else {
           console.log('No session found');
         }

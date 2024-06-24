@@ -7,10 +7,12 @@ import useUserData from '../../services/PersonalDetails/useUserData';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import useUserNameStore from '@/utilites/store';
 
 const PersonalDetails: React.FC = () => {
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
   const { data,update } = useSession();
+  const setName = useUserNameStore((state) => state.setName)
   // const router = useRouter();
   console.log(data);
   const [loading, setLoading] = useState(false);
@@ -35,9 +37,8 @@ const PersonalDetails: React.FC = () => {
         email: res.email
       });
       // router.reload();
-      update((prev:any) => ({...prev, user: {firstName: res.firstname,
-        lastName: res.lastName,
-        email: res.email}}))
+      setName(res.firstName+' '+res.lastName)
+      
 
     } finally {
       setLoading(false);
