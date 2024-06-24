@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react';
 import AddCaseDashboard from './AddCaseDashboard';
 import DashboardCaseTable from './DashboardCaseTable';
 import { useGetAllCases } from '@/modules/MyCases/MyCases.hooks';
+import CircularIndeterminate from '../Spinner/Spinner';
 
 interface CaseUpdateProps { }
 
@@ -78,7 +79,11 @@ const CaseUpdate: React.FC<CaseUpdateProps> = ({ casesData }: any) => {
       <div>
         {/* <CaseTable casesData={caseData} /> */}
         {
-          data && <DashboardCaseTable casesData= {data}/>
+          data ? (<DashboardCaseTable casesData= {data}/>):(
+            <div className='flex justify-center  mt-10'>
+              <CircularIndeterminate></CircularIndeterminate>
+            </div>
+          )
         }
       </div>
     </div>
