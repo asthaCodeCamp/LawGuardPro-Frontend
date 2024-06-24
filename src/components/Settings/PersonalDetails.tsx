@@ -1,60 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Button, TextField } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { Button, TextField, CircularProgress } from "@mui/material";
 import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
 import man from "../../../public/assets/man.png";
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import useUserData from '../../services/PersonalDetails/useUserData';
 import 'react-toastify/dist/ReactToastify.css';
-import { getSession } from 'next-auth/react';
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber?: string;
-}
-
-interface Session {
-  user: User;
-  expires: string;
-}
 
 const PersonalDetails: React.FC = () => {
-  const [userData, setUserData] = useState<User>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-  });
-
-  const [userDataSession, setUserDataSession] = useState<User | null>(null);
-
+  const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
+  const [loading, setLoading] = useState(false);
+console.log(fetchedUserData);
   useEffect(() => {
-    const fetchUser = async () => {
-      const session = await getSession() as Session | null;
-      if (session && session.user) {
-        setUserDataSession(session.user);
-        setUserData({
-          firstName: session.user.firstName,
-          lastName: session.user.lastName,
-          email: session.user.email,
-          phoneNumber: session.user.phoneNumber || '',
-        });
-      }
-    };
-
-    fetchUser();
-  }, []);
+    if (fetchedUserData) {
+      const { firstName, lastName, email, phoneNumber } = fetchedUserData;
+      setUserData({ firstName, lastName, email, phoneNumber });
+    }
+  }, [fetchedUserData, setUserData]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     try {
-      await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData);
-      toast.success('User Update Successful');
-    } catch (error) {
-      console.error('Failed to update user:', error);
-      toast.error('Failed to update user');
+      await updateUser(userData);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,6 +76,8 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="email">Email address</label>
             <TextField
+              id="email"
+              name="email"
               value={userData.email}
               InputProps={{
                 readOnly: true,
@@ -116,10 +87,18 @@ const PersonalDetails: React.FC = () => {
           <div className='flex flex-col mt-[16px] mx-8'>
             <label className='mb-[12px] text-[16px] font-medium' htmlFor="phoneNumber">Phone number</label>
             <PhoneCodePicker
+              value={userData.phoneNumber || ''}
               onChange={handlePhoneChange}
             />
           </div>
-          <Button className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize" variant="contained" type="submit">Save Changes</Button>
+          <Button 
+            className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize" 
+            variant="contained" 
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Save Changes'}
+          </Button>
         </form>
       </div>
     </div>
