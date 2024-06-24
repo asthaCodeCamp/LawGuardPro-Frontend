@@ -189,7 +189,9 @@ export default function ProtectedLayout({
             <Link href="/">
               <ListItem
                 className={
-                  router.pathname === "/" ? "text-violet-900" : "text-black"
+                  router.pathname === "/"
+                    ? "text-violet-900 bg-purple-300"
+                    : "text-black"
                 }
                 disablePadding
                 sx={{ display: "block" }}
@@ -225,7 +227,7 @@ export default function ProtectedLayout({
               <ListItem
                 className={
                   router.pathname === "/notification"
-                    ? "text-violet-900 my-5"
+                    ? "text-violet-900 bg-purple-300 my-5"
                     : "text-black my-5"
                 }
                 disablePadding
@@ -265,7 +267,7 @@ export default function ProtectedLayout({
               <ListItem
                 className={
                   router.pathname === "/my-cases"
-                    ? "text-violet-900 my-5"
+                    ? "text-violet-900 bg-purple-300 my-5"
                     : "text-black my-5"
                 }
                 disablePadding
@@ -305,7 +307,9 @@ export default function ProtectedLayout({
               <ListItem
                 className="my-5"
                 disablePadding
-                sx={{ display: "block" }}
+                sx={{
+                  display: "block",
+                }}
               >
                 <ListItemButton
                   sx={{
@@ -323,8 +327,8 @@ export default function ProtectedLayout({
                   >
                     <SettingsOutlinedIcon
                       className={
-                        router.pathname === "/settings"
-                          ? "text-violet-900"
+                        router.pathname === "/settings/personal-info"
+                          ? "text-violet-900 "
                           : "text-black"
                       }
                     />
