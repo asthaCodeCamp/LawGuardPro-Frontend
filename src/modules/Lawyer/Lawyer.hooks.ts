@@ -5,13 +5,13 @@ import { useSession } from "next-auth/react";
 import { getLawyerByCaseId } from "./Lawyer.service";
 // import { getAllAttachments } from "./Attachments.service";
 
-export const useGetLawyerByCaseId  = ({ caseID }: {caseID: string  }) =>{
+export const useGetLawyerByCaseId  = ( caseID : string ) =>{
     const session  = useSession();
     return useQuery({
         queryKey: [QueryKeys.lawyer ,  caseID],
         queryFn: async () =>{
             const lawyer = await getLawyerByCaseId({caseID: caseID ,   accessToken: session.data?.accessToken})
-            return lawyer.data ;
+            return lawyer ;
         },
         refetchOnMount: true,
         refetchOnWindowFocus: false,

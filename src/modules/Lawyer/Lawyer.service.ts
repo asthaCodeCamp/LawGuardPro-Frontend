@@ -4,5 +4,5 @@ export const getLawyerByCaseId = async ({caseID  , accessToken } : {caseID: stri
           Authorization: `Bearer ${accessToken}`,
         }
       });
-    return response.json()
+    return response.json();
 }

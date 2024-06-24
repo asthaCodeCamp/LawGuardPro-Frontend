@@ -4,8 +4,33 @@ import userImageMan from "../../public/assets/man.png";
 import lawyerImage from "../../public/assets/lawyer.png";
 import closeImage from "../../public/assets/Close.png";
 import { Button } from "@mui/material";
+import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useGetLawyerByCaseId } from "@/modules/Lawyer/Lawyer.hooks";
 
 const MessageSidebarComponent = () => {
+
+
+  const session = useSession();
+  const router = useRouter();
+  const { data } = useGetSingleCase(router.query?.caseId as string);
+
+  // console.log("Soykot alam data ",data);
+  const {firstName ,lastName} = session.data?.user;
+  const {userId} = data?.data;
+  console.log('soykot userId ', userId);
+  const userIdSplit = userId.split("-");
+  console.log(userIdSplit);
+  const {caseId} = data?.data;
+  // console.log("Case Id",caseId);
+
+  const lawyerData = useGetLawyerByCaseId(router?.query.caseId as string);
+  console.log("Soykot Alam Lawyer", lawyerData);
+console.log("Data data data ",lawyerData.data);
+  // const {lawyerName} = lawyerData?.data?.data;
+
+console.log('Single Case data Soykot', data);
   return (
     <div className="p-6 z-10">
       <div className="flex justify-between pr-6">
@@ -33,8 +58,8 @@ const MessageSidebarComponent = () => {
             />
           </div>
           <div className="ml-4">
-            <p className="font-semibold">Tomal Ahmed</p>
-            <p>ID - 112235017</p>
+            <p className="font-semibold">{(firstName + " " +lastName)}</p>
+            <p>ID - {userIdSplit[0]}</p>
           </div>
         </div>
       </div>
@@ -51,7 +76,7 @@ const MessageSidebarComponent = () => {
             />
           </div>
           <div className="ml-4">
-            <p className="font-semibold">Saifa Ahmed</p>
+            <p className="font-semibold">lawyerName</p>
             <p className="text-violet-800">Lawyer</p>
           </div>
         </div>
