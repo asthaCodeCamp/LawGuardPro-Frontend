@@ -23,6 +23,7 @@ import userImage from "../../../public/assets/man.png";
 import { useRouter } from "next/router";
 import svgs from "@/components/svg/svg";
 import { getSession, useSession } from "next-auth/react";
+import useUserData from '../../services/PersonalDetails/useUserData';
 
 import { signOut } from "next-auth/react";
 
@@ -103,10 +104,17 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { data: session } = useSession();
-  const userName = session?.user?.firstName
-    ? `${session.user.firstName} ${session.user.lastName}`
-    : `${session?.user?.name}`;
+  // const { data: session } = useSession();
+  const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
+  useEffect(() => {
+    if (fetchedUserData) {
+      const { firstName, lastName, email, phoneNumber } = fetchedUserData;
+      setUserData({ firstName, lastName, email, phoneNumber });
+    }
+  }, [fetchedUserData, setUserData]);
+  // const userName = session?.user?.firstName
+  //   ? `${session.user.firstName} ${session.user.lastName}`
+  //   : `${session?.user?.name}`;
 
   const [open, setOpen] = React.useState(
     router.pathname == "/settings" ||
@@ -173,7 +181,7 @@ export default function ProtectedLayout({
                   height={40}
                   className="rounded-full"
                 />
-                <Typography className="ml-2 text-black">{userName}</Typography>
+                <Typography className="ml-2 text-black">{userData?.firstName} {" "} {userData?.lastName} </Typography>
               </div>
             </div>
           </Typography>
