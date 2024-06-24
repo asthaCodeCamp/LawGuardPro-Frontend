@@ -26,6 +26,7 @@ import { getSession, useSession } from "next-auth/react";
 import useUserData from '../../services/PersonalDetails/useUserData';
 
 import { signOut } from "next-auth/react";
+import useUserNameStore from "@/utilites/store";
 
 const drawerWidth = 240;
 
@@ -104,7 +105,8 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  // const { data: session } = useSession();
+  const name = useUserNameStore((state)=>state.name);
+  // console.log(session);
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
   useEffect(() => {
     if (fetchedUserData) {
@@ -181,7 +183,7 @@ export default function ProtectedLayout({
                   height={40}
                   className="rounded-full"
                 />
-                <Typography className="ml-2 text-black">{userData?.firstName} {" "} {userData?.lastName} </Typography>
+                <Typography className="ml-2 text-black">{name} </Typography>
               </div>
             </div>
           </Typography>
