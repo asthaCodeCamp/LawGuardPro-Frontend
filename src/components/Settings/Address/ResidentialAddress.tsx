@@ -67,7 +67,7 @@ const ResidentialAddress: React.FC = () => {
         }
       );
 
-      toast.success("Form submitted successfully!");
+      toast.success("Residental Address submitted successfully!");
       setLoading(false);
       console.log("Form submitted successfully:", response.data);
 
@@ -106,7 +106,7 @@ const ResidentialAddress: React.FC = () => {
       addressLine1: data.addressLine1,
       addressLine2: data.addressLine2,
       town: data.town,
-      postalCode: data.postalCode || 0,
+      postalCode: data.postalCode,
       country: data.country,
     })
   }
