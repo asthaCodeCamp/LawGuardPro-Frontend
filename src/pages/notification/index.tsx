@@ -1,9 +1,11 @@
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import EmptyNotification from "@/components/Notification/EmptyNotification";
 import { Box, Tab, Tabs, Typography, styled } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import AllNotification from "@/components/Notification/AllNotification";
 import UnreadNotification from "@/components/Notification/UnreadNotification";
+import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -84,6 +86,19 @@ const Notification = () => {
     setValue(newValue);
   };
 
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const { pathname } = router;
+
+  // console.log("Login session == ", session);
+  // console.log("notification pathname ==== ", pathname);
+
+  useEffect(() => {
+    if (!session && status !== "loading") {
+      router.push("/login");
+    }
+  }, [session]);
+
   return (
     <ProtectedLayout>
       <Box className="block w-full max-h-screen">
@@ -130,4 +145,20 @@ const Notification = () => {
     </ProtectedLayout>
   );
 };
+
+// export async function getServerSideProps({ req }: any) {
+//   const session = await getSession({ req });
+//   console.log(session, "session at home page ");
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: { session },
+//   };
+// }
 export default Notification;

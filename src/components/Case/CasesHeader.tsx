@@ -1,31 +1,63 @@
 import { Button } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import AddCaseModal from "../Modals/AddCaseModal";
+import SuccessModal from "../Modals/SuccessModal";
+// import { casesData } from "./CaseTable";
+// interface MyCasesProps {
+//   casesData: casesData[];
+// }
+const CasesHeader : React.FC<any> = ({casesData}) => {
+  console.log("case data from header", casesData);
+  const {openCase, closedCase,onAddCaseClick} = casesData;
+  console.log('opencase', openCase);
+  
+  const [addCaseOpen, setAddCaseOpen] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
 
-const CasesHeader = () => {
+  const handleOpenAddCaseModal = () => {
+    setAddCaseOpen(true);
+  };
+
+  const handleCloseAddCaseModal = () => {
+    setAddCaseOpen(false);
+  };
+
+  const handleOpenSuccessModal = () => {
+    setSuccessOpen(true);
+  };
+
+  const handleCloseSuccessModal = () => {
+    setSuccessOpen(false);
+  };
+
+
+  
+
   return (
     <div className="w-full border-b pb-4">
-      <div className=" px-[32px] mb-4">
+      <div className="px-[32px] mb-4">
         <div className="flex justify-between items-center py-4 px-6">
           <div>
-            <h1 className=" text-2xl font-semibold  mb-2">My All Cases</h1>
+            <h1 className="text-2xl font-semibold mb-2">My All Cases</h1>
             <p>Check your all case list.</p>
           </div>
-          <div className="">
+          <div>
             <Button
               className="bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] font-[600] ml-4"
               variant="contained"
+               onClick={handleOpenAddCaseModal}
             >
               + Add new case
             </Button>
           </div>
         </div>
       </div>
-      <div className=" px-[32px]">
-        <div className="flex justify-between items-center px-6 gap-4  ">
-          <div className=" flex justify-between w-full px-6 pt-6 rounded-lg  border">
+      <div className="px-[32px]">
+        <div className="flex justify-between items-center px-6 gap-4">
+          <div className="flex justify-between w-full px-6 pt-6 rounded-lg border">
             <div>
-              <p>Open Cases </p>
-              <h1 className="text-2xl font-semibold ">03</h1>
+              <p>Open Cases</p>
+              <h1 className="text-2xl font-semibold">{casesData.openCase}</h1>
             </div>
             <div>
               <svg
@@ -35,7 +67,7 @@ const CasesHeader = () => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g clip-path="url(#clip0_472_18038)">
+                <g clipPath="url(#clip0_472_18038)">
                   <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -51,10 +83,10 @@ const CasesHeader = () => {
               </svg>
             </div>
           </div>
-          <div className=" flex justify-between w-full px-6 pt-6 rounded-lg border">
+          <div className="flex justify-between w-full px-6 pt-6 rounded-lg border">
             <div>
-              <p>Closed Cases </p>
-              <h1 className="text-2xl font-semibold ">02</h1>
+              <p>Closed Cases</p>
+              <h1 className="text-2xl font-semibold">{casesData.closedCase}</h1>
             </div>
             <div>
               <svg
@@ -75,6 +107,17 @@ const CasesHeader = () => {
           </div>
         </div>
       </div>
+      {/* {showModal && <AddCaseModal />} */}
+      <AddCaseModal
+        open={addCaseOpen}
+        handleClose={handleCloseAddCaseModal}
+        handleOpenSuccessModal={handleOpenSuccessModal}
+      />
+      <SuccessModal
+        open={successOpen}
+        handleClose={handleCloseSuccessModal}
+      />
+
     </div>
   );
 };

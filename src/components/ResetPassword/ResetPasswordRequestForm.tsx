@@ -1,18 +1,41 @@
-import { TextField } from "@mui/material";
-import React from "react";
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { TextField } from '@mui/material';
+import axios from 'axios';
+import Link from 'next/link';
 
-const ResetPasswordRequestForm = () => {
+const ResetPasswordRequestForm: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('http://54.203.205.46:5140/api/usersauth/forgetpassword', { email });
+      console.log(response);
+      if (response?.status===200) {
+        setMessage('Reset link sent successfully!');
+      } else {
+        setMessage('Failed to send reset link. Please try again.');
+      }
+    } catch (error) {
+      setMessage('An error occurred. Please try again.');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="bg-white rounded-lg px-8 py-6 max-w-lg w-full">
         <h1 className="text-2xl font-semibold mb-4">Reset Password</h1>
         <div className="w-[463px] mb-6">
           <p className="mb-4">
-            Enter the email address you signed up with. We’ll send you an email
-            with a link to reset your password.
+            Enter the email address you signed up with. We’ll send you an email with a link to reset your password.
           </p>
         </div>
-        <form className="w-[463px]">
+        <form className="w-[463px]" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium mb-2">
               Email
@@ -20,7 +43,9 @@ const ResetPasswordRequestForm = () => {
             <TextField
               type="email"
               id="email"
-              className="shadow-sm rounded-md w-full  border border-gray-300 focus:outline-none focus:ring-LawGuardPurple focus:border-LawGuardPurple"
+              value={email}
+              onChange={handleEmailChange}
+              className="shadow-sm rounded-md w-full border border-gray-300 focus:outline-none focus:ring-LawGuardPurple focus:border-LawGuardPurple"
               required
             />
           </div>
@@ -30,10 +55,11 @@ const ResetPasswordRequestForm = () => {
           >
             Send Reset Link
           </button>
+          {message && <p className="text-center mt-4 text-red-600">{message}</p>}
           <div className="text-center mt-8">
-            <button className="text-xl font-semibold" type="button">
+            <Link href={"/login"} className="text-xl font-semibold" type="button">
               Cancel
-            </button>
+            </Link>
           </div>
         </form>
       </div>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import clsx from "clsx";
 import { styled, css } from "@mui/system";
 import { Modal as BaseModal } from "@mui/base/Modal";
@@ -17,6 +18,11 @@ import {
   TextFieldVariants,
 } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import { InquiryType } from "@/utilites/InquiryType";
+import { useSession } from "next-auth/react";
+import svgs from "@/components/svg/svg";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { QueryKeys } from "@/utilites/enums";
 
 const Backdrop = React.forwardRef<
   HTMLDivElement,
@@ -96,10 +102,177 @@ const ModalContent = styled("div")(
   `
 );
 
-const AddCaseMoadal = () => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+interface AddCaseModalProps {
+  open: boolean;
+  handleClose: () => void;
+  handleOpenSuccessModal: () => void;
+}
+
+const AddCaseModal: React.FC<AddCaseModalProps> = ({
+  open,
+  handleClose,
+  handleOpenSuccessModal,
+}) => {
+  const [inquiryName, setInquiryName] = React.useState("");
+  const [inquiryType, setInquiryType] = React.useState<any>(null);
+  const [description, setDescription] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+  const { data: session } = useSession();
+
+  console.log("modal session ==== ", session);
+
+  const [error, setError] = React.useState<string | null>(null);
+  const options = [
+    "Corporate",
+    "Criminal",
+    "Family",
+    "Personal Injury",
+    "Estate Planning",
+    "Immigration",
+    "Intellectual Property",
+    "Employment",
+    "Bankruptcy",
+    "Tax",
+    "Environmental",
+    "Real Estate",
+    "Civil Rights",
+    "Entertainment",
+    "Health Care",
+    "International",
+    "Contract",
+    "Maritime",
+    "Securities",
+    "Education",
+  ];
+  const handleInquiryNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log("Inquiry type === ", event.target.value);
+    setInquiryName(event.target.value);
+  };
+  const queryClient = useQueryClient();
+
+  const handleInquiryTypeChange = (
+    event: React.ChangeEvent<{}>,
+    newValue: string | null
+  ) => {
+    setInquiryType(newValue);
+    console.log("Inquiry type === ", newValue);
+  };
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDescription(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const requestData = {
+      caseName: inquiryName,
+      caseType: inquiryType,
+      description: description,
+      attachment: "string",
+    };
+    console.log(requestData);
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "http://54.203.205.46:5140/api/case",
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      handleFileUpload();
+
+      handleClose();
+      handleOpenSuccessModal();
+      console.log("Response from server:", response.data);
+      setInquiryName("");
+      setInquiryType("");
+      setDescription("");
+    } catch (error) {
+      console.error("Error submitting form", error);
+      setError("Failed to submit the form. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  // file upload chunk--------
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const file = event.target.files?.[0] || null;
+    setSelectedFile(file);
+  };
+
+  const handleFileUpload = (): void => {
+    if (!selectedFile) {
+      // alert("Please select a file to upload.");
+      return;
+    }
+
+    const chunkSize = 1 * 1024 * 1024; // 1MB
+    const totalChunks = Math.ceil(selectedFile.size / chunkSize);
+    let chunkNumber = 0;
+    let start = 0;
+    let end = chunkSize;
+
+    const uploadNextChunk = async (): Promise<void> => {
+      if (start < selectedFile.size) {
+        const chunk = selectedFile.slice(start, end);
+        const formData = new FormData();
+        formData.append("chunk", chunk);
+        formData.append("fileName", selectedFile.name);
+        formData.append("chunkIndex", chunkNumber.toString());
+        formData.append("totalChunks", totalChunks.toString());
+
+        try {
+          const response = await fetch(
+            "http://54.203.205.46:5140/api/filecontroller/upload-chunk",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          const data = await response.json();
+
+          console.log({ data });
+
+          const temp = `Chunk ${
+            chunkNumber + 1
+          }/${totalChunks} uploaded successfully`;
+          console.log(temp);
+
+          chunkNumber++;
+          start = end;
+          end = start + chunkSize;
+
+          await uploadNextChunk();
+        } catch (error) {
+          console.error("Error uploading chunk:", error);
+        }
+      } else {
+        setSelectedFile(null);
+      }
+    };
+
+    uploadNextChunk();
+  };
+
+  const reval = () => {
+    queryClient.invalidateQueries({ queryKey: [QueryKeys.cases, 5, 1] });
+  };
+  const handleClick = () => {
+    handleSubmit();
+    reval();
+  };
 
   return (
     <div>
@@ -111,11 +284,18 @@ const AddCaseMoadal = () => {
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent className="w-[90%] md:w-[56%] lg:w-[35%] h-auto">
+          {/* <button onClick={()=> reval()}>
+        hello
+      </button> */}
           <Box className="w-full">
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
-              <CloseOutlinedIcon onClick={handleClose} />
+              <button onClick={handleClose}>
+                <CloseOutlinedIcon />
+              </button>
             </Box>
+            {error && <p className="text-red-500">{error}</p>}{" "}
+            {/* Display error message if error state is set */}
             <Box className="w-full bg-[#EEF2FF] flex items-center my-2">
               <Box className="ml-4 mr-2">
                 <svg
@@ -139,10 +319,9 @@ const AddCaseMoadal = () => {
                   />
                 </svg>
               </Box>
-
               <Box className="w-[88%] h-auto font-[500] text-[16px] text-[#1E40AF] py-4">
-                You are creating a case for Tomal Ahmed. Please describe your
-                inquiry below.
+                You are creating a case for {session?.user?.firstName}{" "}
+                {session?.user?.lastName}. Please describe your inquiry below.
               </Box>
             </Box>
             <Box className="w-full mt-3">
@@ -157,7 +336,7 @@ const AddCaseMoadal = () => {
                   htmlFor="inquiry-name"
                   className="block text-[16px] text-[#191919] font-semibold mb-2 h-6"
                 >
-                  Inquiry name
+                  Inquiry name <span className="text-red-700">*</span>
                 </label>
 
                 <OutlinedInput
@@ -165,6 +344,8 @@ const AddCaseMoadal = () => {
                   id="inquiry-name"
                   placeholder="Enter your inquiry name"
                   className="rounded-lg w-full h-16"
+                  value={inquiryName}
+                  onChange={handleInquiryNameChange}
                 />
               </FormControl>
 
@@ -180,38 +361,18 @@ const AddCaseMoadal = () => {
                   htmlFor="inquiry-type"
                   className="block text-[16px] text-[#191919] font-semibold mb-2 h-6"
                 >
-                  Type of inquiry
+                  Type of inquiry <span className="text-red-700">*</span>
                 </label>
                 <Autocomplete
-                  className=""
-                  id="inquiry-type"
-                  // sx={{ width: 300,height:"12px" }}
-                  options={[{ type: "Divorce" }]}
-                  autoHighlight
-                  getOptionLabel={(option: any) => option.city}
-                  renderOption={(props: any, option: any) => (
-                    <Box component="li" {...props}>
-                      {option.type}
-                    </Box>
-                  )}
-                  renderInput={(
-                    params: JSX.IntrinsicAttributes & {
-                      variant?: TextFieldVariants | undefined;
-                    } & Omit<
-                        | OutlinedTextFieldProps
-                        | FilledTextFieldProps
-                        | StandardTextFieldProps,
-                        "variant"
-                      >
-                  ) => (
+                  options={options}
+                  renderInput={(params) => (
                     <TextField
                       {...params}
                       placeholder="Select inquiry type"
-                      inputProps={{
-                        ...params.inputProps,
-                      }}
+                      value={inquiryType}
                     />
                   )}
+                  onChange={handleInquiryTypeChange}
                 />
               </FormControl>
 
@@ -220,59 +381,45 @@ const AddCaseMoadal = () => {
                   htmlFor="description"
                   className="text-[16px] font-semibold text-[#191919] mb-5"
                 >
-                  Describe
+                  Describe <span className="text-red-700">*</span>
                 </FormLabel>
                 <TextField
                   id="description"
                   placeholder="Please briefly describe what you'd like to discuss with our lawyers."
                   multiline
                   rows={4}
-                  // value={description}
-                  // onChange={handleDescriptionChange}
+                  value={description}
+                  onChange={handleDescriptionChange}
                   variant="outlined"
                   className="w-full "
                 />
                 <input
+                  onChange={handleFileChange}
                   accept="*/*"
                   style={{ display: "none", height: "300px" }}
                   id="attachment-button-file"
                   type="file"
-                  // onChange={handleAttachmentChange}
                 />
+
                 <label htmlFor="attachment-button-file" className="mb-3">
                   <IconButton
                     component="span"
                     className="absolute bottom-0 left-0 mb-2 ml-2"
                   >
-                    <svg
-                      width="18"
-                      height="20"
-                      viewBox="0 0 18 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16.0802 10.4192L9.90016 16.6092C9.08998 17.3293 8.03531 17.7125 6.95188 17.6806C5.86846 17.6487 4.83816 17.2041 4.07173 16.4377C3.30531 15.6712 2.86067 14.6409 2.82878 13.5575C2.79688 12.4741 3.18014 11.4194 3.90016 10.6092L11.9002 2.60924C12.3778 2.15553 13.0114 1.90257 13.6702 1.90257C14.3289 1.90257 14.9625 2.15553 15.4402 2.60924C15.9055 3.08083 16.1664 3.71671 16.1664 4.37924C16.1664 5.04177 15.9055 5.67765 15.4402 6.14924L8.54016 13.0392C8.47187 13.1128 8.38977 13.1721 8.29854 13.214C8.2073 13.2558 8.10873 13.2792 8.00844 13.2829C7.90816 13.2866 7.80812 13.2705 7.71405 13.2356C7.61997 13.2007 7.5337 13.1475 7.46016 13.0792C7.38662 13.0109 7.32725 12.9288 7.28544 12.8376C7.24363 12.7464 7.2202 12.6478 7.21648 12.5475C7.21277 12.4472 7.22885 12.3472 7.26379 12.2531C7.29874 12.159 7.35187 12.0728 7.42016 11.9992L12.5502 6.87924C12.7385 6.69093 12.8443 6.43554 12.8443 6.16924C12.8443 5.90293 12.7385 5.64754 12.5502 5.45924C12.3619 5.27093 12.1065 5.16514 11.8402 5.16514C11.5739 5.16514 11.3185 5.27093 11.1302 5.45924L6.00016 10.5992C5.74346 10.8539 5.53973 11.1569 5.40069 11.4908C5.26166 11.8246 5.19008 12.1826 5.19008 12.5442C5.19008 12.9059 5.26166 13.2639 5.40069 13.5977C5.53973 13.9315 5.74346 14.2345 6.00016 14.4892C6.52453 14.9887 7.22097 15.2673 7.94516 15.2673C8.66935 15.2673 9.36579 14.9887 9.89016 14.4892L16.7802 7.58924C17.575 6.73619 18.0078 5.60791 17.9872 4.4421C17.9666 3.27629 17.4944 2.16398 16.6699 1.3395C15.8454 0.515027 14.7331 0.0427548 13.5673 0.0221855C12.4015 0.00161616 11.2732 0.434355 10.4202 1.22924L2.42016 9.22923C1.34136 10.4241 0.765188 11.9891 0.811693 13.5982C0.858198 15.2073 1.52379 16.7365 2.6698 17.867C3.8158 18.9975 5.35384 19.6423 6.96344 19.6669C8.57305 19.6916 10.1301 19.0942 11.3102 17.9992L17.5002 11.8192C17.5934 11.726 17.6674 11.6153 17.7178 11.4935C17.7683 11.3717 17.7943 11.2411 17.7943 11.1092C17.7943 10.9774 17.7683 10.8468 17.7178 10.725C17.6674 10.6032 17.5934 10.4925 17.5002 10.3992C17.4069 10.306 17.2962 10.232 17.1744 10.1816C17.0526 10.1311 16.922 10.1051 16.7902 10.1051C16.6583 10.1051 16.5277 10.1311 16.4059 10.1816C16.2841 10.232 16.1734 10.306 16.0802 10.3992V10.4192Z"
-                        fill="#191919"
-                      />
-                    </svg>
+                    {svgs?.attechmentIcon}
                     <h3 className="ml-2 text-[14px] font-semibold">
                       Attach Documents
                     </h3>
                   </IconButton>
                 </label>
-                {/* {attachment && (
-                  <span className="absolute bottom-0 left-16 mb-2">
-                    {attachment.name}
-                  </span>
-                )} */}
               </Box>
             </Box>
             <Button
+              onClick={handleClick}
               type="submit"
               className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-3 mt-3  w-full text-[16px] font-semibold capitalize hover:bg-LawGuardPrimary"
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </Button>
           </Box>
         </ModalContent>
@@ -281,4 +428,4 @@ const AddCaseMoadal = () => {
   );
 };
 
-export default AddCaseMoadal;
+export default AddCaseModal;

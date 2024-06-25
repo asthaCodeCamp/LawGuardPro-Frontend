@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -22,6 +22,11 @@ import Image from "next/image";
 import userImage from "../../../public/assets/man.png";
 import { useRouter } from "next/router";
 import svgs from "@/components/svg/svg";
+import { getSession, useSession } from "next-auth/react";
+import useUserData from '../../services/PersonalDetails/useUserData';
+
+import { signOut } from "next-auth/react";
+import useUserNameStore from "@/utilites/store";
 
 const drawerWidth = 240;
 
@@ -100,7 +105,19 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  // const theme = useTheme();
+  const name = useUserNameStore((state)=>state.name);
+  // console.log(session);
+  const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
+  useEffect(() => {
+    if (fetchedUserData) {
+      const { firstName, lastName, email, phoneNumber } = fetchedUserData;
+      setUserData({ firstName, lastName, email, phoneNumber });
+    }
+  }, [fetchedUserData, setUserData]);
+  // const userName = session?.user?.firstName
+  //   ? `${session.user.firstName} ${session.user.lastName}`
+  //   : `${session?.user?.name}`;
+
   const [open, setOpen] = React.useState(
     router.pathname == "/settings" ||
       router.pathname == "/settings/personal-info" ||
@@ -111,16 +128,15 @@ export default function ProtectedLayout({
       : true
   );
 
-  // console.log(router.pathname.split("/")?.slice(1));
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+      }}
+    >
       <CssBaseline />
-      <AppBar
-        // position="fixed"
-        open={open}
-        className="bg-white shadow-none border-b-[1px] "
-      >
-        <Toolbar className=" ">
+      <AppBar open={open} className="bg-white shadow-none border-b-[1px] ">
+        <Toolbar>
           <IconButton
             color="inherit"
             edge="start"
@@ -132,16 +148,14 @@ export default function ProtectedLayout({
               },
             }}
           >
-            {/* menu icon  */}
             {svgs?.menuIcon}
           </IconButton>
           <Typography
-            className=" w-full flex justify-between"
+            className="w-full flex justify-between"
             variant="h6"
             noWrap
             component="div"
           >
-            {/* breadcumb */}
             <Breadcrumbs className="flex items-center" aria-label="breadcrumb">
               <Link color="inherit" href="/">
                 Home
@@ -160,7 +174,6 @@ export default function ProtectedLayout({
                   ) : null
                 )}
             </Breadcrumbs>
-            {/* user  */}
             <div className="flex items-center">
               <div className="flex items-center">
                 <Image
@@ -170,7 +183,7 @@ export default function ProtectedLayout({
                   height={40}
                   className="rounded-full"
                 />
-                <Typography className="ml-2 text-black">Tomal Ahmed</Typography>
+                <Typography className="ml-2 text-black">{name} </Typography>
               </div>
             </div>
           </Typography>
@@ -181,14 +194,15 @@ export default function ProtectedLayout({
           {svgs?.lawgaurdproLogo}
         </DrawerHeader>
 
-        <List className="flex flex-col justify-between h-full ">
+        <List className="flex flex-col justify-between h-full">
           <Box>
             <Link href="/">
               <ListItem
                 className={
-                  router.pathname === "/" ? "text-violet-900" : "text-black"
+                  router.pathname === "/"
+                    ? "text-violet-900 bg-purple-300"
+                    : "text-black"
                 }
-                // className="my-5"
                 disablePadding
                 sx={{ display: "block" }}
               >
@@ -223,10 +237,9 @@ export default function ProtectedLayout({
               <ListItem
                 className={
                   router.pathname === "/notification"
-                    ? "text-violet-900 my-5"
+                    ? "text-violet-900 bg-purple-300 my-5"
                     : "text-black my-5"
                 }
-                // className=" my-5"
                 disablePadding
                 sx={{ display: "block" }}
               >
@@ -264,10 +277,9 @@ export default function ProtectedLayout({
               <ListItem
                 className={
                   router.pathname === "/my-cases"
-                    ? "text-violet-900 my-5"
+                    ? "text-violet-900 bg-purple-300 my-5"
                     : "text-black my-5"
                 }
-                // className="my-5"
                 disablePadding
                 sx={{ display: "block" }}
               >
@@ -303,9 +315,11 @@ export default function ProtectedLayout({
 
             <Link href="/settings/personal-info">
               <ListItem
-                className=" my-5"
+                className="my-5"
                 disablePadding
-                sx={{ display: "block" }}
+                sx={{
+                  display: "block",
+                }}
               >
                 <ListItemButton
                   sx={{
@@ -323,13 +337,12 @@ export default function ProtectedLayout({
                   >
                     <SettingsOutlinedIcon
                       className={
-                        router.pathname === "/settings"
-                          ? "text-violet-900"
+                        router.pathname === "/settings/personal-info"
+                          ? "text-violet-900 "
                           : "text-black"
                       }
                     />
                   </ListItemIcon>
-
                   <ListItemText
                     primary="Settings"
                     sx={{ opacity: open ? 1 : 0 }}
@@ -340,9 +353,9 @@ export default function ProtectedLayout({
           </Box>
 
           <Box>
-            <Link href={"/login"}>
+            <Link href="">
               <ListItem
-                className=" my-5"
+                className="my-5"
                 disablePadding
                 sx={{ display: "block" }}
               >
@@ -352,6 +365,7 @@ export default function ProtectedLayout({
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                   }}
+                  onClick={() => signOut()}
                 >
                   <ListItemIcon
                     sx={{
@@ -373,6 +387,10 @@ export default function ProtectedLayout({
           </Box>
         </List>
       </Drawer>
+      {/* <Box component="main" >
+        <DrawerHeader />
+        {children}
+      </Box> */}
       {children}
     </Box>
   );

@@ -6,8 +6,8 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex">
-      <div className="">
+    <div className="flex ">
+      <div>
         <SettingsLink />
         {/* <PersonalDetails/>      */}
       </div>
