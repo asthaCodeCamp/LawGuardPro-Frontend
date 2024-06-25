@@ -1,5 +1,5 @@
 import CaseDetails from "@/components/CaseInfo/CaseDetails";
-import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeaders";
 // import CaseInfoHeader from "@/components/CaseInfo/Case";
 // import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
 import CircularIndeterminate from "@/components/Spinner/Spinner";
