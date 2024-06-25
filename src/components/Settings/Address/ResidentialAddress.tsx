@@ -26,7 +26,7 @@ const ResidentialAddress: React.FC = () => {
     postalCode: "",
     country: "",
   });
-
+  const [laoding,setLoading] = React.useState(false); 
   const { data: session } = useSession();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +55,7 @@ const ResidentialAddress: React.FC = () => {
       };
 
       console.log("Data to submit:", dataToSubmit);
-
+      setLoading(true);
       const response = await axios.post(
         "http://54.203.205.46:5140/api/address/create/residence",
         dataToSubmit,
@@ -68,7 +68,7 @@ const ResidentialAddress: React.FC = () => {
       );
 
       toast.success("Form submitted successfully!");
-
+      setLoading(false);
       console.log("Form submitted successfully:", response.data);
 
       // Reset form fields
@@ -202,7 +202,7 @@ const ResidentialAddress: React.FC = () => {
         variant="contained"
         onClick={handleSubmit}
       >
-        Save changes
+        {laoding? "Loading...." : "Save changes"}
       </Button>
     </div>
   );

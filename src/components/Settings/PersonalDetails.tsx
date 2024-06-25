@@ -113,9 +113,9 @@ const PersonalDetails: React.FC = () => {
             className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize"
             variant="contained"
             type="submit"
-            disabled={loading}
+           
           >
-            {loading ? <CircularProgress size={24} /> : 'Save Changes'}
+            {loading ? "Loding...." : 'Save Changes'}
           </Button>
         </form>
       </div>
