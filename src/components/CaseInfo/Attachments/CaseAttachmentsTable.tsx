@@ -74,7 +74,7 @@ const {data}:any = attachmentData;
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 className=""
               >
-                <Link href={`http://54.203.205.46:5140/files/${row.title}`}passHref>
+                <Link href={`https://lawguardpro-api.saams.xyz/files/${row.title}`}passHref>
                 
                 <TableCell component="th" scope="row">
                   <span className="flex text-[14px] font-[400] pl-4">

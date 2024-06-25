@@ -1,14 +1,16 @@
 export const getAllAttachments = async ({
   pageSize,
   pageNumber,
-  accessToken,
+  caseId,
+  accessToken
 }: {
   pageSize: number;
   pageNumber: number;
+  caseId: string;
   accessToken?: string;
 }) => {
   const response = await fetch(
-    `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    `https://lawguardpro-api.saams.xyz/api/filecontroller/attachments?pageNumber=${pageNumber}&pageSize=${pageSize}&caseId=${caseId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,

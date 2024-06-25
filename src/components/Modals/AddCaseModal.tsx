@@ -198,7 +198,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         };
 
         await axios.post(
-          "http://54.203.205.46:5140/api/filecontroller/save-attachments",
+          "https://lawguardpro-api.saams.xyz/api/filecontroller/save-attachments",
           attachmentData,
           {
             headers: {
