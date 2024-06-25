@@ -119,7 +119,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const [loading, setLoading] = React.useState(false);
   const { data: session } = useSession();
 
-  console.log("modal session ==== ", session);
+  // console.log("modal session ==== ", session);
 
   const [error, setError] = React.useState<string | null>(null);
   const options = [
@@ -147,7 +147,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const handleInquiryNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("Inquiry type === ", event.target.value);
+    // console.log("Inquiry type === ", event.target.value);
     setInquiryName(event.target.value);
   };
   const queryClient = useQueryClient();
@@ -177,7 +177,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
 
     try {
       setLoading(true);
-      
+
       const response = await axios.post(
         "http://54.203.205.46:5140/api/case",
         requestData,
@@ -188,14 +188,32 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           },
         }
       );
-      handleFileUpload();
-      setInquiryName('');
-      setInquiryType('');
-      setDescription('');
+
+      let data = await handleFileUpload();
+
+      if (data && response.data) {
+        const attachmentData = {
+          caseId: response.data.data,
+          fileUrls: [data],
+        };
+
+        await axios.post(
+          "http://54.203.205.46:5140/api/filecontroller/save-attachments",
+          attachmentData,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
+      setInquiryName("");
+      setInquiryType("");
+      setDescription("");
       handleClose();
       handleOpenSuccessModal();
       // console.log("Response from server:", response.data);
-      
     } catch (error) {
       console.error("Error submitting form", error);
       setError("Failed to submit the form. Please try again later.");
@@ -213,12 +231,12 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     setSelectedFile(file);
   };
 
-  const handleFileUpload = (): void => {
+  const handleFileUpload = async (): Promise<any> => {
     if (!selectedFile) {
       // alert("Please select a file to upload.");
       return;
     }
-
+    let returnedFileUrl = "";
     const chunkSize = 1 * 1024 * 1024; // 1MB
     const totalChunks = Math.ceil(selectedFile.size / chunkSize);
     let chunkNumber = 0;
@@ -244,7 +262,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           );
           const data = await response.json();
 
-          console.log({ data });
+          returnedFileUrl = data.fileUrl;
+          console.log({ data }, "this is the data from the file uploaded");
 
           const temp = `Chunk ${
             chunkNumber + 1
@@ -264,7 +283,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       }
     };
 
-    uploadNextChunk();
+    await uploadNextChunk();
+    return returnedFileUrl;
   };
 
   const reval = () => {
@@ -274,6 +294,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     handleSubmit();
     reval();
   };
+
+  React.useEffect(() => {
+    console.log(selectedFile);
+  }, [selectedFile]);
 
   return (
     <div>
