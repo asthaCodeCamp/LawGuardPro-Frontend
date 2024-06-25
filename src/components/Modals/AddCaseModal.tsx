@@ -178,6 +178,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     try {
       setLoading(true);
 
+      
       const response = await axios.post(
         "http://54.203.205.46:5140/api/case",
         requestData,
