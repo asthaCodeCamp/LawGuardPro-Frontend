@@ -176,16 +176,16 @@ const LoginForm = () => {
             Forgot password?
           </Link>
         </Box>
-        <Box className="h-32 mb-8">
+        <Box className="h-20 ">
           <Button
-            className="mb-4 w-full h-14 bg-[#6B0F99] rounded-lg hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
+            className="mb-4 mt-2 w-full h-14 bg-[#6B0F99] rounded-lg hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
             onClick={handleLogin}
           >
             {
               isLoading?"Loading...":"Continue"
             }
           </Button>
-          <Button
+          {/* <Button
             className="w-full h-14 bg-[#FFFFFF] rounded-lg text-[#191919] font-[600] text-[16px] outline outline-1 outline-[#d1d1d1] capitalize"
             onClick={handleGoogleLogin}
           >
@@ -214,7 +214,7 @@ const LoginForm = () => {
               />
             </svg>
             <span className="ml-3"> Continue with Google</span>
-          </Button>
+          </Button> */}
         </Box>
         <Box className="w-64 h-6 mx-auto text-[16px] font-[400] leading-6 mb-8">
           Don’t have an account?{" "}
