@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import { useCreateQuote } from "@/modules/CaseQuotes/CaseQuotes.hooks";
 import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Messages = () => {
   const [value, setValue] = useState(0);
 
@@ -17,8 +20,9 @@ const Messages = () => {
   const { mutate: createQuotes, isPending } = useCreateQuote();
   const router = useRouter();
   const { data } = useGetSingleCase(router.query?.caseId as string);
-  console.log(data, "data at messages");
+  // console.log(data, "data at messages");
   const onCreateQuote = () => {
+    toast.success("Quote created successfully");
     createQuotes({
       caseId: data.data.caseId,
       lawerId: data.data.lawyerId,
@@ -182,7 +186,7 @@ const Messages = () => {
             </div>
           </div>
         </div>
-        <div className=" ml-[32px] flex gap-4 mr-[32px] mb-[32px]">
+        <div className="  flex gap-4  ml-[8%]  mb-36">
           <Box
             sx={{
               width: 700,
@@ -195,7 +199,7 @@ const Messages = () => {
             className="font-bold bg-[#6B0F99] hover:bg-[#6B0F99] w-[20%]"
             variant="contained"
           >
-            Send <SendIcon className="ml-[8px]" />{" "}
+            Send <SendIcon className="ml-[8px]" />
           </Button>
         </div>
       </div>
