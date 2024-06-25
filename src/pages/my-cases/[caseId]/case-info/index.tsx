@@ -6,7 +6,7 @@ import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const CaseInfo = () => {
   // const session = useSession();
