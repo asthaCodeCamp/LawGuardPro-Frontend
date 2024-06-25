@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 interface FormData {
   addressLine1: string;
@@ -36,7 +36,7 @@ const useResidentialAddress = () => {
         }
 
         const response = await axios.get(
-          "http://54.203.205.46:5140/api/address/get/residence",
+          "https://lawguardpro-api.saams.xyz/api/address/get/residence",
           {
             headers: {
               Authorization: `Bearer ${sessionToken}`,
@@ -46,9 +46,10 @@ const useResidentialAddress = () => {
         );
 
         setFormData(response.data);
-
       } catch (error: any) {
-        toast.error(`Error fetching data: ${error.response?.data || error.message}`);
+        toast.error(
+          `Error fetching data: ${error.response?.data || error.message}`
+        );
         console.error("Error fetching data:", error);
       }
     };
@@ -90,7 +91,7 @@ const useResidentialAddress = () => {
       console.log("Data to submit:", dataToSubmit);
 
       const response = await axios.post(
-        "http://54.203.205.46:5140/api/address/create/residence",
+        "https://lawguardpro-api.saams.xyz/api/address/create/residence",
         dataToSubmit,
         {
           headers: {
@@ -112,7 +113,6 @@ const useResidentialAddress = () => {
         postalCode: "",
         country: "",
       });
-
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data || error.message;

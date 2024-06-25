@@ -8,7 +8,7 @@ export const ResetPassword = async ({
   newPassword: string;
 }) => {
   const response = await fetch(
-    "http://54.203.205.46:5140/api/usersauth/resetforgottenpassword",
+    "https://lawguardpro-api.saams.xyz/api/usersauth/resetforgottenpassword",
     {
       method: "POST",
       headers: {

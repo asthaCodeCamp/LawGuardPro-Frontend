@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { getSession, useSession } from 'next-auth/react';
-import useUserNameStore from '@/utilites/store';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { getSession, useSession } from "next-auth/react";
+import useUserNameStore from "@/utilites/store";
 
 interface User {
   firstName: string;
@@ -19,45 +19,48 @@ interface Session {
 const useUserData = () => {
   const { data: sessionData } = useSession();
   const [userData, setUserData] = useState<User>({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
   });
 
-  const setName = useUserNameStore((state) => state.setName)
+  const setName = useUserNameStore((state) => state.setName);
 
   const [fetchedUserData, setFetchedUserData] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const session = await getSession() as Session | null;
+        const session = (await getSession()) as Session | null;
         if (session && session.user) {
-          console.log('Session data:', session.user);
+          console.log("Session data:", session.user);
 
           setUserData({
             firstName: session.user.firstName,
             lastName: session.user.lastName,
-            phoneNumber: session.user.phoneNumber || '',
+            phoneNumber: session.user.phoneNumber || "",
             email: session.user.email,
           });
 
-          const response = await axios.get(`http://54.203.205.46:5140/api/usersauth/getuserinfo?Email=${session.user.email}`, {
-            headers: {
-              Authorization: `Bearer ${sessionData?.accessToken}`
+          const response = await axios.get(
+            `https://lawguardpro-api.saams.xyz/api/usersauth/getuserinfo?Email=${session.user.email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${sessionData?.accessToken}`,
+              },
             }
-          });
+          );
           const user = response?.data?.data;
           console.log(user, "sabbir");
-          setFetchedUserData(user)
-          setName(user.firstName+' '+user.lastName);
+          setFetchedUserData(user);
+          setName(user.firstName + " " + user.lastName);
         } else {
-          console.log('No session found');
+          console.log("No session found");
         }
       } catch (error) {
-        console.error('Failed to fetch user data:', error);
-        toast.error('Failed to fetch user data');
+        console.error("Failed to fetch user data:", error);
+        toast.error("Failed to fetch user data");
       }
     };
 
@@ -66,17 +69,21 @@ const useUserData = () => {
 
   const updateUser = async (userData: User) => {
     try {
-      const res = await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData,{
-        headers: {
-          Authorization: `Bearer ${sessionData?.accessToken}`
+      const res = await axios.patch(
+        "https://lawguardpro-api.saams.xyz/api/usersauth/updateuserinfo",
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionData?.accessToken}`,
+          },
         }
-      });
+      );
       // console.log(res);
-      toast.success('User Update Successful');
+      toast.success("User Update Successful");
       return res.data.data;
     } catch (error) {
-      console.error('Failed to update user:', error);
-      toast.error('Failed to update user');
+      console.error("Failed to update user:", error);
+      toast.error("Failed to update user");
     }
   };
 

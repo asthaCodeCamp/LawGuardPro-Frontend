@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { getCsrfToken, useSession } from "next-auth/react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 interface PasswordValidation {
   length: boolean;
@@ -46,7 +46,7 @@ const usePasswordReset = () => {
     setLoading(true);
 
     if (!session) {
-      toast.error('You are not logged in');
+      toast.error("You are not logged in");
       setLoading(false);
       return;
     }
@@ -57,7 +57,8 @@ const usePasswordReset = () => {
       return;
     }
 
-    const isValid = passwordValidation.length &&
+    const isValid =
+      passwordValidation.length &&
       passwordValidation.number &&
       passwordValidation.uppercase &&
       passwordValidation.lowercase &&
@@ -71,28 +72,32 @@ const usePasswordReset = () => {
 
     try {
       await axios.put(
-        'http://54.203.205.46:5140/api/resetpassword/resetpassword',
+        "https://lawguardpro-api.saams.xyz/api/resetpassword/resetpassword",
         {
           oldPassword,
-          newPassword
+          newPassword,
         },
         {
           headers: {
-            'Authorization': `Bearer ${session.accessToken}`,
-            'X-CSRF-Token': csrfToken || '',
-          }
+            Authorization: `Bearer ${session.accessToken}`,
+            "X-CSRF-Token": csrfToken || "",
+          },
         }
       );
-      toast.success('Password update successful');
+      toast.success("Password update successful");
     } catch (error: any) {
       if (error.response) {
-        console.error('Failed to update password:', error.response.data);
-        toast.error(`Failed to update password: ${error.response.data.message || error.response.status}`);
+        console.error("Failed to update password:", error.response.data);
+        toast.error(
+          `Failed to update password: ${
+            error.response.data.message || error.response.status
+          }`
+        );
       } else if (error.request) {
-        console.error('No response received:', error.request);
-        toast.error('No response from the server. Please try again later.');
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please try again later.");
       } else {
-        console.error('Error in password update:', error.message);
+        console.error("Error in password update:", error.message);
         toast.error(`An error occurred: ${error.message}`);
       }
     } finally {
