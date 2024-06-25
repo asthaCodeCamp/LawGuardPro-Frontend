@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
 import man from "../../../public/assets/man.png";
-import useUserData from '../../services/PersonalDetails/useUserData';
-import 'react-toastify/dist/ReactToastify.css';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import useUserNameStore from '@/utilites/store';
+import useUserData from "../../services/PersonalDetails/useUserData";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import useUserNameStore from "@/utilites/store";
 
 const PersonalDetails: React.FC = () => {
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
-  const { data,update } = useSession();
-  const setName = useUserNameStore((state) => state.setName)
+  const { data, update } = useSession();
+  const setName = useUserNameStore((state) => state.setName);
   // const router = useRouter();
   console.log(data);
   const [loading, setLoading] = useState(false);
@@ -34,12 +33,10 @@ const PersonalDetails: React.FC = () => {
         firstName: res.firstname,
         lastName: res.lastName,
         phoneNumber: res.phoneNumber,
-        email: res.email
+        email: res.email,
       });
       // router.reload();
-      setName(res.firstName+' '+res.lastName)
-      
-
+      setName(res.firstName + " " + res.lastName);
     } finally {
       setLoading(false);
     }
@@ -47,11 +44,11 @@ const PersonalDetails: React.FC = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setUserData(prevState => ({ ...prevState, [name]: value }));
+    setUserData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handlePhoneChange = (value: string) => {
-    setUserData(prevState => ({ ...prevState, phoneNumber: value }));
+    setUserData((prevState) => ({ ...prevState, phoneNumber: value }));
   };
 
   return (
@@ -59,21 +56,42 @@ const PersonalDetails: React.FC = () => {
       <div className="w-full">
         <div className="border-b-[1px] p-8">
           <h1 className="text-[24px]">Personal Details</h1>
-          <p className="text-[16px] font-[400] text-[#3D3D3D]">Add or modify your personal information.</p>
+          <p className="text-[16px] font-[400] text-[#3D3D3D]">
+            Add or modify your personal information.
+          </p>
         </div>
         <div className="mt-[32px] ml-8">
-          <h1 className="text-[16px] font-[600] text-[#191919]">Profile photo</h1>
-          <p className="mt-[8px] text-[16px] font-[400] text-[#3D3D3D]">This will be displayed on your profile.</p>
+          <h1 className="text-[16px] font-[600] text-[#191919]">
+            Profile photo
+          </h1>
+          <p className="mt-[8px] text-[16px] font-[400] text-[#3D3D3D]">
+            This will be displayed on your profile.
+          </p>
         </div>
         <div className="mt-[16px] flex gap-[16px] ml-8">
           <Image src={man} alt="logo" height={96} width={96} />
-          <Button variant="contained" className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none my-[23px] text-[14px] font-[600]">Change</Button>
-          <Button variant="contained" className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none my-[23px] text-[14px] font-[600]">Remove</Button>
+          <Button
+            variant="contained"
+            className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none my-[23px] text-[14px] font-[600]"
+          >
+            Change
+          </Button>
+          <Button
+            variant="contained"
+            className="capitalize h-[50px] w-[104px] bg-[#F6F6F6] text-black hover:bg-[#F6F6F6] shadow-none my-[23px] text-[14px] font-[600]"
+          >
+            Remove
+          </Button>
         </div>
         <form onSubmit={handleSubmit}>
-          <div className='flex gap-[16px] mt-8 mx-8'>
-            <div className='flex flex-col w-full'>
-              <label className='mb-[12px] text-[16px] font-medium' htmlFor="firstName">First Name</label>
+          <div className="flex gap-[16px] mt-8 mx-8">
+            <div className="flex flex-col w-full">
+              <label
+                className="mb-[12px] text-[16px] font-medium"
+                htmlFor="firstName"
+              >
+                First Name
+              </label>
               <TextField
                 id="firstName"
                 name="firstName"
@@ -81,8 +99,13 @@ const PersonalDetails: React.FC = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className='flex flex-col w-full'>
-              <label className='mb-[12px] text-[16px] font-medium' htmlFor="lastName">Last Name</label>
+            <div className="flex flex-col w-full">
+              <label
+                className="mb-[12px] text-[16px] font-medium"
+                htmlFor="lastName"
+              >
+                Last Name
+              </label>
               <TextField
                 id="lastName"
                 name="lastName"
@@ -91,8 +114,13 @@ const PersonalDetails: React.FC = () => {
               />
             </div>
           </div>
-          <div className='flex flex-col mt-[16px] mx-8'>
-            <label className='mb-[12px] text-[16px] font-medium' htmlFor="email">Email address</label>
+          <div className="flex flex-col mt-[16px] mx-8">
+            <label
+              className="mb-[12px] text-[16px] font-medium"
+              htmlFor="email"
+            >
+              Email address
+            </label>
             <TextField
               id="email"
               name="email"
@@ -102,10 +130,15 @@ const PersonalDetails: React.FC = () => {
               }}
             />
           </div>
-          <div className='flex flex-col mt-[16px] mx-8'>
-            <label className='mb-[12px] text-[16px] font-medium' htmlFor="phoneNumber">Phone number</label>
+          <div className="flex flex-col mt-[16px] mx-8">
+            <label
+              className="mb-[12px] text-[16px] font-medium"
+              htmlFor="phoneNumber"
+            >
+              Phone number
+            </label>
             <PhoneCodePicker
-              value={userData.phoneNumber || ''}
+              value={userData.phoneNumber || ""}
               onChange={handlePhoneChange}
             />
           </div>
@@ -113,9 +146,8 @@ const PersonalDetails: React.FC = () => {
             className="mt-[16px] h-[56px] bg-[#6B0F99] hover:bg-[#6B0F99] text-[16px] w-[600px] ml-8 capitalize"
             variant="contained"
             type="submit"
-           
           >
-            {loading ? 'Loading....' : 'Save Changes'}
+            {loading ? "Loading...." : "Save Changes"}
           </Button>
         </form>
       </div>

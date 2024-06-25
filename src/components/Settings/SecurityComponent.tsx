@@ -3,8 +3,8 @@ import { Button, TextField } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import axios from "axios";
 import { getCsrfToken, useSession } from "next-auth/react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
+
 import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress for loading spinner
 
 interface PasswordValidation {

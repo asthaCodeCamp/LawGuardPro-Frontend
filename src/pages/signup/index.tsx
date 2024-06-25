@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
+
 import {
   Box,
   TextField,
