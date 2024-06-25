@@ -1,19 +1,22 @@
 import UpdatePasswordForm from "@/components/UpdatePassword/UpdatePasswordForm";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 
 const UpdatePassword = () => {
+  const router = useRouter();
+  console.log(router.query.update, "hello");
+  const [idAndOtp, setOtpAndUserId] = useState<any>([]);
+
   // const session = useSession();
   // const router = useRouter();
   // const { data: session, status } = useSession();
 
-  // useEffect(() => {
-  //   if (!session && status !== "loading") {
-  //     router.push("/login");
-  //   }
-  // }, [session]);
+  useEffect(() => {
+    setOtpAndUserId(router.query.update);
+  }, [router.query]);
   return (
     <>
-      <UpdatePasswordForm />
+      <UpdatePasswordForm idAndOtp={idAndOtp} />
     </>
   );
 };
