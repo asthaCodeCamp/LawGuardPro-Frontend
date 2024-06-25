@@ -171,12 +171,13 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       caseName: inquiryName,
       caseType: inquiryType,
       description: description,
-      attachment: "string",
+      attachment: [],
     };
     console.log(requestData);
 
     try {
       setLoading(true);
+      
       const response = await axios.post(
         "http://54.203.205.46:5140/api/case",
         requestData,
@@ -188,13 +189,13 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         }
       );
       handleFileUpload();
-    
-      handleClose();
-      handleOpenSuccessModal();
-      console.log("Response from server:", response.data);
       setInquiryName('');
       setInquiryType('');
       setDescription('');
+      handleClose();
+      handleOpenSuccessModal();
+      // console.log("Response from server:", response.data);
+      
     } catch (error) {
       console.error("Error submitting form", error);
       setError("Failed to submit the form. Please try again later.");

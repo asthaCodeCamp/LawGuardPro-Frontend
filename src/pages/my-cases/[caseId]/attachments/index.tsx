@@ -1,6 +1,6 @@
 import CaseAttachments from "@/components/CaseInfo/Attachments/CaseAttachments";
 import CaseDetails from "@/components/CaseInfo/CaseDetails";
-import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CaseInfoHeader from "@/components/CaseInfo/CaseinfoHeader";
 // import CaseinfoHeader from "@/components/CaseInfo/CaseInfoHeader";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
@@ -29,6 +29,8 @@ const Attachments = () => {
   const { data } = useGetSingleCase(router.query?.caseId as string);
   const [cases, SetCases] = useState(data);
   const { data: session, status } = useSession();
+
+  
 
   useEffect(() => {
     if (!session && status !== "loading") {
