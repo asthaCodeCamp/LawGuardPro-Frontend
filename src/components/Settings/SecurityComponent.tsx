@@ -5,6 +5,7 @@ import axios from "axios";
 import { getCsrfToken, useSession } from "next-auth/react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading spinner
 
 interface PasswordValidation {
   length: boolean;
@@ -15,10 +16,12 @@ interface PasswordValidation {
 }
 
 const SecurityComponent: React.FC = () => {
+
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { data: session } = useSession();
   console.log(session);
@@ -46,14 +49,17 @@ const SecurityComponent: React.FC = () => {
 
   const handleSubmitReset = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true); // Set loading to true when the form submission starts
 
     if (!session) {
       toast.error('You are not logged in');
+      setLoading(false); // Set loading to false in case of error
       return;
     }
 
     if (newPassword !== confirmPassword) {
       toast.error("New password and confirm password do not match.");
+      setLoading(false); // Set loading to false in case of error
       return;
     }
 
@@ -65,8 +71,11 @@ const SecurityComponent: React.FC = () => {
 
     if (!isValid) {
       toast.error("New password does not meet the security criteria.");
+      setLoading(false); // Set loading to false in case of error
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await axios.put(
@@ -94,159 +103,162 @@ const SecurityComponent: React.FC = () => {
         console.error('Error in password update:', error.message);
         toast.error(`An error occurred: ${error.message}`);
       }
+    } finally {
+      setLoading(false); // Set loading to false when the form submission is complete
     }
   };
 
   return (
-   <div className="w-[100%]">
-     <form onSubmit={handleSubmitReset}>
-      <div className="border p-8">
-        <h1 className="font-semibold text-2xl mb-1">Security</h1>
-        <p className="text-[16px]">Account security settings</p>
-      </div>
-      <div className="ml-8 w-[700px]">
-        <div className="flex flex-col mt-[16px]"></div>
-      </div>
-      <div className="flex ">
-        <div className="mb-8 ml-8 w-[700px]">
-          <div className="mt-8 w-[700px]">
+    <div className="w-[100%]">
+      <form onSubmit={handleSubmitReset}>
+        <div className="border p-8">
+          <h1 className="font-semibold text-2xl mb-1">Security</h1>
+          <p className="text-[16px]">Account security settings</p>
+        </div>
+        <div className="ml-8 w-[700px]">
+          <div className="flex flex-col mt-[16px]"></div>
+        </div>
+        <div className="flex ">
+          <div className="mb-8 ml-8 w-[700px]">
+            <div className="mt-8 w-[700px]">
+              <div className="flex flex-col mt-[16px]">
+                <label
+                  className="mb-[12px] text-[16px] font-medium"
+                  htmlFor="oldPassword"
+                >
+                  Old password
+                </label>
+                <TextField
+                  id="oldPassword"
+                  placeholder="Enter your old password"
+                  type="password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+              </div>
+            </div>
             <div className="flex flex-col mt-[16px]">
               <label
                 className="mb-[12px] text-[16px] font-medium"
-                htmlFor="oldPassword"
+                htmlFor="newPassword"
               >
-                Old password
+                New password
               </label>
               <TextField
-                id="oldPassword"
-                placeholder="Enter your old password"
+                id="newPassword"
+                placeholder="Enter your new password"
                 type="password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col mt-[16px]">
+              <label
+                className="mb-[12px] text-[16px] font-medium"
+                htmlFor="confirmPassword"
+              >
+                Confirm password
+              </label>
+              <TextField
+                id="confirmPassword"
+                placeholder="Confirm your new password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
           </div>
-          <div className="flex flex-col mt-[16px]">
-            <label
-              className="mb-[12px] text-[16px] font-medium"
-              htmlFor="newPassword"
-            >
-              New password
-            </label>
-            <TextField
-              id="newPassword"
-              placeholder="Enter your new password"
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col mt-[16px]">
-            <label
-              className="mb-[12px] text-[16px] font-medium"
-              htmlFor="confirmPassword"
-            >
-              Confirm password
-            </label>
-            <TextField
-              id="confirmPassword"
-              placeholder="Confirm your new password"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="ml-8 mt-44 mr-4 ">
-          <div className="bg-[#EEF2FF] rounded-md p-[10px]">
-            <h1>Your password must:</h1>
-            <div className="text-sm">
-              <div className="flex">
-                <CheckIcon
-                  className={`h-4 w-4 ${
-                    passwordValidation.length
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                />
-                <p
-                  className={` ml-2 ${
-                    passwordValidation.length
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Be at least 8 characters
-                </p>
-              </div>
-              <div className="flex">
-                <CheckIcon
-                  className={`h-4 w-4 ${
-                    passwordValidation.number
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                />
-                <p
-                  className={` ml-2 ${
-                    passwordValidation.number
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Include a number.
-                </p>
-              </div>
-              <div className="flex">
-                <CheckIcon
-                  className={`h-4 w-4 ${
-                    passwordValidation.uppercase && passwordValidation.lowercase
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                />
-                <p
-                  className={` ml-2 ${
-                    passwordValidation.uppercase && passwordValidation.lowercase
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Have both uppercase and lowercase letters.
-                </p>
-              </div>
-              <div className="flex">
-                <CheckIcon
-                  className={`h-4 w-4 ${
-                    passwordValidation.specialChar
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                />
-                <p
-                  className={`ml-2 ${
-                    passwordValidation.specialChar
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                >
-                  Include at least one special character.
-                </p>
+          <div className="ml-8 mt-44 mr-4 ">
+            <div className="bg-[#EEF2FF] rounded-md p-[10px]">
+              <h1>Your password must:</h1>
+              <div className="text-sm">
+                <div className="flex">
+                  <CheckIcon
+                    className={`h-4 w-4 ${
+                      passwordValidation.length
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  />
+                  <p
+                    className={` ml-2 ${
+                      passwordValidation.length
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    Be at least 8 characters
+                  </p>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className={`h-4 w-4 ${
+                      passwordValidation.number
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  />
+                  <p
+                    className={` ml-2 ${
+                      passwordValidation.number
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    Include a number.
+                  </p>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className={`h-4 w-4 ${
+                      passwordValidation.uppercase && passwordValidation.lowercase
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  />
+                  <p
+                    className={` ml-2 ${
+                      passwordValidation.uppercase && passwordValidation.lowercase
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    Have both uppercase and lowercase letters.
+                  </p>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className={`h-4 w-4 ${
+                      passwordValidation.specialChar
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  />
+                  <p
+                    className={`ml-2 ${
+                      passwordValidation.specialChar
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    Include at least one special character.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="ml-8">
-        <Button
-          type="submit"
-          className="mb-9 self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-4 text-[16px] font-semibold hover:bg-LawGuardPrimary"
-        >
-          Save changes
-        </Button>
-      </div>
-    </form>
-   </div>
+        <div className="ml-8">
+          <Button
+            type="submit"
+            className="mb-9 self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-4 text-[16px] font-semibold hover:bg-LawGuardPrimary"
+            
+          >
+            {loading ? "Loading...." : "Save changes"} 
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };
 
