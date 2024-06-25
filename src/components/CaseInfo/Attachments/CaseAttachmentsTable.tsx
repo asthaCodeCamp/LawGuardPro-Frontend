@@ -8,10 +8,12 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import manIcon from '../../../../public/assets/man.png'
 
 import caseAttachments from "./CaseAttachmentData";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import svgs from "@/components/svg/svg";
+import Link from "next/link";
 
 interface Upload {
   logo: string;
@@ -25,19 +27,28 @@ interface CaseAttachments {
   addedDate: string;
 }
 
-const CaseAttachmentsTable = () => {
-  const [data, setData] = useState<CaseAttachments[]>([]);
+const CaseAttachmentsTable: React.FC<any> = ({attachmentData}:any) => {
+  // const [data, setData] = useState<CaseAttachments[]>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setData(caseAttachments as CaseAttachments[]);
-    };
-    fetchData();
-  }, []);
+
+  console.log('ddshdhfhjfhjdhfjdhfdhf',attachmentData?.data);
+const {data}:any = attachmentData;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setData(caseAttachments as CaseAttachments[]);
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <div className="">
-      <TableContainer>
+      {
+        data?.length == 0 ? (
+        
+        <div className=" text-center font-bold text-[LawGuardPrimary] "> <h1>No Attachment Found </h1></div>
+      
+      ):(
+          <TableContainer>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -57,38 +68,42 @@ const CaseAttachmentsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {data?.map((row:any) => (
               <TableRow
                 key={row.title}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 className=""
               >
+                <Link href={`http://54.203.205.46:5140/files/${row.title}`}passHref>
+                
                 <TableCell component="th" scope="row">
                   <span className="flex text-[14px] font-[400] pl-4">
                     <span className="mr-2">
-                      {row.type === "PDF" ? svgs?.pdfIcon : svgs?.docIcon}
+                      {svgs?.pdfIcon}
                     </span>
                     {row.title}
                   </span>
                 </TableCell>
+                </Link>
                 <TableCell>
                   <span className="text-[14px] font-[400]">{row.type}</span>
                 </TableCell>
                 <TableCell>
                   <span className="text-[14px] font-[400] flex">
-                    <Image
+                  <Image className="mr-2" src={manIcon} alt="logo" height={24} width={24} />
+                    {/* <Image
                       src={row.uploaded_by.logo}
                       alt={row.uploaded_by.name}
                       height={24}
                       width={24}
                       className="h-6 w-6 rounded-full mr-2"
-                    />
-                    {row.uploaded_by.name}
+                    /> */}
+                    {row.uploadedBy}
                   </span>
                 </TableCell>
                 <TableCell>
                   <span className="text-[14px] font-[400]">
-                    {row.addedDate}
+                    {row.addedOn}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -101,6 +116,8 @@ const CaseAttachmentsTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+        )
+      }
     </div>
   );
 };

@@ -18,7 +18,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import CaseAttachmentPagination from "./CaseAttachmentPagination";
 import { SortBy } from "@/utilites/SortBy";
 
-const CaseAttachments = () => {
+const CaseAttachments: React.FC<any> = ({attachmentData}:any) => {
   return (
     <div className="border-t-2 w-full">
       <Box className="w-full p-[32px] border-b-2">
@@ -57,163 +57,12 @@ const CaseAttachments = () => {
         </h1>
       </Box>
 
-      <Box className="w-full h-[120px] p-8 border-b">
-        <Box className="h-14">
-          <FormControl
-            sx={{
-              // width: "194px",
-              height: "92px",
-              marginBottom: "24px",
-              marginRight: "16px",
-            }}
-            className="w-[25%]"
-          >
-            <Autocomplete
-              className="w-full"
-              id="file-type"
-              sx={{ width: 300 }}
-              options={AttachmentType}
-              autoHighlight
-              getOptionLabel={(option: any) => option.city}
-              renderOption={(props: any, option: any) => (
-                <Box component="li" {...props}>
-                  {option.type}
-                </Box>
-              )}
-              renderInput={(
-                params: JSX.IntrinsicAttributes & {
-                  variant?: TextFieldVariants | undefined;
-                } & Omit<
-                    | OutlinedTextFieldProps
-                    | FilledTextFieldProps
-                    | StandardTextFieldProps,
-                    "variant"
-                  >
-              ) => (
-                <TextField
-                  {...params}
-                  placeholder="File type"
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                />
-              )}
-            />
-          </FormControl>
-
-          <FormControl
-            sx={{
-              // width: "194px",
-              height: "92px",
-              marginBottom: "24px",
-              marginRight: "16px",
-            }}
-            className="w-[25%]"
-          >
-            <Autocomplete
-              className="w-full"
-              id="sort-by"
-              sx={{ width: 300 }}
-              options={SortBy}
-              autoHighlight
-              getOptionLabel={(option: any) => option.city}
-              renderOption={(props: any, option: any) => (
-                <Box component="li" {...props}>
-                  {option.name}
-                </Box>
-              )}
-              renderInput={(
-                params: JSX.IntrinsicAttributes & {
-                  variant?: TextFieldVariants | undefined;
-                } & Omit<
-                    | OutlinedTextFieldProps
-                    | FilledTextFieldProps
-                    | StandardTextFieldProps,
-                    "variant"
-                  >
-              ) => (
-                <TextField
-                  {...params}
-                  placeholder="Sort by"
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                />
-              )}
-            />
-          </FormControl>
-
-          {/* <FormControl
-            sx={{
-              // width: "275px",
-              height: "92px",
-              marginBottom: "24px",
-            }}
-            className="w-[16rem]"
-          >
-            <Autocomplete
-              className="w-full"
-              id="city"
-              sx={{ width: 300 }}
-              options={cities}
-              autoHighlight
-              getOptionLabel={(option: any) => option.city}
-              renderOption={(props: any, option: any) => (
-                <Box component="li" {...props}>
-                  {option.city}
-                </Box>
-              )}
-              renderInput={(
-                params: JSX.IntrinsicAttributes & {
-                  variant?: TextFieldVariants | undefined;
-                } & Omit<
-                    | OutlinedTextFieldProps
-                    | FilledTextFieldProps
-                    | StandardTextFieldProps,
-                    "variant"
-                  >
-              ) => (
-                <TextField
-                  {...params}
-                  placeholder="Select town or city"
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                />
-              )}
-            />
-          </FormControl> */}
-
-          <FormControl className="w-[40%]" variant="outlined">
-            {/* <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel> */}
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type="text"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    // onClick={handleClickShowPassword}
-                    // onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    <SearchOutlinedIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-              placeholder="Search"
-            />
-          </FormControl>
-        </Box>
-      </Box>
       <Box className="w-full mb-5">
-        <CaseAttachmentsTable />
+        <CaseAttachmentsTable attachmentData={attachmentData} />
       </Box>
-      <Box className="w-full h-24 flex justify-center items-center">
+      {/* <Box className="w-full h-24 flex justify-center items-center">
         <CaseAttachmentPagination />
-      </Box>
+      </Box> */}
     </div>
   );
 };

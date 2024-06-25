@@ -31,11 +31,14 @@ const Attachments = () => {
   console.log("attachment data ",router.query?.caseId as string );
   const caseId = router.query?.caseId as string
 
-  // console.log("attachment",session?.accessToken);
+  console.log("attachment",session?.accessToken);
 
-  const pageSize = 1;
-  const pageNumber = 10;
- const attachmentData = useGetAllAttachments(pageSize,pageNumber, caseId) 
+  const pageSize = 10;
+  const pageNumber = 1;
+ const attachmentData = useGetAllAttachments({pageSize, pageNumber, caseId}) 
+
+ console.log("adghsgdhsgdfhmgshdfgdsahfghdsagf", attachmentData?.data);
+ 
 
   
 
@@ -55,7 +58,7 @@ const Attachments = () => {
         </div>
 
         <CaseLayout>
-          <CaseAttachments />
+          <CaseAttachments attachmentData={attachmentData} />
         </CaseLayout>
       </div>
     </ProtectedLayout>
