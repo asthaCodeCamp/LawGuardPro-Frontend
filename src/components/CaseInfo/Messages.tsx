@@ -12,7 +12,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Messages = () => {
   const [value, setValue] = useState(0);
-  // const [loading, setLoading] = useState(false);
 
   const getRandomValue = () => {
     return Math.floor(Math.random() * 1000);
@@ -21,7 +20,7 @@ const Messages = () => {
   const { mutate: createQuotes, isPending } = useCreateQuote();
   const router = useRouter();
   const { data } = useGetSingleCase(router.query?.caseId as string);
-  // console.log(data, "data at messages");
+
   const onCreateQuote = () => {
     toast.success("Quote created successfully");
     createQuotes({
