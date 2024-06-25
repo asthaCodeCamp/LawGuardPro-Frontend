@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getSession, useSession } from 'next-auth/react';
+import useUserNameStore from '@/utilites/store';
 
 interface User {
   firstName: string;
@@ -15,42 +17,41 @@ interface Session {
 }
 
 const useUserData = () => {
+  const { data: sessionData } = useSession();
   const [userData, setUserData] = useState<User>({
     firstName: '',
     lastName: '',
+    phoneNumber: '',
     email: '',
-    // phoneNumber: '',
   });
-  const { data: session } = useSession();
+
+  const setName = useUserNameStore((state) => state.setName)
 
   const [fetchedUserData, setFetchedUserData] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const session = await getSession() as Session | null;
         if (session && session.user) {
           console.log('Session data:', session.user);
 
           setUserData({
             firstName: session.user.firstName,
             lastName: session.user.lastName,
-            email: session.user.email as string,
-            // phoneNumber: session.user.phoneNumber || '',
+            phoneNumber: session.user.phoneNumber || '',
+            email: session.user.email,
           });
 
-          const response = await fetch(`http://54.203.205.46:5140/api/usersauth/getuserinfo?Email=${session.user.email}`, {
+          const response = await axios.get(`http://54.203.205.46:5140/api/usersauth/getuserinfo?Email=${session.user.email}`, {
             headers: {
-              'Authorization': `Bearer ${session.accessToken}`,
-            },
+              Authorization: `Bearer ${sessionData?.accessToken}`
+            }
           });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const user = await response.json();
+          const user = response?.data?.data;
           console.log(user, "sabbir");
-          setFetchedUserData(user);
+          setFetchedUserData(user)
+          setName(user.firstName+' '+user.lastName);
         } else {
           console.log('No session found');
         }
@@ -61,24 +62,18 @@ const useUserData = () => {
     };
 
     fetchUser();
-  }, []);
+  }, [1]);
 
   const updateUser = async (userData: User) => {
     try {
-      const response = await fetch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', {
-        method: 'PATCH',
+      const res = await axios.patch('http://54.203.205.46:5140/api/usersauth/updateuserinfo', userData,{
         headers: {
-          'Authorization': `Bearer ${session.accessToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData),
+          Authorization: `Bearer ${sessionData?.accessToken}`
+        }
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
+      // console.log(res);
       toast.success('User Update Successful');
+      return res.data.data;
     } catch (error) {
       console.error('Failed to update user:', error);
       toast.error('Failed to update user');
