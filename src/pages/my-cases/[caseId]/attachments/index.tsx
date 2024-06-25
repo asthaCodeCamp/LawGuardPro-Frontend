@@ -2,6 +2,7 @@ import CaseAttachments from "@/components/CaseInfo/Attachments/CaseAttachments";
 import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeaders";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
+import { useGetAllAttachments } from "@/modules/Attachments/Attachments.hooks";
 import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -27,6 +28,14 @@ const Attachments = () => {
   const { data } = useGetSingleCase(router.query?.caseId as string);
   const [cases, SetCases] = useState(data);
   const { data: session, status } = useSession();
+  console.log("attachment data ",router.query?.caseId as string );
+  const caseId = router.query?.caseId as string
+
+  // console.log("attachment",session?.accessToken);
+
+  const pageSize = 1;
+  const pageNumber = 10;
+ const attachmentData = useGetAllAttachments(pageSize,pageNumber, caseId) 
 
   
 
