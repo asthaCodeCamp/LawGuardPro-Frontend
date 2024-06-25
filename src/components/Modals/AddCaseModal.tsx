@@ -178,6 +178,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     try {
       setLoading(true);
 
+      
       const response = await axios.post(
         "http://54.203.205.46:5140/api/case",
         requestData,
@@ -294,10 +295,12 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     handleSubmit();
     reval();
   };
+  //need implement
+  // React.useEffect(() => {
+  //   console.log(selectedFile);
+  // }, [selectedFile]);
 
-  React.useEffect(() => {
-    console.log(selectedFile);
-  }, [selectedFile]);
+  let fileName = selectedFile?.name || "";
 
   return (
     <div>
@@ -309,9 +312,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent className="w-[90%] md:w-[56%] lg:w-[35%] h-auto">
-          {/* <button onClick={()=> reval()}>
-        hello
-      </button> */}
           <Box className="w-full">
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
@@ -433,7 +433,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   >
                     {svgs?.attechmentIcon}
                     <h3 className="ml-2 text-[14px] font-semibold">
-                      Attach Documents
+                      {fileName ? fileName : "Attach Documents"}
                     </h3>
                   </IconButton>
                 </label>
