@@ -2,7 +2,6 @@ import AllQuotes from "@/components/CaseInfo/AllQuotes/AllQuotes";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetAllQuotes } from "@/modules/CaseQuotes/CaseQuotes.hooks";
-// import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -84,7 +83,7 @@ const Quotes = () => {
                   </h1>
                 </div>
                 <div>
-                  <AllQuotes quotes = {data?.data?.quotes}/>
+                  <AllQuotes quotes={data?.data?.quotes} />
                 </div>
               </div>
             ) : (
