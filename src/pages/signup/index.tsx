@@ -22,8 +22,6 @@ import { countries } from "../../utilites/Countries";
 import PhoneCodePicker from "../../components/CountryPhoneCodePicker";
 import { signIn } from "next-auth/react";
 
-
-
 interface FormData {
   firstName: string;
   lastName: string;
@@ -36,7 +34,7 @@ interface FormData {
 }
 
 const Signup: React.FC = () => {
-  const [isLoading,setLoaing] = useState(false) 
+  const [isLoading, setLoaing] = useState(false);
   const {
     register,
     watch,
@@ -57,7 +55,7 @@ const Signup: React.FC = () => {
     try {
       setLoaing(true);
       const response = await fetch(
-        "http://54.203.205.46:5140/api/usersauth/register",
+        "https://lawguardpro-api.saams.xyz/api/usersauth/register",
         {
           method: "POST",
           headers: {
@@ -76,8 +74,7 @@ const Signup: React.FC = () => {
       }
     } catch (error: any) {
       toast.error("Error: " + error.message);
-    }
-    finally{
+    } finally {
       setLoaing(false);
     }
   };
@@ -383,9 +380,7 @@ const Signup: React.FC = () => {
                 className="w-full py-3.5 bg-[#6B0F99] hover:bg-[#6B0F99] font-[600] text-[16px] hover:shadow-none shadow-none"
                 variant="contained"
               >
-                {
-                  isLoading ? 'Loading....': 'Sign up'
-                }
+                {isLoading ? "Loading...." : "Sign up"}
               </Button>
             </div>
           </div>

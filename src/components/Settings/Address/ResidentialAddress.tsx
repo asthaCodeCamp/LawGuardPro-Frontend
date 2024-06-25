@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  FormControl,
-  FormLabel,
-  OutlinedInput,
-  Button,
-} from "@mui/material";
+import { FormControl, FormLabel, OutlinedInput, Button } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import {toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface FormData {
   addressLine1: string;
@@ -26,7 +21,7 @@ const ResidentialAddress: React.FC = () => {
     postalCode: "",
     country: "",
   });
-  const [laoding,setLoading] = React.useState(false); 
+  const [laoding, setLoading] = React.useState(false);
   const { data: session } = useSession();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +52,7 @@ const ResidentialAddress: React.FC = () => {
       console.log("Data to submit:", dataToSubmit);
       setLoading(true);
       const response = await axios.post(
-        "http://54.203.205.46:5140/api/address/create/residence",
+        "https://lawguardpro-api.saams.xyz/api/address/create/residence",
         dataToSubmit,
         {
           headers: {
@@ -73,15 +68,14 @@ const ResidentialAddress: React.FC = () => {
 
       // Reset form fields
       const data = response.data;
-    setFormData({
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine2,
-      town: data.town,
-      postalCode: data.postalCode || 0,
-      country: data.country,
-    })
-
-    } catch (error:any) {
+      setFormData({
+        addressLine1: data.addressLine1,
+        addressLine2: data.addressLine2,
+        town: data.town,
+        postalCode: data.postalCode || 0,
+        country: data.country,
+      });
+    } catch (error: any) {
       if (axios.isAxiosError(error)) {
         toast.error(`Axios error: ${error.response?.data || error.message}`);
         console.error("Axios error:", error.response?.data || error.message);
@@ -94,7 +88,7 @@ const ResidentialAddress: React.FC = () => {
 
   const getAddress = async () => {
     const response = await axios.get(
-      "http://54.203.205.46:5140/api/address/get/residence",
+      "https://lawguardpro-api.saams.xyz/api/address/get/residence",
       {
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
@@ -108,12 +102,12 @@ const ResidentialAddress: React.FC = () => {
       town: data.town,
       postalCode: data.postalCode,
       country: data.country,
-    })
-  }
+    });
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getAddress();
-  },[session])
+  }, [session]);
 
   return (
     <div className="flex flex-col">
@@ -202,7 +196,7 @@ const ResidentialAddress: React.FC = () => {
         variant="contained"
         onClick={handleSubmit}
       >
-        {laoding? "Loading...." : "Save changes"}
+        {laoding ? "Loading...." : "Save changes"}
       </Button>
     </div>
   );

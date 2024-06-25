@@ -40,8 +40,6 @@ const Attachments = () => {
  console.log("adghsgdhsgdfhmgshdfgdsahfghdsagf", attachmentData?.data);
  
 
-  
-
   useEffect(() => {
     if (!session && status !== "loading") {
       router.push("/login");
@@ -65,20 +63,20 @@ const Attachments = () => {
   );
 };
 
-export async function getServerSideProps({ req }: any) {
-  const session = await getSession({ req });
-  console.log(session, "session at home page ");
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: { session },
-  };
-}
+// export async function getServerSideProps({ req }: any) {
+//   const session = await getSession({ req });
+//   console.log(session, "session at home page ");
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: { session },
+//   };
+// }
 
 export default Attachments;

@@ -25,7 +25,7 @@ interface FormData {
 }
 
 const BillingAddress: React.FC = () => {
-  const [laoding,setLoading] = React.useState(false); 
+  const [laoding, setLoading] = React.useState(false);
   const [formData, setFormData] = useState<FormData>({
     billingName: "",
     addressLine1: "",
@@ -34,8 +34,8 @@ const BillingAddress: React.FC = () => {
     postalCode: "",
     country: "",
   });
-  const [selectedCountry,setSelectedCountry] = useState<any>(null);
-  const [selectedCity,setSelectedCity] = useState<any>(null);
+  const [selectedCountry, setSelectedCountry] = useState<any>(null);
+  const [selectedCity, setSelectedCity] = useState<any>(null);
   const [refresh, setRefresh] = useState<boolean>(false);
 
   const { data: session } = useSession();
@@ -69,7 +69,7 @@ const BillingAddress: React.FC = () => {
       console.log("Data to submit:", dataToSubmit);
       setLoading(true);
       const response = await axios.post(
-        "http://54.203.205.46:5140/api/address/create/billing",
+        "https://lawguardpro-api.saams.xyz/api/address/create/billing",
         dataToSubmit,
         {
           headers: {
@@ -81,7 +81,6 @@ const BillingAddress: React.FC = () => {
       setLoading(false);
       toast.success("Billing Address submitted successfully!");
 
-
       // Reset form fields
       const data = response.data;
       setFormData({
@@ -91,19 +90,23 @@ const BillingAddress: React.FC = () => {
         town: data.town,
         postalCode: data.postalCode,
         country: data.country,
-      })
+      });
 
       setRefresh(!refresh);
 
-      const town = cities.find(item => item.city?.toLowerCase() === dataToSubmit.town?.toLowerCase())
-      setSelectedCity(town)
+      const town = cities.find(
+        (item) => item.city?.toLowerCase() === dataToSubmit.town?.toLowerCase()
+      );
+      setSelectedCity(town);
 
-      const country = countries.find(item => item.label?.toLowerCase() === dataToSubmit.country?.toLowerCase())
-      setSelectedCountry(country)
-
+      const country = countries.find(
+        (item) =>
+          item.label?.toLowerCase() === dataToSubmit.country?.toLowerCase()
+      );
+      setSelectedCountry(country);
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
-        toast.error(`Axios error: ${error.response?.data || error.message}`);;
+        toast.error(`Axios error: ${error.response?.data || error.message}`);
       } else {
         toast.error(`Unexpected error: ${error.message}`);
       }
@@ -112,7 +115,7 @@ const BillingAddress: React.FC = () => {
 
   const getAddress = async () => {
     const response = await axios.get(
-      "http://54.203.205.46:5140/api/address/get/billing",
+      "https://lawguardpro-api.saams.xyz/api/address/get/billing",
       {
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,
@@ -128,36 +131,35 @@ const BillingAddress: React.FC = () => {
       town: data.town,
       postalCode: data.postalCode,
       country: data.country,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     getAddress();
-  }, [session])
+  }, [session]);
 
   useEffect(() => {
-    if(formData.country){
-      const country = countries.find(item => item.label?.toLowerCase() === formData.country?.toLowerCase())
-    setSelectedCountry(country)
+    if (formData.country) {
+      const country = countries.find(
+        (item) => item.label?.toLowerCase() === formData.country?.toLowerCase()
+      );
+      setSelectedCountry(country);
     }
-  }, [session,refresh, formData])
+  }, [session, refresh, formData]);
 
   useEffect(() => {
-    if(formData.town){
-      const town = cities.find(item => item.city?.toLowerCase() === formData.town?.toLowerCase())
-    setSelectedCity(town)
+    if (formData.town) {
+      const town = cities.find(
+        (item) => item.city?.toLowerCase() === formData.town?.toLowerCase()
+      );
+      setSelectedCity(town);
     }
-  }, [session, refresh, formData])
+  }, [session, refresh, formData]);
 
-
-
-  console.log({selectedCity, selectedCountry, formData});
-
-
+  console.log({ selectedCity, selectedCountry, formData });
 
   return (
     <div className="flex flex-col">
-
       <FormControl sx={{ width: "48%", height: "92px", marginBottom: "24px" }}>
         <FormLabel
           htmlFor="billing-name"
@@ -214,7 +216,7 @@ const BillingAddress: React.FC = () => {
           Town
         </FormLabel>
         <Autocomplete
-        value={selectedCity}
+          value={selectedCity}
           className="w-full"
           id="town"
           sx={{ width: 300 }}
@@ -233,7 +235,9 @@ const BillingAddress: React.FC = () => {
               inputProps={{ ...params.inputProps }}
             />
           )}
-          onChange={(event, value) => setFormData((prev) => ({ ...prev, town: value?.city || "" }))}
+          onChange={(event, value) =>
+            setFormData((prev) => ({ ...prev, town: value?.city || "" }))
+          }
         />
       </FormControl>
       <FormControl sx={{ width: "48%", height: "92px", marginBottom: "24px" }}>
@@ -260,7 +264,7 @@ const BillingAddress: React.FC = () => {
           Country residency
         </FormLabel>
         <Autocomplete
-        value={selectedCountry}
+          value={selectedCountry}
           className="w-full"
           id="country"
           sx={{ width: 300 }}
@@ -285,13 +289,15 @@ const BillingAddress: React.FC = () => {
           )}
           renderInput={(params) => (
             <TextField
-            // value={countries.find(item => item.label.toLowerCase() === formData.country.toLowerCase())}
+              // value={countries.find(item => item.label.toLowerCase() === formData.country.toLowerCase())}
               {...params}
               placeholder="Select country"
               inputProps={{ ...params.inputProps }}
             />
           )}
-          onChange={(event, value) => setFormData((prev) => ({ ...prev, country: value?.label || "" }))}
+          onChange={(event, value) =>
+            setFormData((prev) => ({ ...prev, country: value?.label || "" }))
+          }
         />
       </FormControl>
       <Button
@@ -299,7 +305,7 @@ const BillingAddress: React.FC = () => {
         variant="contained"
         onClick={handleSubmit}
       >
-        {laoding? "Loading...." : "Save changes"}
+        {laoding ? "Loading...." : "Save changes"}
       </Button>
     </div>
   );

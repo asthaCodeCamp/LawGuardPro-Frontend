@@ -1,11 +1,11 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { TextField } from '@mui/material';
-import axios from 'axios';
-import Link from 'next/link';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { TextField } from "@mui/material";
+import axios from "axios";
+import Link from "next/link";
 
 const ResetPasswordRequestForm: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -14,15 +14,18 @@ const ResetPasswordRequestForm: React.FC = () => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://54.203.205.46:5140/api/usersauth/forgetpassword', { email });
+      const response = await axios.post(
+        "https://lawguardpro-api.saams.xyz/api/usersauth/forgetpassword",
+        { email }
+      );
       console.log(response);
-      if (response?.status===200) {
-        setMessage('Reset link sent successfully!');
+      if (response?.status === 200) {
+        setMessage("Reset link sent successfully!");
       } else {
-        setMessage('Failed to send reset link. Please try again.');
+        setMessage("Failed to send reset link. Please try again.");
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again.');
+      setMessage("An error occurred. Please try again.");
     }
   };
 
@@ -32,7 +35,8 @@ const ResetPasswordRequestForm: React.FC = () => {
         <h1 className="text-2xl font-semibold mb-4">Reset Password</h1>
         <div className="w-[463px] mb-6">
           <p className="mb-4">
-            Enter the email address you signed up with. We’ll send you an email with a link to reset your password.
+            Enter the email address you signed up with. We’ll send you an email
+            with a link to reset your password.
           </p>
         </div>
         <form className="w-[463px]" onSubmit={handleSubmit}>
@@ -55,9 +59,15 @@ const ResetPasswordRequestForm: React.FC = () => {
           >
             Send Reset Link
           </button>
-          {message && <p className="text-center mt-4 text-red-600">{message}</p>}
+          {message && (
+            <p className="text-center mt-4 text-red-600">{message}</p>
+          )}
           <div className="text-center mt-8">
-            <Link href={"/login"} className="text-xl font-semibold" type="button">
+            <Link
+              href={"/login"}
+              className="text-xl font-semibold"
+              type="button"
+            >
               Cancel
             </Link>
           </div>
