@@ -172,7 +172,7 @@ const Messages = () => {
                 <div className="p-4 border rounded-lg text-center">
                   <h3 className="text-gray-500 text-sm">TOTAL VALUE</h3>
                   <p id="total-value" className="text-xl font-semibold">
-                    ${value}
+                    ${value + 50}
                   </p>
                 </div>
               </div>
