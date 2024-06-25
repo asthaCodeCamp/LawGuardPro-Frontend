@@ -11,6 +11,7 @@ import React from "react";
 
 const DashboardCaseTable = ({ casesData }: any) => {
   const { cases } = casesData;
+  console.log("djsjdshfhdsnfhdshfjsdhfjhsdfsdhf",casesData);
   console.log("Cases From Dashbord", cases);
   return (
     <div>
