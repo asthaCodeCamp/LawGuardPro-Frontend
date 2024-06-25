@@ -150,7 +150,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     console.log("Inquiry type === ", event.target.value);
     setInquiryName(event.target.value);
   };
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const handleInquiryTypeChange = (
     event: React.ChangeEvent<{}>,
@@ -188,21 +188,19 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         }
       );
       handleFileUpload();
-    
+
       handleClose();
       handleOpenSuccessModal();
       console.log("Response from server:", response.data);
-      setInquiryName('');
-      setInquiryType('');
-      setDescription('');
+      setInquiryName("");
+      setInquiryType("");
+      setDescription("");
     } catch (error) {
       console.error("Error submitting form", error);
       setError("Failed to submit the form. Please try again later.");
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
-
   };
   // file upload chunk--------
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -244,7 +242,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
             }
           );
           const data = await response.json();
-          
+
           console.log({ data });
 
           const temp = `Chunk ${
@@ -267,12 +265,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
 
     uploadNextChunk();
   };
-  
 
-  const reval = () =>{
-    
-    queryClient.invalidateQueries({queryKey: [QueryKeys.cases , 5 , 1] })
-  }
+  const reval = () => {
+    queryClient.invalidateQueries({ queryKey: [QueryKeys.cases, 5, 1] });
+  };
   const handleClick = () => {
     handleSubmit();
     reval();
@@ -288,7 +284,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent className="w-[90%] md:w-[56%] lg:w-[35%] h-auto">
-        {/* <button onClick={()=> reval()}>
+          {/* <button onClick={()=> reval()}>
         hello
       </button> */}
           <Box className="w-full">
@@ -324,8 +320,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                 </svg>
               </Box>
               <Box className="w-[88%] h-auto font-[500] text-[16px] text-[#1E40AF] py-4">
-                You are creating a case for Tomal Ahmed. Please describe your
-                inquiry below.
+                You are creating a case for {session?.user?.firstName}{" "}
+                {session?.user?.lastName}. Please describe your inquiry below.
               </Box>
             </Box>
             <Box className="w-full mt-3">
@@ -368,7 +364,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   Type of inquiry <span className="text-red-700">*</span>
                 </label>
                 <Autocomplete
-          
                   options={options}
                   renderInput={(params) => (
                     <TextField
@@ -402,7 +397,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   onChange={handleFileChange}
                   accept="*/*"
                   style={{ display: "none", height: "300px" }}
-                
                   id="attachment-button-file"
                   type="file"
                 />
@@ -425,14 +419,11 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
               type="submit"
               className="self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-3 mt-3  w-full text-[16px] font-semibold capitalize hover:bg-LawGuardPrimary"
             >
-              {loading ? 'Submitting...' : 'Submit'}
+              {loading ? "Submitting..." : "Submit"}
             </Button>
           </Box>
         </ModalContent>
-        
       </Modal>
-
- 
     </div>
   );
 };
