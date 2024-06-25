@@ -5,8 +5,8 @@ import { logIn } from "@/services/authentication/authentication.service";
 export default NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.AUTH_GOOGLE_ID!,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -46,4 +46,5 @@ export default NextAuth({
       return sessionData.session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 });
