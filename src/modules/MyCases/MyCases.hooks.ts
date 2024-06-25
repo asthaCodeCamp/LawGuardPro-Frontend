@@ -4,16 +4,17 @@ import { QueryKeys } from "@/utilites/enums";
 import { useSession } from "next-auth/react";
 
 export const useGetAllCases  = ({pageSize , pageNumber }: {pageSize: number , pageNumber: number }) =>{
-    const session  = useSession();
+    const {data:session}  = useSession();
+    console.log("USegateall casses session",session);
     return useQuery({
         queryKey: [QueryKeys.cases , pageSize , pageNumber],
         queryFn: async () =>{
-            const cases = await getAllCases({pageNumber: pageNumber , pageSize: pageSize , accessToken: session.data?.accessToken})
+            const cases = await getAllCases({pageNumber: pageNumber , pageSize: pageSize , accessToken: session?.accessToken})
             return cases.data as {totalCount : number}
         },
         refetchOnMount: true,
         refetchOnWindowFocus: false,
-        enabled: !!session.data?.accessToken,
+        enabled: !!session?.accessToken,
         retry: 1,
     })
 }

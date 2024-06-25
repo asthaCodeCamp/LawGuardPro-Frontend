@@ -7,6 +7,7 @@ import { createQuote } from "./CaseQuotes.service";
 
 export const useGetAllQuotes = (caseId: string) => {
   const session = useSession();
+
   return useQuery({
     queryKey: [QuoteKeys.quotes],
     queryFn: async () => {
@@ -25,6 +26,8 @@ export const useGetAllQuotes = (caseId: string) => {
 
 export const useCreateQuote = () => {
   const session = useSession();
+  // console.log("session from use create quote:", session);
+
   return useMutation({
     mutationFn: async (quoteData: {
       lawerId: string;
