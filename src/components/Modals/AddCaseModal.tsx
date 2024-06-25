@@ -119,7 +119,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const [loading, setLoading] = React.useState(false);
   const { data: session } = useSession();
 
-  console.log("modal session ==== ", session);
+  // console.log("modal session ==== ", session);
 
   const [error, setError] = React.useState<string | null>(null);
   const options = [
@@ -147,7 +147,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const handleInquiryNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("Inquiry type === ", event.target.value);
+    // console.log("Inquiry type === ", event.target.value);
     setInquiryName(event.target.value);
   };
   const queryClient = useQueryClient();
@@ -188,7 +188,26 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           },
         }
       );
-      handleFileUpload();
+
+      let data = await handleFileUpload();
+
+      if (data && response.data) {
+        const attachmentData = {
+          caseId: response.data.data,
+          fileUrls: [data],
+        };
+
+        await axios.post(
+          "http://54.203.205.46:5140/api/filecontroller/save-attachments",
+          attachmentData,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
       setInquiryName("");
       setInquiryType("");
       setDescription("");
@@ -212,12 +231,12 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     setSelectedFile(file);
   };
 
-  const handleFileUpload = (): void => {
+  const handleFileUpload = async (): Promise<any> => {
     if (!selectedFile) {
       // alert("Please select a file to upload.");
       return;
     }
-
+    let returnedFileUrl = "";
     const chunkSize = 1 * 1024 * 1024; // 1MB
     const totalChunks = Math.ceil(selectedFile.size / chunkSize);
     let chunkNumber = 0;
@@ -243,7 +262,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           );
           const data = await response.json();
 
-          console.log({ data });
+          returnedFileUrl = data.fileUrl;
+          console.log({ data }, "this is the data from the file uploaded");
 
           const temp = `Chunk ${
             chunkNumber + 1
@@ -263,7 +283,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       }
     };
 
-    uploadNextChunk();
+    await uploadNextChunk();
+    return returnedFileUrl;
   };
 
   const reval = () => {
@@ -273,6 +294,12 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     handleSubmit();
     reval();
   };
+  //need implement
+  // React.useEffect(() => {
+  //   console.log(selectedFile);
+  // }, [selectedFile]);
+
+  let fileName = selectedFile?.name || "";
 
   return (
     <div>
@@ -284,9 +311,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
         slots={{ backdrop: StyledBackdrop }}
       >
         <ModalContent className="w-[90%] md:w-[56%] lg:w-[35%] h-auto">
-          {/* <button onClick={()=> reval()}>
-        hello
-      </button> */}
           <Box className="w-full">
             <Box className="flex justify-between">
               <span className="font-[600] text-[22px]">Add New Case</span>
@@ -408,7 +432,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   >
                     {svgs?.attechmentIcon}
                     <h3 className="ml-2 text-[14px] font-semibold">
-                      Attach Documents
+                      {fileName ? fileName : "Attach Documents"}
                     </h3>
                   </IconButton>
                 </label>

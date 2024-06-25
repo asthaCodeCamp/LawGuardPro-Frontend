@@ -14,7 +14,7 @@ type CaseData = {
 
 const DashboardMain: React.FC = () => {
   const [showCaseUpdate, setShowCaseUpdate] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); 
   const session = useSession();
   let fullName =
     session?.data?.user?.firstName + " " + session?.data?.user?.lastName;
@@ -54,8 +54,8 @@ const DashboardMain: React.FC = () => {
   const onAddCaseClick = () => {
     setShowCaseUpdate(true);
   };
-
-  const { totalCount, data } = caseData;
+  const { totalCount}:any = caseData?.data;
+  console.log('Sykot dash shshdgshgd vhjdfhdhfg',totalCount);
 
   return (
     <div className="flex w-full">
@@ -116,7 +116,12 @@ const DashboardMain: React.FC = () => {
           totalCount === 0 ? (
             <EmptyCase />
           ) : (
-            <CaseUpdate />
+            // Conditionally render the EmptyCase or CaseUpdate component based on the totalCount
+            totalCount == 0 ? (
+              <EmptyCase />
+            ) : (
+              <CaseUpdate />
+            )
           )}
         </div>
       </div>

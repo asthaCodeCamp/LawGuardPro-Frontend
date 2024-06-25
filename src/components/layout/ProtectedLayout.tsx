@@ -169,7 +169,7 @@ export default function ProtectedLayout({
                       key={router?.pathname.indexOf(path)}
                       color="text.primary"
                     >
-                      {path}
+                      {path === "[caseId]" ? "case" : path}
                     </Typography>
                   ) : null
                 )}
