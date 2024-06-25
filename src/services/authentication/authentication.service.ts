@@ -56,7 +56,7 @@ export async function logIn(cred: {
 
     // Make the API request with the session as a bearer token
     const response = await fetch(
-      "http://54.203.205.46:5140/api/UsersAuth/login",
+      "https://lawguardpro-api.saams.xyz/api/UsersAuth/login",
       {
         method: "POST",
         headers: {

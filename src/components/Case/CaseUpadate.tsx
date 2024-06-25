@@ -43,7 +43,7 @@ const CaseUpdate: React.FC<CaseUpdateProps> = ({ casesData }: any) => {
     const fetchData = async () => {
 
       try {
-        const response = await fetch(`http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${parPage}`, {
+        const response = await fetch(`https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${parPage}`, {
           headers: {
             Authorization: `Bearer ${session?.data?.accessToken}`,
           }

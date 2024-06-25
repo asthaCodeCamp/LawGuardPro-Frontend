@@ -31,7 +31,7 @@ const DashboardMain: React.FC = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
+          `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
           {
             headers: {
               Authorization: `Bearer ${session?.data?.accessToken}`,
@@ -43,10 +43,9 @@ const DashboardMain: React.FC = () => {
         setCaseData(result);
       } catch (error) {
         console.error("Error fetching data:", error);
-      }finally {
-        setLoading(false); 
+      } finally {
+        setLoading(false);
       }
-      
     };
 
     fetchData();
@@ -95,27 +94,27 @@ const DashboardMain: React.FC = () => {
             </div>
           </div>
           <div className="flex gap-[24px] ml-[32px] mr-[32px] mt-[32px] mb-[34px]">
-            
             <Button
               className="w-full font-[600] bg-[#F6F6F6] shadow-none text-black"
               variant="text"
             >
-              <Link href={'/settings/personal-info'}>
-              Complete your profile{" "}
+              <Link href={"/settings/personal-info"}>
+                Complete your profile{" "}
               </Link>
-              
+
               <ArrowForwardIosOutlinedIcon className="w-[14px] ml-[8px]" />
             </Button>
-            
-            
           </div>
         </div>
         {/* Case Update sections */}
         <div className="mb-10">
-        {loading ? (
+          {loading ? (
             <div className="flex justify-center">
               <CircularIndeterminate />
             </div>
+          ) : // Conditionally render the EmptyCase or CaseUpdate component based on the totalCount
+          totalCount === 0 ? (
+            <EmptyCase />
           ) : (
             // Conditionally render the EmptyCase or CaseUpdate component based on the totalCount
             totalCount == 0 ? (

@@ -33,7 +33,7 @@ const MyCases = () => {
   // const fetchData = async () => {
 
   //   try {
-  //     const response = await fetch(http://54.203.205.46:5140/api/case/list?pageNumber=${page}&pageSize=${parPage}, {
+  //     const response = await fetch(https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${parPage}, {
   //       headers: {
   //         Authorization: Bearer ${session?.data?.accessToken},
   //       }
@@ -178,9 +178,9 @@ const MyCases = () => {
                 </div>
               </div>
             </div>
-               <div className="px-8">
-               <CaseTableSkeleton></CaseTableSkeleton>
-               </div>
+            <div className="px-8">
+              <CaseTableSkeleton></CaseTableSkeleton>
+            </div>
           </div>
         )}
       </ProtectedLayout>
@@ -190,7 +190,7 @@ const MyCases = () => {
 
 export async function getServerSideProps({ req }: any) {
   const session = await getSession({ req });
-  console.log(session, "session at home page ");    
+  console.log(session, "session at home page ");
   if (!session) {
     return {
       redirect: {

@@ -178,9 +178,8 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     try {
       setLoading(true);
 
-      
       const response = await axios.post(
-        "http://54.203.205.46:5140/api/case",
+        "https://lawguardpro-api.saams.xyz/api/case",
         requestData,
         {
           headers: {
@@ -255,7 +254,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
 
         try {
           const response = await fetch(
-            "http://54.203.205.46:5140/api/filecontroller/upload-chunk",
+            "https://lawguardpro-api.saams.xyz/api/filecontroller/upload-chunk",
             {
               method: "POST",
               body: formData,

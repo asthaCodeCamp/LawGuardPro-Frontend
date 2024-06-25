@@ -3,9 +3,9 @@ import { Button, TextField } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import axios from "axios";
 import { getCsrfToken, useSession } from "next-auth/react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import CircularProgress from '@mui/material/CircularProgress'; // Import CircularProgress for loading spinner
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress for loading spinner
 
 interface PasswordValidation {
   length: boolean;
@@ -16,7 +16,6 @@ interface PasswordValidation {
 }
 
 const SecurityComponent: React.FC = () => {
-
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
@@ -52,7 +51,7 @@ const SecurityComponent: React.FC = () => {
     setLoading(true); // Set loading to true when the form submission starts
 
     if (!session) {
-      toast.error('You are not logged in');
+      toast.error("You are not logged in");
       setLoading(false); // Set loading to false in case of error
       return;
     }
@@ -63,7 +62,8 @@ const SecurityComponent: React.FC = () => {
       return;
     }
 
-    const isValid = passwordValidation.length &&
+    const isValid =
+      passwordValidation.length &&
       passwordValidation.number &&
       passwordValidation.uppercase &&
       passwordValidation.lowercase &&
@@ -79,28 +79,32 @@ const SecurityComponent: React.FC = () => {
 
     try {
       const response = await axios.put(
-        'http://54.203.205.46:5140/api/resetpassword/resetpassword',
+        "https://lawguardpro-api.saams.xyz/api/resetpassword/resetpassword",
         {
           oldPassword,
-          newPassword
+          newPassword,
         },
         {
           headers: {
-            'Authorization': `Bearer ${session.accessToken}`,
-            'X-CSRF-Token': csrfToken || '',
-          }
+            Authorization: `Bearer ${session.accessToken}`,
+            "X-CSRF-Token": csrfToken || "",
+          },
         }
       );
-      toast.success('Password update successful');
+      toast.success("Password update successful");
     } catch (error: any) {
       if (error.response) {
-        console.error('Failed to update password:', error.response.data);
-        toast.error(`Failed to update password: ${error.response.data.message || error.response.status}`);
+        console.error("Failed to update password:", error.response.data);
+        toast.error(
+          `Failed to update password: ${
+            error.response.data.message || error.response.status
+          }`
+        );
       } else if (error.request) {
-        console.error('No response received:', error.request);
-        toast.error('No response from the server. Please try again later.');
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please try again later.");
       } else {
-        console.error('Error in password update:', error.message);
+        console.error("Error in password update:", error.message);
         toast.error(`An error occurred: ${error.message}`);
       }
     } finally {
@@ -211,14 +215,16 @@ const SecurityComponent: React.FC = () => {
                 <div className="flex">
                   <CheckIcon
                     className={`h-4 w-4 ${
-                      passwordValidation.uppercase && passwordValidation.lowercase
+                      passwordValidation.uppercase &&
+                      passwordValidation.lowercase
                         ? "text-green-500"
                         : "text-gray-500"
                     }`}
                   />
                   <p
                     className={` ml-2 ${
-                      passwordValidation.uppercase && passwordValidation.lowercase
+                      passwordValidation.uppercase &&
+                      passwordValidation.lowercase
                         ? "text-green-500"
                         : "text-gray-500"
                     }`}
@@ -252,9 +258,8 @@ const SecurityComponent: React.FC = () => {
           <Button
             type="submit"
             className="mb-9 self-start text-white rounded-lg bg-LawGuardPrimary px-12 py-4 text-[16px] font-semibold hover:bg-LawGuardPrimary"
-            
           >
-            {loading ? "Loading...." : "Save changes"} 
+            {loading ? "Loading...." : "Save changes"}
           </Button>
         </div>
       </form>

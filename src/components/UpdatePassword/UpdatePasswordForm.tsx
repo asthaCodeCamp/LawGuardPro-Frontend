@@ -3,17 +3,26 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput,
-  TextField,
 } from "@mui/material";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import React, { useState } from "react";
+import { useResetPassword } from "@/modules/ResetPassword/ResetPassword.hook";
+import { useRouter } from "next/router";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
-import React from "react";
-
-const UpdatePasswordForm = () => {
+const UpdatePasswordForm = ({ idAndOtp }: { idAndOtp: string[] }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const { mutate: resetData, isPending } = useResetPassword();
+  const router = useRouter();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickConfirmPassword = () =>
@@ -23,6 +32,22 @@ const UpdatePasswordForm = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+  };
+
+  const handleResetPassword = (e: any) => {
+    e.preventDefault();
+    if (newPassword == confirmNewPassword) {
+      resetData({
+        userId: idAndOtp[0],
+        otp: idAndOtp[1],
+        newPassword: newPassword,
+      });
+
+      // console.log("reset response ===", response);
+      router.push("/login");
+    } else {
+      setError("New Password and Confirm Password did not match");
+    }
   };
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -35,31 +60,7 @@ const UpdatePasswordForm = () => {
             Create a strong password to protect your account.
           </p>
         </div>
-        <form className="w-[406px]">
-          {/* <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
-              New password
-            </label>
-            <TextField
-              type="email"
-              id="email"
-              className="shadow-sm rounded-md w-full  border border-gray-300 focus:outline-none focus:ring-LawGuardPurple focus:border-LawGuardPurple"
-              required
-              placeholder="Enter new password"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
-              Confirm password
-            </label>
-            <TextField
-              type="email"
-              id="email"
-              className="shadow-sm rounded-md w-full  border border-gray-300 focus:outline-none focus:ring-LawGuardPurple focus:border-LawGuardPurple"
-              required
-              placeholder="Re-enter new password"
-            />
-          </div> */}
+        <form className="w-[406px]" onSubmit={handleResetPassword}>
           <div className="flex flex-col">
             <label
               className="mb-[12px] text-[16px] font-medium"
@@ -71,7 +72,9 @@ const UpdatePasswordForm = () => {
               <OutlinedInput
                 placeholder="Enter password"
                 id="outlined-adornment-password"
+                value={newPassword}
                 type={showPassword ? "text" : "password"}
+                onChange={(e: any) => setNewPassword(e.currentTarget.value)}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -98,7 +101,11 @@ const UpdatePasswordForm = () => {
               <OutlinedInput
                 placeholder="Re-enter password"
                 id="outlined-adornment-password"
+                value={confirmNewPassword}
                 type={showConfirmPassword ? "text" : "password"}
+                onChange={(e: any) =>
+                  setConfirmNewPassword(e.currentTarget.value)
+                }
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -112,13 +119,14 @@ const UpdatePasswordForm = () => {
                   </InputAdornment>
                 }
               />
+              {error && <p className="text-[#DC2626] text-xs mt-2">{error}</p>}
             </FormControl>
           </div>
           <button
             type="submit"
             className="w-full mt-4 flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-LawGuardPrimary hover:bg-LawGuardPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-LawGuardPrimary"
           >
-            Update
+            {isPending ? "Loading...." : " Update"}
           </button>
         </form>
       </div>
