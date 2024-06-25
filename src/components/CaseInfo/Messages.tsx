@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Messages = () => {
   const [value, setValue] = useState(0);
+  // const [loading, setLoading] = useState(false);
 
   const getRandomValue = () => {
     return Math.floor(Math.random() * 1000);
@@ -177,10 +178,10 @@ const Messages = () => {
               </div>
               <div className="flex justify-end">
                 <button
-                  className="px-3 py-3 bg-[#6B0F99] hover:bg-[#6B0F99] text-white rounded"
+                  className="px-3 py-3 w-40 bg-[#6B0F99] hover:bg-[#6B0F99] text-white rounded"
                   onClick={() => onCreateQuote()}
                 >
-                  ACCEPT QUOTE
+                  {isPending ? "Loading..." : "ACCEPT QUOTE"}
                 </button>
               </div>
             </div>
