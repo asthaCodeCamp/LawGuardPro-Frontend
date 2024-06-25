@@ -55,7 +55,9 @@ const CaseInfo = () => {
                   totalPaid={data?.data?.totalPaid}
                 />
               ) : (
-                <CircularIndeterminate />
+                <div className="mx-72 my-64">
+                  <CircularIndeterminate />
+                </div>
               )}
             </CaseLayout>
           </div>
