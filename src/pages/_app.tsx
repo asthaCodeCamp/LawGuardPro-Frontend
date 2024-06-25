@@ -17,11 +17,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <ReactQueryDevtools initialIsOpen={true} />
         <SessionProvider session={pageProps.session}>
           <Component {...pageProps} />
-          <ToastContainer
+          {/* <ToastContainer
             position="bottom-right"
             autoClose={3000}
             theme="light"
-          />
+          /> */}
         </SessionProvider>
       </QueryClientProvider>
     </>

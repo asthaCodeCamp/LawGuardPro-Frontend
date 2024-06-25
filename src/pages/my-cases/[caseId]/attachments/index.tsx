@@ -28,6 +28,8 @@ const Attachments = () => {
   const [cases, SetCases] = useState(data);
   const { data: session, status } = useSession();
 
+  
+
   useEffect(() => {
     if (!session && status !== "loading") {
       router.push("/login");
