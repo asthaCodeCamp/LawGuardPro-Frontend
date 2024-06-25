@@ -1,5 +1,5 @@
 import CaseDetails from "@/components/CaseInfo/CaseDetails";
-import CaseinfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CaseinfoHeader from "@/components/CaseInfo/CaseinfoHeader";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";

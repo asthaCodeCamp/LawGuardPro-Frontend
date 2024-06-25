@@ -1,4 +1,4 @@
-import CaseinfoHeader from "@/components/CaseInfo/CaseInfoHeader";
+import CaseinfoHeader from "@/components/CaseInfo/CaseinfoHeader";
 import Messages from "@/components/CaseInfo/Messages";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
