@@ -10,12 +10,12 @@ const CaseInfoLink = () => {
   const { pathname } = router;
 
   return (
-    <div className="bg-[#D1D1D1] w-48 h-full">
+    <div className="bg-[#D1D1D1] w-48 h-full border pb-96">
       <div className="flex flex-col">
         <Link
           href={`/my-cases/${router?.query.caseId}/case-info`}
           className={` text-[16px] p-4 font-[500] border-b-[1px] ${
-            pathname === `/my-cases/case-info`
+            pathname === `/my-cases/[caseId]/case-info`
               ? "text-[#6B0F99] text-[16px] font-[500] bg-[#E1ABFF]"
               : "bg-[#D1D1D1]"
           }`}
@@ -25,7 +25,7 @@ const CaseInfoLink = () => {
         <Link
           href={`/my-cases/${router?.query.caseId}/messages`}
           className={` text-[16px] p-4 font-[500] border-b-[1px] ${
-            pathname === "/my-cases/messages"
+            pathname === "/my-cases/[caseId]/messages"
               ? "text-[#6B0F99] text-[16px] font-[500] bg-[#E1ABFF]"
               : "bg-[#D1D1D1]"
           }`}
@@ -35,7 +35,7 @@ const CaseInfoLink = () => {
         <Link
           href={`/my-cases/${router?.query.caseId}/attachments`}
           className={` text-[16px] p-4 font-[500] border-b-[1px] ${
-            pathname === "/my-cases/attachments"
+            pathname === "/my-cases/[caseId]/attachments"
               ? "text-[#6B0F99] text-[16px] font-[500] bg-[#E1ABFF]"
               : "bg-[#D1D1D1]"
           }`}
@@ -45,7 +45,7 @@ const CaseInfoLink = () => {
         <Link
           href={`/my-cases/${router?.query.caseId}/quotes`}
           className={` text-[16px] p-4 font-[500] border-b-[1px] ${
-            pathname === "/my-cases/quotes"
+            pathname === "/my-cases/[caseId]/quotes"
               ? "text-[#6B0F99] text-[16px] font-[500] bg-[#E1ABFF]"
               : "bg-[#D1D1D1]"
           }`}

@@ -23,7 +23,7 @@ import userImage from "../../../public/assets/man.png";
 import { useRouter } from "next/router";
 import svgs from "@/components/svg/svg";
 import { getSession, useSession } from "next-auth/react";
-import useUserData from '../../services/PersonalDetails/useUserData';
+import useUserData from "../../services/PersonalDetails/useUserData";
 
 import { signOut } from "next-auth/react";
 import useUserNameStore from "@/utilites/store";
@@ -105,7 +105,7 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const name = useUserNameStore((state)=>state.name);
+  const name = useUserNameStore((state) => state.name);
   // console.log(session);
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
   useEffect(() => {
@@ -276,7 +276,11 @@ export default function ProtectedLayout({
             <Link href="/my-cases">
               <ListItem
                 className={
-                  router.pathname === "/my-cases"
+                  router.pathname === "/my-cases" ||
+                  router.pathname === "/my-cases/[caseId]/case-info" ||
+                  router.pathname === "/my-cases/[caseId]/messages" ||
+                  router.pathname === "/my-cases/[caseId]/attachments" ||
+                  router.pathname === "/my-cases/[caseId]/quotes"
                     ? "text-violet-900 bg-purple-300 my-5"
                     : "text-black my-5"
                 }
@@ -299,7 +303,11 @@ export default function ProtectedLayout({
                   >
                     <BusinessCenterOutlinedIcon
                       className={
-                        router.pathname === "/my-cases"
+                        router.pathname === "/my-cases" ||
+                        router.pathname === "/my-cases/[caseId]/case-info" ||
+                        router.pathname === "/my-cases/[caseId]/messages" ||
+                        router.pathname === "/my-cases/[caseId]/attachments" ||
+                        router.pathname === "/my-cases/[caseId]/quotes"
                           ? "text-violet-900"
                           : "text-black"
                       }
