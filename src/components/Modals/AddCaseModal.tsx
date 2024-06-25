@@ -188,6 +188,10 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
           },
         }
       );
+
+      //from response you will get caseId
+      //then get the response link from handle file
+
       handleFileUpload();
       setInquiryName('');
       setInquiryType('');
