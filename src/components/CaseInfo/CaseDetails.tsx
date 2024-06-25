@@ -1,6 +1,6 @@
 const CaseDetails = ({ description, totalPaid, totalQuoted }: any) => {
   return (
-    <div className="border-t-2">
+    <div className="border-t-2 w-full">
       <div className=" border-b-2 p-8">
         <h1 className="flex">
           <svg

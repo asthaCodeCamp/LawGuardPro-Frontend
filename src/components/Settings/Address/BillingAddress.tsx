@@ -25,6 +25,7 @@ interface FormData {
 }
 
 const BillingAddress: React.FC = () => {
+  const [laoding,setLoading] = React.useState(false); 
   const [formData, setFormData] = useState<FormData>({
     billingName: "",
     addressLine1: "",
@@ -66,7 +67,7 @@ const BillingAddress: React.FC = () => {
       };
 
       console.log("Data to submit:", dataToSubmit);
-
+      setLoading(true);
       const response = await axios.post(
         "http://54.203.205.46:5140/api/address/create/billing",
         dataToSubmit,
@@ -77,8 +78,8 @@ const BillingAddress: React.FC = () => {
           },
         }
       );
-
-      toast.success("Bill submitted successfully!");
+      setLoading(false);
+      toast.success("Billing Address submitted successfully!");
 
 
       // Reset form fields
@@ -298,7 +299,7 @@ const BillingAddress: React.FC = () => {
         variant="contained"
         onClick={handleSubmit}
       >
-        Save changes
+        {laoding? "Loading...." : "Save changes"}
       </Button>
     </div>
   );
