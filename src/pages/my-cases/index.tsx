@@ -2,6 +2,8 @@ import CasePagination from "@/components/Case/CasePagination";
 import CaseTable from "@/components/Case/CaseTable";
 import CaseUpadate from "@/components/Case/CaseUpadate";
 import CaseHeader from "@/components/Case/CasesHeader";
+import EmptyCase from "@/components/Case/EmptyCase";
+import EmptyCaseMyCase from "@/components/Case/EmptyCaseMyCase";
 import AddCaseMoadal from "@/components/Modals/AddCaseModal";
 import CaseTableSkeleton from "@/components/Skeleton/CaseTableSkeleton";
 import CircularIndeterminate from "@/components/Spinner/Spinner";
@@ -75,21 +77,28 @@ const MyCases = () => {
         {data ? (
           <div className="w-full">
             <CaseHeader casesData={data} />
-            <CaseTable casesData={data} />
-            <div className="flex  my-[36px] mx-auto  justify-between ">
-              <div className="ml-[48px] ">
+            {data?.totalCount === 0 ? (
+              <EmptyCaseMyCase />
+            ) : (
+              <div>
                 {" "}
-                <h2>{data.totalCount} Cases found</h2>
+                <CaseTable casesData={data} />
+                <div className="flex  my-[36px] mx-auto  justify-between ">
+                  <div className="ml-[48px] ">
+                    {" "}
+                    <h2>{data.totalCount} Cases found</h2>
+                  </div>
+                  <div className=" mr-48">
+                    <CasePagination
+                      casesData={data}
+                      pages={page}
+                      setPage={setPage}
+                    ></CasePagination>
+                  </div>
+                  <div className=""></div>
+                </div>
               </div>
-              <div className=" mr-48">
-                <CasePagination
-                  casesData={data}
-                  pages={page}
-                  setPage={setPage}
-                ></CasePagination>
-              </div>
-              <div className=""></div>
-            </div>
+            )}
           </div>
         ) : (
           <div className="w-full">
