@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  TextField,
+  IconButton,
+  InputAdornment,
+  CircularProgress,
+} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 import { getCsrfToken, useSession } from "next-auth/react";
 import { toast } from "sonner";
-
-import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress for loading spinner
 
 interface PasswordValidation {
   length: boolean;
@@ -21,11 +27,14 @@ const SecurityComponent: React.FC = () => {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [showOldPassword, setShowOldPassword] = useState<boolean>(false);
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   const { data: session } = useSession();
   console.log(session);
+
   useEffect(() => {
-    console.log(session, "test-one");
     const fetchCsrfToken = async () => {
       const csrfTokenData = await getCsrfToken();
       setCsrfToken(csrfTokenData ?? null);
@@ -48,17 +57,17 @@ const SecurityComponent: React.FC = () => {
 
   const handleSubmitReset = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true); // Set loading to true when the form submission starts
+    setLoading(true);
 
     if (!session) {
       toast.error("You are not logged in");
-      setLoading(false); // Set loading to false in case of error
+      setLoading(false);
       return;
     }
 
     if (newPassword !== confirmPassword) {
       toast.error("New password and confirm password do not match.");
-      setLoading(false); // Set loading to false in case of error
+      setLoading(false);
       return;
     }
 
@@ -71,11 +80,9 @@ const SecurityComponent: React.FC = () => {
 
     if (!isValid) {
       toast.error("New password does not meet the security criteria.");
-      setLoading(false); // Set loading to false in case of error
+      setLoading(false);
       return;
     }
-
-    setLoading(true);
 
     try {
       const response = await axios.put(
@@ -108,7 +115,21 @@ const SecurityComponent: React.FC = () => {
         toast.error(`An error occurred: ${error.message}`);
       }
     } finally {
-      setLoading(false); // Set loading to false when the form submission is complete
+      setLoading(false);
+    }
+  };
+
+  const togglePasswordVisibility = (field: "old" | "new" | "confirm") => {
+    switch (field) {
+      case "old":
+        setShowOldPassword((prev) => !prev);
+        break;
+      case "new":
+        setShowNewPassword((prev) => !prev);
+        break;
+      case "confirm":
+        setShowConfirmPassword((prev) => !prev);
+        break;
     }
   };
 
@@ -135,9 +156,20 @@ const SecurityComponent: React.FC = () => {
                 <TextField
                   id="oldPassword"
                   placeholder="Enter your old password"
-                  type="password"
+                  type={showOldPassword ? "text" : "password"}
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => togglePasswordVisibility("old")}
+                        >
+                          {showOldPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </div>
             </div>
@@ -151,9 +183,20 @@ const SecurityComponent: React.FC = () => {
               <TextField
                 id="newPassword"
                 placeholder="Enter your new password"
-                type="password"
+                type={showNewPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => togglePasswordVisibility("new")}
+                      >
+                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
             <div className="flex flex-col mt-[16px]">
@@ -166,9 +209,24 @@ const SecurityComponent: React.FC = () => {
               <TextField
                 id="confirmPassword"
                 placeholder="Confirm your new password"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => togglePasswordVisibility("confirm")}
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </div>
           </div>
