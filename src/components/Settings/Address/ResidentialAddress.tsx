@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormControl, FormLabel, OutlinedInput, Button } from "@mui/material";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
 
 interface FormData {
   addressLine1: string;

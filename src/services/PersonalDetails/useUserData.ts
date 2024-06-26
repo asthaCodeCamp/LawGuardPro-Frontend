@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { getSession, useSession } from "next-auth/react";
 import useUserNameStore from "@/utilites/store";
+import { toast } from "sonner";
 
 interface User {
   firstName: string;
@@ -60,7 +60,7 @@ const useUserData = () => {
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
-        toast.error("Failed to fetch user data");
+        // toast.error("Failed to fetch user data");
       }
     };
 

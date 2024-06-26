@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 interface FormData {
   addressLine1: string;

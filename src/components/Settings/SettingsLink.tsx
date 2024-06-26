@@ -10,8 +10,8 @@ const SettingsLink = () => {
   const { pathname } = router;
 
   return (
-    <div className="bg-[#D1D1D1] h-full w-48 border-r-[0.8px]">
-      <div className="flex flex-col">
+    <div className="bg-[#D1D1D1] w-48 h-full min-h-[94vh]  ">
+      <div className="flex flex-col h-full ">
         <Link
           className={`text-[16px] font-[500] border-b-[0.8px] p-4 text-center ${
             pathname === "/settings/personal-info"

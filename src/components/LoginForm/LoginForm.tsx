@@ -14,15 +14,15 @@ import { useRouter } from "next/router";
 // import { logIn } from "@/services/authentication/authentication.service";
 import { signIn } from "next-auth/react";
 import { CleaningServices } from "@mui/icons-material";
-import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "sonner";
+
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -66,14 +66,14 @@ const LoginForm = () => {
         const isLoggedin = await signIn("credentials", {
           userName: email,
           password: password,
-          redirect:false
+          redirect: false,
           // callbackUrl: "/",
         });
 
         // alert(`Hello == ${isLoggedin}`);
         // console.log("logged in info from user === ", isLoggedin.error);
 
-        if (!(isLoggedin)?.ok) {
+        if (!isLoggedin?.ok) {
           // toast.error("Incorrect Login Details!!");
           setError("Incorrect email or password");
           setEmail("");
@@ -85,14 +85,13 @@ const LoginForm = () => {
           router.push("/");
         }
       } catch (error) {
-        setIsLoading(false)
+        setIsLoading(false);
         // toast.success(error);
         console.log("Error occured");
       }
     }
 
     // logIn({ userName: "b@b.com", password: "@0Ne@@@@" });
-
   };
   const handleGoogleLogin = () => {
     signIn("google", { callbackUrl: "http://localhost:3000" });
@@ -164,11 +163,9 @@ const LoginForm = () => {
               }}
               required
             />
-            {error && (
-            <p className="text-[#DC2626] text-xs mt-2">{error}</p>
-          )}
+            {error && <p className="text-[#DC2626] text-xs mt-2">{error}</p>}
           </FormControl>
-          
+
           <Link
             href="/reset-password"
             className="mb-8 font-[500] text-[16px] leading-6 text-[#6B0F99]"
@@ -181,9 +178,7 @@ const LoginForm = () => {
             className="mb-4 mt-2 w-full h-14 bg-[#6B0F99] rounded-lg hover:bg-[#6B0F93] font-[600] text-[16px] capitalize text-white"
             onClick={handleLogin}
           >
-            {
-              isLoading?"Loading...":"Continue"
-            }
+            {isLoading ? "Loading..." : "Continue"}
           </Button>
           {/* <Button
             className="w-full h-14 bg-[#FFFFFF] rounded-lg text-[#191919] font-[600] text-[16px] outline outline-1 outline-[#d1d1d1] capitalize"

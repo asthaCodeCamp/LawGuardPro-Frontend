@@ -10,7 +10,7 @@ const CaseInfoLink = () => {
   const { pathname } = router;
 
   return (
-    <div className="bg-[#D1D1D1] w-48 h-full border pb-96">
+    <div className="bg-[#D1D1D1] w-48 h-full min-h-[82vh] border  ">
       <div className="flex flex-col">
         <Link
           href={`/my-cases/${router?.query.caseId}/case-info`}

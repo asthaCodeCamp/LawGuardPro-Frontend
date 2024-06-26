@@ -10,8 +10,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { useState } from "react";
 import { useResetPassword } from "@/modules/ResetPassword/ResetPassword.hook";
 import { useRouter } from "next/router";
-// import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 
 const UpdatePasswordForm = ({ idAndOtp }: { idAndOtp: string[] }) => {
   const [showPassword, setShowPassword] = React.useState(false);

@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import { useCreateQuote } from "@/modules/CaseQuotes/CaseQuotes.hooks";
 import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "sonner";
 
 const Messages = () => {
   const [value, setValue] = useState(0);
