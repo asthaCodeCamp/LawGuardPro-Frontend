@@ -1,37 +1,12 @@
 import ResetPasswordRequestForm from "@/components/ResetPassword/ResetPasswordRequestForm";
-import React, { useEffect } from "react";
+import React from "react";
 
 const ResetPassword = () => {
-  // const session = useSession();
-  // const router = useRouter();
-  // const { data: session, status } = useSession();
-
-  // useEffect(() => {
-  //   if (!session && status !== "loading") {
-  //     router.push("/login");
-  //   }
-  // }, [session]);
   return (
     <>
       <ResetPasswordRequestForm />
     </>
   );
 };
-
-// export async function getServerSideProps({ req }: any) {
-//   const session = await getSession({ req });
-//   console.log(session, "session at home page ");
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: { session },
-//   };
-// }
 
 export default ResetPassword;

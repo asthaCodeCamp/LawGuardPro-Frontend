@@ -11,19 +11,14 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import Link from "next/link";
 import { useRouter } from "next/router";
-// import { logIn } from "@/services/authentication/authentication.service";
 import { signIn } from "next-auth/react";
-import { CleaningServices } from "@mui/icons-material";
-import { toast } from "sonner";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -33,25 +28,17 @@ const LoginForm = () => {
   ) => {
     event.preventDefault();
   };
+
   const validateEmail = (email: string) => {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email.match(mailformat)) {
-      //alert("Valid email address!");
-      //document.form1.text1.focus();
       return true;
     } else {
-      // alert("You have entered an invalid email address!");
-      //document.form1.text1.focus();
       return false;
     }
   };
 
   const handleLogin = async () => {
-    // signIn("credentials", {
-    //   userName: "jubair@gmail.com",
-    //   password: "Jubair128@",
-    // }).then(() => router.push("/"));
-
     if (email === "" || password === "") {
       setError("Email or Password can't be empty");
       setEmail("");
@@ -67,31 +54,20 @@ const LoginForm = () => {
           userName: email,
           password: password,
           redirect: false,
-          // callbackUrl: "/",
         });
 
-        // alert(`Hello == ${isLoggedin}`);
-        // console.log("logged in info from user === ", isLoggedin.error);
-
         if (!isLoggedin?.ok) {
-          // toast.error("Incorrect Login Details!!");
           setError("Incorrect email or password");
           setEmail("");
           setPassword("");
           setIsLoading(false);
         } else {
-          // toast.success("Login Successful!!");
-          // console.log("Login Successful");
           router.push("/");
         }
       } catch (error) {
         setIsLoading(false);
-        // toast.success(error);
-        console.log("Error occured");
       }
     }
-
-    // logIn({ userName: "b@b.com", password: "@0Ne@@@@" });
   };
   const handleGoogleLogin = () => {
     signIn("google", { callbackUrl: "http://localhost:3000" });
@@ -111,7 +87,6 @@ const LoginForm = () => {
             <label htmlFor="email" className="block text-sm font-medium mb-2">
               Email
             </label>
-
             <OutlinedInput
               type="email"
               id="email"
@@ -124,11 +99,7 @@ const LoginForm = () => {
               }}
               required
             />
-            {/* {email !== "" && !validateEmail(email) && (
-              <p className="text-[#DC2626] text-xs">Invalid email format</p>
-            )} */}
           </FormControl>
-
           <FormControl sx={{ width: "100%", marginBottom: "16px" }}>
             <label
               htmlFor="password"
@@ -165,7 +136,6 @@ const LoginForm = () => {
             />
             {error && <p className="text-[#DC2626] text-xs mt-2">{error}</p>}
           </FormControl>
-
           <Link
             href="/reset-password"
             className="mb-8 font-[500] text-[16px] leading-6 text-[#6B0F99]"

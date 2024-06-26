@@ -17,7 +17,6 @@ const usePasswordReset = () => {
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -25,7 +24,6 @@ const usePasswordReset = () => {
       const csrfTokenData = await getCsrfToken();
       setCsrfToken(csrfTokenData ?? null);
     };
-
     fetchCsrfToken();
   }, [session]);
 
@@ -50,7 +48,6 @@ const usePasswordReset = () => {
       setLoading(false);
       return;
     }
-
     if (newPassword !== confirmPassword) {
       toast.error("New password and confirm password do not match.");
       setLoading(false);
@@ -87,17 +84,14 @@ const usePasswordReset = () => {
       toast.success("Password update successful");
     } catch (error: any) {
       if (error.response) {
-        console.error("Failed to update password:", error.response.data);
         toast.error(
           `Failed to update password: ${
             error.response.data.message || error.response.status
           }`
         );
       } else if (error.request) {
-        console.error("No response received:", error.request);
         toast.error("No response from the server. Please try again later.");
       } else {
-        console.error("Error in password update:", error.message);
         toast.error(`An error occurred: ${error.message}`);
       }
     } finally {

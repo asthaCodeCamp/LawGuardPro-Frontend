@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Button } from "@mui/material";
 import AddCaseDashboard from "./AddCaseDashboard";
 import { useSession } from "next-auth/react";
 
@@ -9,14 +8,12 @@ const EmptyCase: React.FC<EmptyCaseProps> = ({}) => {
   const session = useSession();
   const [caseData, setCasesData] = React.useState([]);
   const [page, setPage] = React.useState(1);
-  const parPage = 5;
-  // const [pageSize] = useState(5);
-  // const [totalPages, setTotalPages] = useState(1);
+  const perPage = 5;
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${parPage}`,
+          `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
           {
             headers: {
               Authorization: `Bearer ${session?.data?.accessToken}`,
@@ -24,19 +21,14 @@ const EmptyCase: React.FC<EmptyCaseProps> = ({}) => {
           }
         );
         const result = await response.json();
-        console.log("Cases", result);
         setCasesData(result.data);
-        // setTotalPages(result.totalPages);
       } catch (error) {
-        console.error("Error fetching data:", error);
       } finally {
-        // setLoading(false);
       }
     };
-
     fetchData();
   }, [page, session]);
-  const { totalCount }: any = caseData;
+
   return (
     <div>
       <div className="ml-8">

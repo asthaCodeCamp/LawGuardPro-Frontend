@@ -2,27 +2,21 @@ import AllQuotes from "@/components/CaseInfo/AllQuotes/AllQuotes";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetAllQuotes } from "@/modules/CaseQuotes/CaseQuotes.hooks";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const Quotes = () => {
-  // const session = useSession();
   const router = useRouter();
   const { data, isPending } = useGetAllQuotes(router.query?.caseId as string);
-
-  // const [cases, setCases] = useState(data);
   const { data: session, status } = useSession();
 
   useEffect(() => {
     if (!session && status !== "loading") {
       router.push("/login");
     }
-    // setCases(data);
   }, [session]);
 
-  console.log("cases quotessss === ", data);
-  console.log("Data inside data", data?.data);
   return (
     <>
       <ProtectedLayout>
@@ -51,11 +45,9 @@ const Quotes = () => {
                         fill="#CA8A04"
                       />
                     </svg>
-
                     <span className="mt-2 ml-[16px] mr-[16px]">
                       Total Quoted: ${data?.data?.totalQuoted}
                     </span>
-
                     <svg
                       width="40"
                       height="41"
@@ -75,8 +67,6 @@ const Quotes = () => {
                         fill="#16A34A"
                       />
                     </svg>
-                    {/* <span className="ml-[16px] mt-2">Total Paid: $290</span> */}
-
                     <span className="mt-2 ml-[16px] mr-[16px]">
                       Total Paid: ${data?.data?.totalPaid}
                     </span>
@@ -109,11 +99,9 @@ const Quotes = () => {
                         fill="#CA8A04"
                       />
                     </svg>
-
                     <span className="mt-2 ml-[16px] mr-[16px]">
                       Total Quoted: $400
                     </span>
-
                     <svg
                       width="40"
                       height="41"
@@ -133,8 +121,6 @@ const Quotes = () => {
                         fill="#16A34A"
                       />
                     </svg>
-                    {/* <span className="ml-[16px] mt-2">Total Paid: $290</span> */}
-
                     <span className="mt-2 ml-[16px] mr-[16px]">
                       Total Paid: $0
                     </span>
@@ -148,21 +134,5 @@ const Quotes = () => {
     </>
   );
 };
-
-// export async function getServerSideProps({ req }: any) {
-//   const session = await getSession({ req });
-//   console.log(session, "session at home page ");
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: { session },
-//   };
-// }
 
 export default Quotes;

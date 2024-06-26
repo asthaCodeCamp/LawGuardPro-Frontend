@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  
-}
-
-/* src/styles/globals.css */
 @import "@fontsource/poppins";
 
 body {

@@ -1,70 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@mui/material";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import EmptyCase from "../Case/EmptyCase";
-import CaseUpdate from "../Case/CaseUpadate"; // Correct import
+import CaseUpdate from "../Case/CaseUpadate";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import CircularIndeterminate from "../Spinner/Spinner";
-import { getAllCases } from "@/modules/MyCases/MyCases.service";
 import { useGetAllCases } from "@/modules/MyCases/MyCases.hooks";
 
-type CaseData = {
-  totalCount: number;
-  data: any[]; // Replace 'any' with the actual type of case data if available
-};
-
 const DashboardMain: React.FC = () => {
-  const [showCaseUpdate, setShowCaseUpdate] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const session = useSession();
-  let fullName =
-    session?.data?.user?.firstName + " " + session?.data?.user?.lastName;
-  console.log(fullName);
-  // const [caseData, setCaseData] = useState<CaseData>({
-  //   totalCount: 0,
-  //   data: [],
-  // });
-  // const [page, setPage] = useState(1);
   const perPage = 2;
   const page = 1;
-
-  const caseData = useGetAllCases({pageSize:perPage,pageNumber:page})
-
-  
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await fetch(
-  //         `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${session?.data?.accessToken}`,
-  //           },
-  //         }
-  //       );
-  //       const result = await response.json();
-  //       console.log("Cases", result);
-  //       setCaseData(result);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [page, session]);
-  console.log("kjdjkjjfhdsjfhjdhfhfhjfg", caseData?.data?.totalCount);
-  const totalCount:any = caseData?.data?.totalCount;
-
-  const onAddCaseClick = () => {
-    setShowCaseUpdate(true);
-  };
-  // const { totalCount}:any = caseData?.data;
-  // console.log('Sykot dash shshdgshgd vhjdfhdhfg',totalCount);
+  const caseData = useGetAllCases({ pageSize: perPage, pageNumber: page });
+  const totalCount: any = caseData?.data?.totalCount;
+  let fullName =
+    session?.data?.user?.firstName + " " + session?.data?.user?.lastName;
 
   return (
     <div className="flex w-full">
@@ -121,16 +73,12 @@ const DashboardMain: React.FC = () => {
             <div className="flex justify-center">
               <CircularIndeterminate />
             </div>
-          ) : // Conditionally render the EmptyCase or CaseUpdate component based on the totalCount
-          totalCount === 0 ? (
+          ) : totalCount === 0 ? (
+            <EmptyCase />
+          ) : totalCount == 0 ? (
             <EmptyCase />
           ) : (
-            // Conditionally render the EmptyCase or CaseUpdate component based on the totalCount
-            totalCount == 0 ? (
-              <EmptyCase />
-            ) : (
-              <CaseUpdate caseData={caseData} />
-            )
+            <CaseUpdate caseData={caseData} />
           )}
         </div>
       </div>
@@ -152,14 +100,14 @@ const DashboardMain: React.FC = () => {
             >
               <path
                 opacity="0.3"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M74.1667 8.6665C77.6145 8.6665 80.9211 10.0361 83.3591 12.4741C85.797 14.9121 87.1667 18.2187 87.1667 21.6665V90.9998C87.1662 91.816 86.9352 92.6154 86.5003 93.3061C86.0654 93.9967 85.4443 94.5505 84.7085 94.9037C83.9727 95.2569 83.1521 95.3951 82.3412 95.3024C81.5304 95.2097 80.7621 94.8899 80.125 94.3798L72 87.8798L63.875 94.3798C63.0426 95.0467 61.9935 95.3831 60.9285 95.3248C59.8636 95.2664 58.8575 94.8173 58.103 94.0635L52.5 88.4605L46.897 94.0635C46.143 94.818 45.1373 95.2678 44.0723 95.327C43.0073 95.3861 41.9579 95.0505 41.125 94.3842L33 87.8798L24.875 94.3798C24.2379 94.8899 23.4697 95.2097 22.6588 95.3024C21.8479 95.3951 21.0273 95.2569 20.2915 94.9037C19.5557 94.5505 18.9346 93.9967 18.4997 93.3061C18.0648 92.6154 17.8338 91.816 17.8333 90.9998V21.6665C17.8333 18.2187 19.203 14.9121 21.6409 12.4741C24.0789 10.0361 27.3855 8.6665 30.8333 8.6665H74.1667Z"
                 fill="#E1ABFF"
               />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M65.5 34.6665H39.5C38.3955 34.6677 37.3332 35.0906 36.5301 35.8488C35.7269 36.607 35.2436 37.6433 35.1789 38.7459C35.1142 39.8485 35.4729 40.9341 36.1818 41.7811C36.8907 42.6281 37.8963 43.1724 38.993 43.3028L39.5 43.3332H65.5C66.6045 43.3319 67.6668 42.909 68.4699 42.1508C69.2731 41.3926 69.7564 40.3564 69.8211 39.2538C69.8858 38.1512 69.5271 37.0655 68.8182 36.2186C68.1093 35.3716 67.1037 34.8273 66.007 34.6968L65.5 34.6665ZM52.5 51.9998H39.5C38.3507 51.9998 37.2485 52.4564 36.4359 53.269C35.6232 54.0817 35.1667 55.1839 35.1667 56.3332C35.1667 57.4824 35.6232 58.5846 36.4359 59.3973C37.2485 60.21 38.3507 60.6665 39.5 60.6665H52.5C53.6493 60.6665 54.7515 60.21 55.5641 59.3973C56.3768 58.5846 56.8333 57.4824 56.8333 56.3332C56.8333 55.1839 56.3768 54.0817 55.5641 53.269C54.7515 52.4564 53.6493 51.9998 52.5 51.9998Z"
                 fill="#BD41FF"
               />

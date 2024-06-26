@@ -1,6 +1,4 @@
 import * as React from "react";
-import { Button } from "@mui/material";
-import AddCaseDashboard from "./AddCaseDashboard";
 import { useSession } from "next-auth/react";
 
 interface EmptyCaseProps {}
@@ -9,14 +7,13 @@ const EmptyCaseMyCase: React.FC<EmptyCaseProps> = ({}) => {
   const session = useSession();
   const [caseData, setCasesData] = React.useState([]);
   const [page, setPage] = React.useState(1);
-  const parPage = 5;
-  // const [pageSize] = useState(5);
-  // const [totalPages, setTotalPages] = useState(1);
+  const perPage = 5;
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${parPage}`,
+          `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
           {
             headers: {
               Authorization: `Bearer ${session?.data?.accessToken}`,
@@ -24,25 +21,16 @@ const EmptyCaseMyCase: React.FC<EmptyCaseProps> = ({}) => {
           }
         );
         const result = await response.json();
-        console.log("Cases", result);
         setCasesData(result.data);
-        // setTotalPages(result.totalPages);
       } catch (error) {
-        console.error("Error fetching data:", error);
       } finally {
-        // setLoading(false);
       }
     };
-
     fetchData();
   }, [page, session]);
-  const { totalCount }: any = caseData;
+
   return (
     <div>
-      {/* <div className="ml-8">
-        <p className="text-[24px] font-[600] mt-[8px]">Case Updates</p>
-        <p className="text-[16px] font-[400]">Check your case updates list.</p>
-      </div> */}
       <div className="justify-center items-center text-center mt-[120px] flex flex-col">
         <div>
           <svg
@@ -66,9 +54,6 @@ const EmptyCaseMyCase: React.FC<EmptyCaseProps> = ({}) => {
         <p className="text-[18px] font-[500] mt-[16px] mb-[24px]">
           You currently don’t have any case updates.
         </p>
-        {/* <div>
-          <AddCaseDashboard casesData={caseData} />
-        </div> */}
       </div>
     </div>
   );

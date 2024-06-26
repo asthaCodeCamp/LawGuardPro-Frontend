@@ -1,13 +1,13 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 interface UserName {
-  name: string
-  setName: (userName: string) => void
+  name: string;
+  setName: (userName: string) => void;
 }
 
 const useUserNameStore = create<UserName>()((set) => ({
-  name: '',
+  name: "",
   setName: (userName) => set(() => ({ name: userName })),
-}))
+}));
 
 export default useUserNameStore;

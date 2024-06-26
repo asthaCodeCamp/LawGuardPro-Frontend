@@ -1,9 +1,3 @@
-// export const getSetsById = async (setId: string) => {
-//   let set = await PokemonTCG.findSetByID(setId);
-//   //console.log("all sets ==== ",allSets)
-//   return set;
-// };
-
 export const getSingleCase = async ({
   caseId,
   accessToken,

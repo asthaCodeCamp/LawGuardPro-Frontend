@@ -23,7 +23,7 @@ const SupportComponent = () => {
                 rx="7"
                 fill="url(#paint0_linear_472_13845)"
               />
-              <g clip-path="url(#clip0_472_13845)">
+              <g clipPath="url(#clip0_472_13845)">
                 <path
                   d="M39.6663 21.0013C39.6663 19.718 38.6163 18.668 37.333 18.668H18.6663C17.383 18.668 16.333 19.718 16.333 21.0013V35.0013C16.333 36.2846 17.383 37.3346 18.6663 37.3346H37.333C38.6163 37.3346 39.6663 36.2846 39.6663 35.0013V21.0013ZM37.333 21.0013L27.9997 26.8346L18.6663 21.0013H37.333ZM37.333 35.0013H18.6663V23.3346L27.9997 29.168L37.333 23.3346V35.0013Z"
                   fill="white"
@@ -38,8 +38,8 @@ const SupportComponent = () => {
                   y2="56"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#4B84FF" />
-                  <stop offset="1" stop-color="#1453DD" />
+                  <stop stopColor="#4B84FF" />
+                  <stop offset="1" stopColor="#1453DD" />
                 </linearGradient>
                 <clipPath id="clip0_472_13845">
                   <rect
@@ -85,8 +85,8 @@ const SupportComponent = () => {
                   y2="56"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#4B84FF" />
-                  <stop offset="1" stop-color="#1453DD" />
+                  <stop stopColor="#4B84FF" />
+                  <stop offset="1" stopColor="#1453DD" />
                 </linearGradient>
               </defs>
             </svg>
@@ -99,7 +99,7 @@ const SupportComponent = () => {
       </div>
       <div className="mt-8 mb-[68px] ml-8 w-[700px]">
         <p>In order to contact us, please fill in the form below.</p>
-        <MyForm/>
+        <MyForm />
       </div>
     </>
   );

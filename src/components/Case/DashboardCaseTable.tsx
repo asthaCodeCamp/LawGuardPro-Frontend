@@ -11,8 +11,6 @@ import React from "react";
 
 const DashboardCaseTable = ({ casesData }: any) => {
   const { cases } = casesData;
-  console.log("djsjdshfhdsnfhdshfjsdhfjhsdfsdhf",casesData);
-  console.log("Cases From Dashbord", cases);
   return (
     <div>
       <TableContainer>
@@ -27,7 +25,6 @@ const DashboardCaseTable = ({ casesData }: any) => {
               <TableCell>
                 <span className="text-[12px] text-[#6D6D6D]">CASE TITLE</span>
               </TableCell>
-
               <TableCell>
                 <span className="text-[12px] text-[#6D6D6D]">LAST UPDATED</span>
               </TableCell>

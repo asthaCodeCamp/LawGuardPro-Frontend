@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import React, { useEffect } from "react";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -22,9 +22,7 @@ import Image from "next/image";
 import userImage from "../../../public/assets/man.png";
 import { useRouter } from "next/router";
 import svgs from "@/components/svg/svg";
-import { getSession, useSession } from "next-auth/react";
 import useUserData from "../../services/PersonalDetails/useUserData";
-
 import { signOut } from "next-auth/react";
 import useUserNameStore from "@/utilites/store";
 
@@ -56,7 +54,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -106,17 +103,13 @@ export default function ProtectedLayout({
 }) {
   const router = useRouter();
   const name = useUserNameStore((state) => state.name);
-  // console.log(session);
-  const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
+  const { fetchedUserData, setUserData } = useUserData();
   useEffect(() => {
     if (fetchedUserData) {
       const { firstName, lastName, email, phoneNumber } = fetchedUserData;
       setUserData({ firstName, lastName, email, phoneNumber });
     }
   }, [fetchedUserData, setUserData]);
-  // const userName = session?.user?.firstName
-  //   ? `${session.user.firstName} ${session.user.lastName}`
-  //   : `${session?.user?.name}`;
 
   const [open, setOpen] = React.useState(
     router.pathname == "/settings" ||
@@ -193,7 +186,6 @@ export default function ProtectedLayout({
         <DrawerHeader className="flex justify-start">
           {svgs?.lawgaurdproLogo}
         </DrawerHeader>
-
         <List className="flex flex-col justify-between h-full">
           <Box>
             <Link href="/">
@@ -232,7 +224,6 @@ export default function ProtectedLayout({
                 </ListItemButton>
               </ListItem>
             </Link>
-
             <Link href="/notification">
               <ListItem
                 className={
@@ -272,7 +263,6 @@ export default function ProtectedLayout({
                 </ListItemButton>
               </ListItem>
             </Link>
-
             <Link href="/my-cases">
               <ListItem
                 className={
@@ -320,7 +310,6 @@ export default function ProtectedLayout({
                 </ListItemButton>
               </ListItem>
             </Link>
-
             <Link href="/settings/personal-info">
               <ListItem
                 className="my-5"
@@ -359,7 +348,6 @@ export default function ProtectedLayout({
               </ListItem>
             </Link>
           </Box>
-
           <Box>
             <Link href="">
               <ListItem
@@ -395,10 +383,6 @@ export default function ProtectedLayout({
           </Box>
         </List>
       </Drawer>
-      {/* <Box component="main" >
-        <DrawerHeader />
-        {children}
-      </Box> */}
       {children}
     </Box>
   );

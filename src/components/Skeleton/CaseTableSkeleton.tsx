@@ -90,9 +90,7 @@ const CaseTableSkeleton = () => {
                 </span>
               </TableCell>
               <TableCell>
-                <span
-                  className='text-[16px] font-[400] border-2 px-3 rounded-2xl mr-[34px] py-1 '
-                >
+                <span className="text-[16px] font-[400] border-2 px-3 rounded-2xl mr-[34px] py-1 ">
                   <Skeleton
                     className="mt-3"
                     variant="rectangular"

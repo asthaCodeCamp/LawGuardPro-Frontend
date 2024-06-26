@@ -15,10 +15,5 @@ export const useResetPassword = () => {
       });
       return response;
     },
-
-    onSuccess: (data) => console.log("successfully reset password", data),
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };

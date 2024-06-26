@@ -40,11 +40,7 @@ const DashboardSkeleton = () => {
             >
               <TableCell component="th" scope="row">
                 <span className="text-[14px] font-[400] ml-[32px]">
-                  <Skeleton
-                    variant="rectangular"
-                    width={50}
-                    height={30}
-                  />
+                  <Skeleton variant="rectangular" width={50} height={30} />
                 </span>
               </TableCell>
               <TableCell>
@@ -57,7 +53,6 @@ const DashboardSkeleton = () => {
                   />
                 </span>
               </TableCell>
-
               <TableCell>
                 <span className="text-[12px] font-[400]">
                   <Skeleton

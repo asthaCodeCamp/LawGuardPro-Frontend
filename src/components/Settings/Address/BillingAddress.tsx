@@ -36,7 +36,6 @@ const BillingAddress: React.FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<any>(null);
   const [selectedCity, setSelectedCity] = useState<any>(null);
   const [refresh, setRefresh] = useState<boolean>(false);
-
   const { data: session } = useSession();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,8 +63,6 @@ const BillingAddress: React.FC = () => {
         postalCode: formData.postalCode,
         country: formData.country,
       };
-
-      console.log("Data to submit:", dataToSubmit);
       setLoading(true);
       const response = await axios.post(
         "https://lawguardpro-api.saams.xyz/api/address/create/billing",
@@ -122,7 +119,6 @@ const BillingAddress: React.FC = () => {
       }
     );
     const data = response.data;
-    console.log(data);
     setFormData({
       billingName: data.billingName,
       addressLine1: data.addressLine1,
@@ -154,8 +150,6 @@ const BillingAddress: React.FC = () => {
       setSelectedCity(town);
     }
   }, [session, refresh, formData]);
-
-  console.log({ selectedCity, selectedCountry, formData });
 
   return (
     <div className="flex flex-col">
@@ -288,7 +282,6 @@ const BillingAddress: React.FC = () => {
           )}
           renderInput={(params) => (
             <TextField
-              // value={countries.find(item => item.label.toLowerCase() === formData.country.toLowerCase())}
               {...params}
               placeholder="Select country"
               inputProps={{ ...params.inputProps }}

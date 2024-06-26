@@ -8,7 +8,6 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 const SettingsLink = () => {
   const router = useRouter();
   const { pathname } = router;
-
   return (
     <div className="bg-[#D1D1D1] w-48 h-full min-h-[94vh]  ">
       <div className="flex flex-col h-full ">

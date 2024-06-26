@@ -7,7 +7,7 @@ export default function CaseLayout({
 }) {
   return (
     <div className="flex">
-      <div className="">
+      <div>
         <CaseInfoLink />
       </div>
       {children}
