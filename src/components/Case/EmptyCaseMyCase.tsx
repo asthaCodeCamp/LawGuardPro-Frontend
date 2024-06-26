@@ -2,7 +2,6 @@ import * as React from "react";
 import { Button } from "@mui/material";
 import AddCaseDashboard from "./AddCaseDashboard";
 import { useSession } from "next-auth/react";
-import "react-toastify/dist/ReactToastify.css";
 
 interface EmptyCaseProps {}
 
