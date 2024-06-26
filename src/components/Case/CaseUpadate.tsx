@@ -32,39 +32,40 @@ const rows = [
   createData('012546', 'Share Transfers & Share Issuance', '20/1023', 'working'),
 ];
 
-const CaseUpdate: React.FC<CaseUpdateProps> = ({ casesData }: any) => {
+const CaseUpdate: React.FC<any> = ({ casesData }: any) => {
   const session = useSession();
   const [caseData, setCasesData] = React.useState([]);
   // const [page, setPage] = React.useState(1);
   const page = 1;
 
   const parPage = 2;
-  React.useEffect(() => {
-    const fetchData = async () => {
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
 
-      try {
-        const response = await fetch(`https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${parPage}`, {
-          headers: {
-            Authorization: `Bearer ${session?.data?.accessToken}`,
-          }
-        });
-        const result = await response.json();
-        console.log("Cases", result);
-        setCasesData(result.data);
-        // setTotalPages(result.totalPages); 
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        // setLoading(false);
-      }
-    };
+  //     try {
+  //       const response = await fetch(`https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${parPage}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${session?.data?.accessToken}`,
+  //         }
+  //       });
+  //       const result = await response.json();
+  //       console.log("Cases", result);
+  //       setCasesData(result.data);
+  //       // setTotalPages(result.totalPages); 
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     } finally {
+  //       // setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, [page, session]);
+  //   fetchData();
+  // }, [page, session]);
   // const { totalCount }: any = caseData;
 
   const { data, isPending } = useGetAllCases({ pageSize: 2, pageNumber: page });
 
+  console.log("case dataaaaaa ==== ",data)
 
   return (
     <div className="mb-20">

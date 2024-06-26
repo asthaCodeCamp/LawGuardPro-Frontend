@@ -6,6 +6,8 @@ import CaseUpdate from "../Case/CaseUpadate"; // Correct import
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import CircularIndeterminate from "../Spinner/Spinner";
+import { getAllCases } from "@/modules/MyCases/MyCases.service";
+import { useGetAllCases } from "@/modules/MyCases/MyCases.hooks";
 
 type CaseData = {
   totalCount: number;
@@ -19,43 +21,50 @@ const DashboardMain: React.FC = () => {
   let fullName =
     session?.data?.user?.firstName + " " + session?.data?.user?.lastName;
   console.log(fullName);
-  const [caseData, setCaseData] = useState<CaseData>({
-    totalCount: 0,
-    data: [],
-  });
-  const [page, setPage] = useState(1);
-  const perPage = 5;
+  // const [caseData, setCaseData] = useState<CaseData>({
+  //   totalCount: 0,
+  //   data: [],
+  // });
+  // const [page, setPage] = useState(1);
+  const perPage = 2;
+  const page = 1;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
-          {
-            headers: {
-              Authorization: `Bearer ${session?.data?.accessToken}`,
-            },
-          }
-        );
-        const result = await response.json();
-        console.log("Cases", result);
-        setCaseData(result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const caseData = useGetAllCases({pageSize:perPage,pageNumber:page})
 
-    fetchData();
-  }, [page, session]);
+  
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await fetch(
+  //         `https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${perPage}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${session?.data?.accessToken}`,
+  //           },
+  //         }
+  //       );
+  //       const result = await response.json();
+  //       console.log("Cases", result);
+  //       setCaseData(result);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [page, session]);
+  console.log("kjdjkjjfhdsjfhjdhfhfhjfg", caseData?.data?.totalCount);
+  const totalCount:any = caseData?.data?.totalCount;
 
   const onAddCaseClick = () => {
     setShowCaseUpdate(true);
   };
-  const { totalCount}:any = caseData?.data;
-  console.log('Sykot dash shshdgshgd vhjdfhdhfg',totalCount);
+  // const { totalCount}:any = caseData?.data;
+  // console.log('Sykot dash shshdgshgd vhjdfhdhfg',totalCount);
 
   return (
     <div className="flex w-full">
@@ -120,7 +129,7 @@ const DashboardMain: React.FC = () => {
             totalCount == 0 ? (
               <EmptyCase />
             ) : (
-              <CaseUpdate />
+              <CaseUpdate caseData={caseData} />
             )
           )}
         </div>
