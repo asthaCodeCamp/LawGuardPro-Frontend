@@ -52,7 +52,6 @@ const Messages = () => {
               fill="#CA8A04"
             />
           </svg>
-
           <span className="mt-2 ml-[16px] mr-[16px]">
             Total Quoted: $1500.37{" "}
           </span>
@@ -74,7 +73,6 @@ const Messages = () => {
       </div>
       <div>
         <div className="mt-[32px] ml-[32px] mr-[32px]">
-          {/* Bot Message */}
           <div className="flex gap-4 text-[12px] font-bold items-center">
             <div>
               <svg

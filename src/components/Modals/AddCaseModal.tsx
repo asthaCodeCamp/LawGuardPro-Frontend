@@ -7,21 +7,16 @@ import {
   Autocomplete,
   Box,
   Button,
-  FilledTextFieldProps,
   FormControl,
   FormLabel,
   IconButton,
   OutlinedInput,
-  OutlinedTextFieldProps,
-  StandardTextFieldProps,
   TextField,
-  TextFieldVariants,
 } from "@mui/material";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import { InquiryType } from "@/utilites/InquiryType";
 import { useSession } from "next-auth/react";
 import svgs from "@/components/svg/svg";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "@/utilites/enums";
 
 const Backdrop = React.forwardRef<
@@ -118,9 +113,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const [description, setDescription] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const { data: session } = useSession();
-
-  // console.log("modal session ==== ", session);
-
   const [error, setError] = React.useState<string | null>(null);
   const options = [
     "Corporate",
@@ -147,7 +139,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
   const handleInquiryNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // console.log("Inquiry type === ", event.target.value);
     setInquiryName(event.target.value);
   };
   const queryClient = useQueryClient();
@@ -157,7 +148,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     newValue: string | null
   ) => {
     setInquiryType(newValue);
-    console.log("Inquiry type === ", newValue);
   };
 
   const handleDescriptionChange = (
@@ -173,11 +163,9 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       description: description,
       attachment: [],
     };
-    console.log(requestData);
 
     try {
       setLoading(true);
-
       const response = await axios.post(
         "https://lawguardpro-api.saams.xyz/api/case",
         requestData,
@@ -213,9 +201,7 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
       setDescription("");
       handleClose();
       handleOpenSuccessModal();
-      // console.log("Response from server:", response.data);
     } catch (error) {
-      console.error("Error submitting form", error);
       setError("Failed to submit the form. Please try again later.");
     } finally {
       setLoading(false);
@@ -233,7 +219,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
 
   const handleFileUpload = async (): Promise<any> => {
     if (!selectedFile) {
-      // alert("Please select a file to upload.");
       return;
     }
     let returnedFileUrl = "";
@@ -261,23 +246,17 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
             }
           );
           const data = await response.json();
-
           returnedFileUrl = data.fileUrl;
-          console.log({ data }, "this is the data from the file uploaded");
-
           const temp = `Chunk ${
             chunkNumber + 1
           }/${totalChunks} uploaded successfully`;
-          console.log(temp);
 
           chunkNumber++;
           start = end;
           end = start + chunkSize;
 
           await uploadNextChunk();
-        } catch (error) {
-          console.error("Error uploading chunk:", error);
-        }
+        } catch (error) {}
       } else {
         setSelectedFile(null);
       }
@@ -294,10 +273,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
     handleSubmit();
     reval();
   };
-  //need implement
-  // React.useEffect(() => {
-  //   console.log(selectedFile);
-  // }, [selectedFile]);
 
   let fileName = selectedFile?.name || "";
 
@@ -362,7 +337,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                 >
                   Inquiry name <span className="text-red-700">*</span>
                 </label>
-
                 <OutlinedInput
                   type="text"
                   id="inquiry-name"
@@ -372,7 +346,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   onChange={handleInquiryNameChange}
                 />
               </FormControl>
-
               <FormControl
                 sx={{
                   width: "100%",
@@ -399,7 +372,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   onChange={handleInquiryTypeChange}
                 />
               </FormControl>
-
               <Box position="relative">
                 <FormLabel
                   htmlFor="description"
@@ -424,7 +396,6 @@ const AddCaseModal: React.FC<AddCaseModalProps> = ({
                   id="attachment-button-file"
                   type="file"
                 />
-
                 <label htmlFor="attachment-button-file" className="mb-3">
                   <IconButton
                     component="span"

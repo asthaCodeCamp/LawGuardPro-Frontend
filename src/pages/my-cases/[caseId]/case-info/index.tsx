@@ -1,30 +1,18 @@
 import CaseDetails from "@/components/CaseInfo/CaseDetails";
 import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeaders";
-// import CaseInfoHeader from "@/components/CaseInfo/Case";
-// import CaseInfoHeader from "@/components/CaseInfo/CaseInfoHeader";
 import CircularIndeterminate from "@/components/Spinner/Spinner";
 import CaseLayout from "@/components/layout/CaseLayout";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetSingleCase } from "@/modules/SingleCase/SingleCase.hooks";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 
 const CaseInfo = () => {
-  // const session = useSession();
   const router = useRouter();
   const { data } = useGetSingleCase(router.query?.caseId as string);
-
-  // const [caseInfo, setCaseInfo] = useState<CaseInfoHeaderProps>({
-  //   caseNumber: "",
-  //   lastUpdated: "",
-  // });
-
-  // const [cases, setCases] = useState(data);
-
-  // const{caseNumber,lastUpdated}:CaseInfoHeaderProps=data;
-
-  console.log("Single Case data === ", data);
+  const [cases, setCases] = useState(data);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -39,11 +27,18 @@ const CaseInfo = () => {
           <div>
             {data ? (
               <CaseInfoHeader
-                caseNumber={data?.data?.caseNumber}
-                lastUpdated={data?.data?.lastUpdated}
+                caseName={cases?.data?.caseName}
+                caseNumber={cases?.data?.caseNumber}
+                lastUpdated={cases?.data?.lastUpdated}
+                status={cases?.data?.status}
               />
             ) : (
-              <CaseInfoHeader caseNumber="#00032" lastUpdated={"2024/05/30"} />
+              <CaseInfoHeader
+                caseName="Murder"
+                caseNumber="#00032"
+                lastUpdated="20/06/2024"
+                status="Working"
+              />
             )}
           </div>
           <div className="w-full">
@@ -66,21 +61,5 @@ const CaseInfo = () => {
     </div>
   );
 };
-
-// export async function getServerSideProps({ req }: any) {
-//   const session = await getSession({ req });
-//   console.log(session, "session at home page ");
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: { session },
-//   };
-// }
 
 export default CaseInfo;

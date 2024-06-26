@@ -158,4 +158,5 @@ const svgs = {
     </svg>
   ),
 };
+
 export default svgs;

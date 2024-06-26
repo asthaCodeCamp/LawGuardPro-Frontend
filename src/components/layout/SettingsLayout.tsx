@@ -9,7 +9,6 @@ export default function SettingsLayout({
     <div className="flex ">
       <div>
         <SettingsLink />
-        {/* <PersonalDetails/>      */}
       </div>
       {children}
     </div>

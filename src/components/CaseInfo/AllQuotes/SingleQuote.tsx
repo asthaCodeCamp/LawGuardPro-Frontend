@@ -1,5 +1,5 @@
 import React from "react";
-import { PaymentRecord } from "./AllQuotes"; // Import the interface from the appropriate file
+import { PaymentRecord } from "./AllQuotes";
 
 interface SingleQuoteProps {
   quote: PaymentRecord;
@@ -8,8 +8,8 @@ interface SingleQuoteProps {
 const SingleQuote: React.FC<SingleQuoteProps> = ({ quote }) => {
   const { quoteNumber, value, totalValue, createdOn, status, paymentMethod } =
     quote;
-
   let createdDate = createdOn?.slice(0, 10);
+
   return (
     <div className="w-full border-b p-6">
       <div className="mb-6">

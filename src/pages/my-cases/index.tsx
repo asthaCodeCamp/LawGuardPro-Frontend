@@ -1,68 +1,19 @@
 import CasePagination from "@/components/Case/CasePagination";
 import CaseTable from "@/components/Case/CaseTable";
-import CaseUpadate from "@/components/Case/CaseUpadate";
 import CaseHeader from "@/components/Case/CasesHeader";
-import EmptyCase from "@/components/Case/EmptyCase";
 import EmptyCaseMyCase from "@/components/Case/EmptyCaseMyCase";
-import AddCaseMoadal from "@/components/Modals/AddCaseModal";
 import CaseTableSkeleton from "@/components/Skeleton/CaseTableSkeleton";
-import CircularIndeterminate from "@/components/Spinner/Spinner";
 import ProtectedLayout from "@/components/layout/ProtectedLayout";
 import { useGetAllCases } from "@/modules/MyCases/MyCases.hooks";
-import {
-  Button,
-  Skeleton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import { getSession, useSession } from "next-auth/react";
-import Link from "next/link";
+import { Button, Skeleton } from "@mui/material";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-// import { authOptions } from "../api/auth/[...nextauth]";
 
 const MyCases = () => {
-  // const session = useSession();
   const router = useRouter();
-
   const [page, setPage] = useState(1);
   const { data, isPending } = useGetAllCases({ pageSize: 5, pageNumber: page });
-
-  // const fetchData = async () => {
-
-  //   try {
-  //     const response = await fetch(https://lawguardpro-api.saams.xyz/api/case/list?pageNumber=${page}&pageSize=${parPage}, {
-  //       headers: {
-  //         Authorization: Bearer ${session?.data?.accessToken},
-  //       }
-  //     });
-  //     const result = await response.json();
-  //     console.log("Cases", result);
-  //     setCasesData(result.data);
-  //     if(result.data){
-  //       setTotalCount(result.data.totalCount)
-  //     }
-  //     // setTotalPages(result.totalPages);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   } finally {
-  //     // setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // fetchData();
-  // }, [page, session]);
-
-  // useEffect(()=>{
-  //   console.log(data , "at use Effect");
-  // },[isPending])
-
-  // console.log("Case HEader",caseData);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -196,21 +147,5 @@ const MyCases = () => {
     </>
   );
 };
-
-// export async function getServerSideProps({ req }: any) {
-//   const session = await getSession({ req });
-//   console.log(session, "session at home page ");
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: { session },
-//   };
-// }
 
 export default MyCases;

@@ -26,8 +26,6 @@ export const useGetAllQuotes = (caseId: string) => {
 
 export const useCreateQuote = () => {
   const session = useSession();
-  // console.log("session from use create quote:", session);
-
   return useMutation({
     mutationFn: async (quoteData: {
       lawerId: string;
@@ -44,26 +42,5 @@ export const useCreateQuote = () => {
       });
       return response;
     },
-
-    onSuccess: (data) => console.log("successfully created quote", data),
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };
-
-// export const useUpdateSetName = () => {
-//     const queryClient = useQueryClient();
-//     return useMutation({
-//       mutationFn: ({ setId, setName }: { setId: string; setName: string }) => {
-//         return createQutoe(setId, setName);
-//       },
-//       onSuccess: (data, variables) => {
-//         console.log("successfully updated");
-//         //show a toast
-//       },
-//       onError: (error) => {
-//         console.log(error);
-//       },
-//     });
-//   };

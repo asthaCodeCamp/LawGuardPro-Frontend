@@ -18,7 +18,6 @@ const ResetPasswordRequestForm: React.FC = () => {
         "https://lawguardpro-api.saams.xyz/api/usersauth/forgetpassword",
         { email }
       );
-      console.log(response);
       if (response?.status === 200) {
         setMessage("Reset link sent successfully!");
       } else {

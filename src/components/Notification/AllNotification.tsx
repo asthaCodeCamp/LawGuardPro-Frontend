@@ -55,7 +55,6 @@ const AllNotification = () => {
               </span>
             </Box>
           </Box>
-
           <Box className="flex justify items-center">
             <svg
               width="24"
@@ -123,7 +122,6 @@ const AllNotification = () => {
               </span>
             </Box>
           </Box>
-
           <Box className="flex justify-center items-center">
             <svg
               width="24"

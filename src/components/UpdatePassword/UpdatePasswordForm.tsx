@@ -14,11 +14,9 @@ import { useRouter } from "next/router";
 const UpdatePasswordForm = ({ idAndOtp }: { idAndOtp: string[] }) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [error, setError] = useState("");
-
   const { mutate: resetData, isPending } = useResetPassword();
   const router = useRouter();
 
@@ -40,8 +38,6 @@ const UpdatePasswordForm = ({ idAndOtp }: { idAndOtp: string[] }) => {
         otp: idAndOtp[1],
         newPassword: newPassword,
       });
-
-      // console.log("reset response ===", response);
       router.push("/login");
     } else {
       setError("New Password and Confirm Password did not match");

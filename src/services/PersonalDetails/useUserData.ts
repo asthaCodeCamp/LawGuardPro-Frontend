@@ -24,9 +24,7 @@ const useUserData = () => {
     phoneNumber: "",
     email: "",
   });
-
   const setName = useUserNameStore((state) => state.setName);
-
   const [fetchedUserData, setFetchedUserData] = useState<User | null>(null);
 
   useEffect(() => {
@@ -34,15 +32,12 @@ const useUserData = () => {
       try {
         const session = (await getSession()) as Session | null;
         if (session && session.user) {
-          console.log("Session data:", session.user);
-
           setUserData({
             firstName: session.user.firstName,
             lastName: session.user.lastName,
             phoneNumber: session.user.phoneNumber || "",
             email: session.user.email,
           });
-
           const response = await axios.get(
             `https://lawguardpro-api.saams.xyz/api/usersauth/getuserinfo?Email=${session.user.email}`,
             {
@@ -52,18 +47,12 @@ const useUserData = () => {
             }
           );
           const user = response?.data?.data;
-          console.log(user, "sabbir");
           setFetchedUserData(user);
           setName(user.firstName + " " + user.lastName);
         } else {
-          console.log("No session found");
         }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-        // toast.error("Failed to fetch user data");
-      }
+      } catch (error) {}
     };
-
     fetchUser();
   }, [1]);
 
@@ -78,15 +67,12 @@ const useUserData = () => {
           },
         }
       );
-      // console.log(res);
       toast.success("User Update Successful");
       return res.data.data;
     } catch (error) {
-      console.error("Failed to update user:", error);
       toast.error("Failed to update user");
     }
   };
-
   return { userData, fetchedUserData, setUserData, updateUser };
 };
 

@@ -1,6 +1,5 @@
 import SingleQuote from "./SingleQuote";
-import QuotesData from "../../../services/fakeData/QuotesData.json";
-import { useEffect, useState } from "react";
+
 export interface PaymentRecord {
   quoteNumber: string;
   value: number;
@@ -9,16 +8,8 @@ export interface PaymentRecord {
   status: string;
   paymentMethod: string;
 }
-const AllQuotes = ({ quotes }: any) => {
-  // const [quotes, setQuotes] = useState<PaymentRecord[]>([]);
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //       setQuotes(QuotesData as PaymentRecord[]);
-  //     };
-  //     fetchData();
-  //   }, []);
-  console.log("Alll quotesssss ==== ", quotes);
 
+const AllQuotes = ({ quotes }: any) => {
   return (
     <>
       <div className=" w-full ">

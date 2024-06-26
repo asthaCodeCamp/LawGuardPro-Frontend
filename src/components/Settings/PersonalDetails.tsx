@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button, TextField, CircularProgress } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import PhoneCodePicker from "../CountryPhoneCodePicker";
 import Image from "next/image";
 import man from "../../../public/assets/man.png";
 import useUserData from "../../services/PersonalDetails/useUserData";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import useUserNameStore from "@/utilites/store";
 
 const PersonalDetails: React.FC = () => {
   const { userData, fetchedUserData, setUserData, updateUser } = useUserData();
   const { data, update } = useSession();
   const setName = useUserNameStore((state) => state.setName);
-  // const router = useRouter();
-  console.log(data);
   const [loading, setLoading] = useState(false);
-  // console.log(fetchedUserData);
+
   useEffect(() => {
     if (fetchedUserData) {
       const { firstName, lastName, phoneNumber, email } = fetchedUserData;
@@ -28,7 +25,6 @@ const PersonalDetails: React.FC = () => {
     setLoading(true);
     try {
       const res = await updateUser(userData);
-      // console.log(res);
       setUserData({
         firstName: res.firstname,
         lastName: res.lastName,

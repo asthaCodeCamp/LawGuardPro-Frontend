@@ -4,20 +4,15 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import MessageSidebarComponent from "../MessageSidebarComponent";
 
-interface CaseInfoHeaderProps {
+const CaseInfoHeader: React.FC<{
+  caseName: string;
   caseNumber: string;
   lastUpdated: string;
-}
-
-const CaseInfoHeader: React.FC<{ caseNumber: string; lastUpdated: string }> = ({
-  caseNumber,
-  lastUpdated,
-}) => {
+  status: string;
+}> = ({ caseName, caseNumber, lastUpdated, status }) => {
   const [state, setState] = React.useState({
     right: false,
   });
-
-  console.log(caseNumber, "caseNumber");
 
   const toggleDrawer =
     (anchor: "right", open: boolean) =>
@@ -29,7 +24,6 @@ const CaseInfoHeader: React.FC<{ caseNumber: string; lastUpdated: string }> = ({
       ) {
         return;
       }
-
       setState({ ...state, [anchor]: open });
     };
 
@@ -50,21 +44,15 @@ const CaseInfoHeader: React.FC<{ caseNumber: string; lastUpdated: string }> = ({
   var year = updateDate?.slice(0, 4);
   var formattedDate = day + "/" + month + "/" + year;
 
-  if (caseNumber) {
-    console.log("case number == = = ", caseNumber);
-  }
-
   return (
     <>
       <div className="m-[32px] flex justify-between gap-[500px] ">
         <div>
           <div className="flex">
-            <h1 className="text-[24px] font-[600] mr-[24px]">
-              Share Transfer & Share Issuance
-            </h1>
+            <h1 className="text-[24px] font-[600] mr-[24px]">{caseName}</h1>
             <div className="mt-1">
               <p className="text-[12px] font-[600] text-[#16A34A] border-[#16A34A] bg-[#F0FDF4] border-[0.8px] text-center px-2 py-1 rounded-2xl">
-                WORKING
+                {status}
               </p>
             </div>
           </div>

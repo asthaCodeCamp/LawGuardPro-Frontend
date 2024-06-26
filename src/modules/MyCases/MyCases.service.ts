@@ -1,7 +1,3 @@
-// export class MyCases{
-//     static
-// }
-
 export const getAllCases = async ({
   pageSize,
   pageNumber,

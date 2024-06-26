@@ -2,7 +2,7 @@ export const getAllAttachments = async ({
   pageSize,
   pageNumber,
   caseId,
-  accessToken
+  accessToken,
 }: {
   pageSize: number;
   pageNumber: number;

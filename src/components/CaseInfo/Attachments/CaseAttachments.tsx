@@ -1,24 +1,7 @@
-import { cities } from "@/utilites/Cities";
-import {
-  Autocomplete,
-  Box,
-  FilledTextFieldProps,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  OutlinedInput,
-  OutlinedTextFieldProps,
-  StandardTextFieldProps,
-  TextField,
-  TextFieldVariants,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import CaseAttachmentsTable from "./CaseAttachmentsTable";
-import { AttachmentType } from "@/utilites/AttachmentType";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import CaseAttachmentPagination from "./CaseAttachmentPagination";
-import { SortBy } from "@/utilites/SortBy";
 
-const CaseAttachments: React.FC<any> = ({attachmentData}:any) => {
+const CaseAttachments: React.FC<any> = ({ attachmentData }: any) => {
   return (
     <div className="border-t-2 w-full">
       <Box className="w-full p-[32px] border-b-2">
@@ -36,7 +19,6 @@ const CaseAttachments: React.FC<any> = ({attachmentData}:any) => {
               fill="#CA8A04"
             />
           </svg>
-
           <span className="mt-2 ml-[16px] mr-[16px]">
             Total Quoted: $1500.37{" "}
           </span>
@@ -60,9 +42,6 @@ const CaseAttachments: React.FC<any> = ({attachmentData}:any) => {
       <Box className="w-full mb-5">
         <CaseAttachmentsTable attachmentData={attachmentData} />
       </Box>
-      {/* <Box className="w-full h-24 flex justify-center items-center">
-        <CaseAttachmentPagination />
-      </Box> */}
     </div>
   );
 };

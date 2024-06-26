@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  TextField,
-  IconButton,
-  InputAdornment,
-  CircularProgress,
-} from "@mui/material";
+import { Button, TextField, IconButton, InputAdornment } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -29,10 +23,10 @@ const SecurityComponent: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showOldPassword, setShowOldPassword] = useState<boolean>(false);
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
   const { data: session } = useSession();
-  console.log(session);
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -101,17 +95,14 @@ const SecurityComponent: React.FC = () => {
       toast.success("Password update successful");
     } catch (error: any) {
       if (error.response) {
-        console.error("Failed to update password:", error.response.data);
         toast.error(
           `Failed to update password: ${
             error.response.data.message || error.response.status
           }`
         );
       } else if (error.request) {
-        console.error("No response received:", error.request);
         toast.error("No response from the server. Please try again later.");
       } else {
-        console.error("Error in password update:", error.message);
         toast.error(`An error occurred: ${error.message}`);
       }
     } finally {

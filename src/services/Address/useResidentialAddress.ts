@@ -50,7 +50,6 @@ const useResidentialAddress = () => {
         toast.error(
           `Error fetching data: ${error.response?.data || error.message}`
         );
-        console.error("Error fetching data:", error);
       }
     };
 
@@ -88,9 +87,7 @@ const useResidentialAddress = () => {
         country: formData.country,
       };
 
-      console.log("Data to submit:", dataToSubmit);
-
-      const response = await axios.post(
+      await axios.post(
         "https://lawguardpro-api.saams.xyz/api/address/create/residence",
         dataToSubmit,
         {
@@ -102,8 +99,6 @@ const useResidentialAddress = () => {
       );
 
       toast.success("Form submitted successfully!");
-
-      console.log("Form submitted successfully:", response.data);
 
       // Reset form fields
       setFormData({
@@ -117,10 +112,8 @@ const useResidentialAddress = () => {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data || error.message;
         toast.error(`Axios error: ${errorMessage}`);
-        console.error("Axios error:", errorMessage);
       } else {
         toast.error(`Unexpected error: ${error.message}`);
-        console.error("Unexpected error:", error);
       }
     }
   };

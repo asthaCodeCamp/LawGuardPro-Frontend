@@ -1,7 +1,3 @@
-// export class MyCases{
-//     static
-// }
-
 export const getAllQuotes = async ({
   caseId,
   accessToken,
@@ -19,8 +15,8 @@ export const getAllQuotes = async ({
   );
   return response.json();
 };
-//create a new quote with fetch post method in body it will take caseid , lawer id , value and total value
 
+//create a new quote with fetch post method in body it will take caseid , lawer id , value and total value
 export const createQuote = async ({
   caseId,
   lawyerId,

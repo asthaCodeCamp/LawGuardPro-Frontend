@@ -34,11 +34,9 @@ const ResidentialAddress: React.FC = () => {
   const handleSubmit = async () => {
     try {
       const sessionToken = session?.accessToken;
-
       if (!sessionToken) {
         throw new Error("Session token not found.");
       }
-
       const dataToSubmit = {
         addressType: "Residence",
         addressLine1: formData.addressLine1,
@@ -47,8 +45,6 @@ const ResidentialAddress: React.FC = () => {
         postalCode: formData.postalCode,
         country: formData.country,
       };
-
-      console.log("Data to submit:", dataToSubmit);
       setLoading(true);
       const response = await axios.post(
         "https://lawguardpro-api.saams.xyz/api/address/create/residence",
@@ -63,7 +59,6 @@ const ResidentialAddress: React.FC = () => {
 
       toast.success("Residental Address submitted successfully!");
       setLoading(false);
-      console.log("Form submitted successfully:", response.data);
 
       // Reset form fields
       const data = response.data;
@@ -77,10 +72,8 @@ const ResidentialAddress: React.FC = () => {
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
         toast.error(`Axios error: ${error.response?.data || error.message}`);
-        console.error("Axios error:", error.response?.data || error.message);
       } else {
         toast.error(`Unexpected error: ${error.message}`);
-        console.error("Unexpected error:", error);
       }
     }
   };

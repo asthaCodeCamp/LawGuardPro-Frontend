@@ -78,20 +78,15 @@ const AntTab = styled((props: StyledTabProps) => (
 }));
 
 const Notification = () => {
-  let notificationLength = 1;
-
   const [value, setValue] = React.useState(0);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  let notificationLength = 1;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const { pathname } = router;
-
-  // console.log("Login session == ", session);
-  // console.log("notification pathname ==== ", pathname);
 
   useEffect(() => {
     if (!session && status !== "loading") {
@@ -146,19 +141,4 @@ const Notification = () => {
   );
 };
 
-// export async function getServerSideProps({ req }: any) {
-//   const session = await getSession({ req });
-//   console.log(session, "session at home page ");
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: { session },
-//   };
-// }
 export default Notification;

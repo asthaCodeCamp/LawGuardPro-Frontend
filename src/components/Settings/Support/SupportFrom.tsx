@@ -1,11 +1,8 @@
-
-
 import { useState, ChangeEvent, FormEvent } from "react";
 import { TextField, MenuItem, Button, IconButton, Box } from "@mui/material";
 
 const SupportFrom = () => {
   const [topic, setTopic] = useState<string>("");
-
   const [description, setDescription] = useState<string>("");
   const [attachment, setAttachment] = useState<File | null>(null);
 
@@ -25,8 +22,6 @@ const SupportFrom = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission logic
-    console.log({ topic, description, attachment });
   };
 
   return (
@@ -65,12 +60,10 @@ const SupportFrom = () => {
         />
         <input
           accept="*/*"
-          style={{ display: "none", height: '300px', }}
+          style={{ display: "none", height: "300px" }}
           id="attachment-button-file"
           type="file"
           onChange={handleAttachmentChange}
-
-
         />
         <label htmlFor="attachment-button-file">
           <IconButton
